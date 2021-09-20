@@ -1,0 +1,21 @@
+﻿<textarea @bind="InputBaseString" @bind:event="oninput" placeholder="Type base here..." />
+
+@code {
+    private string inputBaseString = "";
+    private double inputBase = 0;
+    private bool inputBaseShowTrailingZeroes = false;
+    public string InputBaseString {
+        get {
+            return inputBase.ToString() + (inputBaseShowTrailingZeroes ? "." : "");
+        }
+        set {
+            if(double.TryParse(value, out double v)) {
+                inputBase = v;
+                inputBaseShowTrailingZeroes = value.Last() == '.';
+            } else if(String.IsNullOrEmpty(value)) {
+                inputBase = 0;
+                inputBaseShowTrailingZeroes = false;
+            }
+        }
+    }
+}
