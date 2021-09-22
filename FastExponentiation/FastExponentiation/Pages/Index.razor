@@ -1,3 +1,20 @@
 ﻿@page "/"
 
-<NumberInput />
+<NumberInput @ref="@nm" OnValueChanged="@Callback"/>
+<br />
+@val
+<br />
+<button @onclick="OnClick">Update</button>
+
+@code {
+    public double val;
+    public NumberInput nm;
+
+    public void OnClick() {
+        StateHasChanged();
+    }
+
+    public void Callback() {
+        val = nm.Value;
+    }
+}

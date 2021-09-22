@@ -1,20 +1,32 @@
-﻿<textarea @bind="InputBaseString" @bind:event="oninput" placeholder="Type base here..." />
+﻿<textarea @bind="InputString" @bind:event="oninput" placeholder="Type  here..." />
 
 @code {
-    private string inputBaseString = "";
-    private double inputBase = 0;
-    private bool inputBaseShowTrailingZeroes = false;
-    public string InputBaseString {
+    [Parameter]
+    public double test { get; set; };
+    [Parameter] public EventCallback<double> OnValueChanged { get; set; }
+    private double value = 0;
+    public double Value {
+        get => value;
+        set {
+            this.value = value;
+            OnValueChanged.InvokeAsync(value);
+        }
+    }
+
+    private string inputString = "";
+    private bool inputShowTrailingZeroes = false;
+
+    private string InputString {
         get {
-            return inputBase.ToString() + (inputBaseShowTrailingZeroes ? "." : "");
+            return Value.ToString() + (inputShowTrailingZeroes ? "." : "");
         }
         set {
             if(double.TryParse(value, out double v)) {
-                inputBase = v;
-                inputBaseShowTrailingZeroes = value.Last() == '.';
+                Value = v;
+                inputShowTrailingZeroes = value.Last() == '.';
             } else if(String.IsNullOrEmpty(value)) {
-                inputBase = 0;
-                inputBaseShowTrailingZeroes = false;
+                Value = 0;
+                inputShowTrailingZeroes = false;
             }
         }
     }
