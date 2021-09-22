@@ -1,20 +1,15 @@
 ﻿@page "/"
 
-<NumberInput @ref="@nm" OnValueChanged="@Callback"/>
-<br />
-@val
-<br />
+<NumberInput @ref="@BaseInput" PlaceHolder="Type base here..." />
+<NumberInput @ref="@ExponentInput" PlaceHolder="Type exponent here..." />
 <button @onclick="OnClick">Update</button>
 
 @code {
-    public double val;
-    public NumberInput nm;
+    public double Base;
+    public NumberInput BaseInput;
+    public NumberInput ExponentInput;
 
     public void OnClick() {
         StateHasChanged();
-    }
-
-    public void Callback() {
-        val = nm.Value;
     }
 }
