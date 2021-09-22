@@ -4,6 +4,8 @@
     public double Value { get; set; } = 0;
     [Parameter]
     public string PlaceHolder { get; set; } = "Type number here...";
+    [Parameter]
+    public bool IntegerNumber { get; set; } = false;
 
     private string inputString = "";
     private bool inputStringIsEmpty = true;
@@ -18,8 +20,12 @@
         }
         set {
             if(double.TryParse(value, out double v)) {
+                if(IntegerNumber) {
+                    v = (int)v;
+                } else {
+                    inputShowTrailingZeroes = value.Last() == '.';
+                }
                 Value = v;
-                inputShowTrailingZeroes = value.Last() == '.';
                 inputStringIsEmpty = false;
             } else if(String.IsNullOrEmpty(value)) {
                 Value = 0;

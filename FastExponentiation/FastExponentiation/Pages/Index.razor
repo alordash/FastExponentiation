@@ -1,15 +1,20 @@
 ﻿@page "/"
 
 <NumberInput @ref="@BaseInput" PlaceHolder="Type base here..." />
-<NumberInput @ref="@ExponentInput" PlaceHolder="Type exponent here..." />
-<button @onclick="OnClick">Update</button>
+<NumberInput @ref="@ExponentInput" PlaceHolder="Type exponent here..." IntegerNumber="true" />
+<br />
+<button @onclick="Calculate">Calculate</button>
+<br />
 
+@Result
 @code {
     public double Base;
     public NumberInput BaseInput;
     public NumberInput ExponentInput;
 
-    public void OnClick() {
-        StateHasChanged();
+    public double Result = 0;
+
+    public void Calculate() {
+        
     }
 }
