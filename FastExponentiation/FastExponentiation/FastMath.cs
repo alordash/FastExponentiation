@@ -19,5 +19,13 @@ namespace FastExponentiation {
 		public static double FastPower(double b, double e) {
 			return FastPower(b, (int)e);
 		}
+
+		public static float FastApproximatePower(float x, float e) {
+			float xhalf = 0.5f * x;
+			int i = BitConverter.ToInt32(BitConverter.GetBytes(x));
+			i = (int)(0x3f7a3bea + e * (i - 0x3f7a3bea));
+			x = BitConverter.ToSingle(BitConverter.GetBytes(i));
+			return x;
+		}
 	}
 }
