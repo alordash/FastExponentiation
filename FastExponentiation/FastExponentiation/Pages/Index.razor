@@ -7,16 +7,21 @@
 <button @onclick="Calculate">Calculate</button>
 <br />
 
-@Result
+Approximate result: <b>@ApproximateResult</b>
+<br />
+Real result: <b>@RealResult</b>
+<br />
 
 @code {
     public NumberInput BaseInput;
     public NumberInput ExponentInput;
 
-    public double Result = 0;
+    public double ApproximateResult = 0;
+    public double RealResult = 0;
 
     public void Calculate() {
-        Result = FastMath.FastPower(BaseInput.Value, ExponentInput.Value);
+        ApproximateResult = FastMath.FastPower(BaseInput.Value, ExponentInput.Value);
+        RealResult = Math.Pow(BaseInput.Value, ExponentInput.Value);
     }
 }
 
