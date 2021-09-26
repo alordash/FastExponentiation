@@ -1,6 +1,8 @@
 ﻿<textarea @bind="InputString" @bind:event="oninput" placeholder="@PlaceHolder" />
 
 @code {
+    [Parameter]
+    public double? DefaultValue { get; set; } = null;
     public double Value { get; set; } = 0;
     [Parameter]
     public string PlaceHolder { get; set; } = "Type number here...";
@@ -11,12 +13,16 @@
     private bool inputStringIsEmpty = true;
     private bool inputShowTrailingZeroes = false;
 
+    private string FormatOutput(double d) {
+        return d.ToString() + (inputShowTrailingZeroes ? "." : "");
+    }
+
     private string InputString {
         get {
             if(inputStringIsEmpty) {
                 return "";
             }
-            return Value.ToString() + (inputShowTrailingZeroes ? "." : "");
+            return FormatOutput(Value);
         }
         set {
             if(double.TryParse(value, out double v)) {
@@ -32,6 +38,13 @@
                 inputShowTrailingZeroes = false;
                 inputStringIsEmpty = true;
             }
+        }
+    }
+
+    protected override void OnParametersSet() {
+        if(DefaultValue != null) {
+            Value = (double)DefaultValue;
+            inputStringIsEmpty = false;
         }
     }
 }

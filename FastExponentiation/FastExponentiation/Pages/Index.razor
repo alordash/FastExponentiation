@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.Globalization
 
 <NumberInput @ref="@BaseInput" PlaceHolder="Type base here..." />
 <NumberInput @ref="@ExponentInput" PlaceHolder="Type exponent here..." IntegerNumber="false" />
@@ -16,5 +17,49 @@
 
     public void Calculate() {
         Result = FastMath.FastPower(BaseInput.Value, ExponentInput.Value);
+    }
+}
+
+<br />
+
+<NumberInput @ref="@ChartExpInput" DefaultValue="2" PlaceHolder="Type exponent for precision testing here..." />
+<br />
+<NumberInput @ref="@ChartMinInput" DefaultValue="0" PlaceHolder="Type minimum for precision testing here..." />
+<br />
+<NumberInput @ref="@ChartMaxInput" DefaultValue="100" PlaceHolder="Type maximum for precision testing here..." />
+<br />
+<button @onclick="ComparePrecision">Compare precision</button>
+
+<RadzenChart>
+    <RadzenLineSeries Smooth="false" Data="@RealValues" CategoryProperty="Base" ValueProperty="Value" Title="Real values" />
+    <RadzenLineSeries Smooth="false" Data="@ApproximateValues" CategoryProperty="Base" ValueProperty="Value" Title="Approximate values" />
+</RadzenChart>
+
+@code {
+    const double step = 10;
+    NumberInput ChartExpInput;
+    NumberInput ChartMinInput;
+    NumberInput ChartMaxInput;
+
+    public class DataItem {
+        public double Value { get; set; }
+        public double Base { get; set; }
+    }
+
+    public List<DataItem> RealValues;
+    public List<DataItem> ApproximateValues;
+
+    void ComparePrecision() {
+        var exp = ChartExpInput.Value;
+        RealValues = new List<DataItem>();
+        ApproximateValues = new List<DataItem>();
+        for(double v = ChartMinInput.Value; v <= ChartMaxInput.Value; v += step) {
+            if(v == 0) {
+                continue;
+            }
+            RealValues.Add(new DataItem { Base = v, Value = Math.Pow(v, exp) });
+            ApproximateValues.Add(new DataItem { Base = v, Value = FastMath.FastPower(v, exp) });
+        }
+        Console.WriteLine("Done comparing precision for {0} numbers", RealValues.Count);
     }
 }
