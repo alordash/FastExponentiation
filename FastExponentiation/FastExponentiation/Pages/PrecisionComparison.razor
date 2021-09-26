@@ -1,0 +1,100 @@
+﻿@page "/precision"
+<a href="/"><i>Get back</i></a>
+
+<h3>Precision comparison test</h3>
+Exponent for precision testing:
+<br />
+<NumberInput @ref="@ChartExpInput" DefaultValue="-0.5" PlaceHolder="Type exponent here" />
+<br />
+Minimum base for precision testing:
+<br />
+<NumberInput @ref="@ChartMinInput" DefaultValue="1" PlaceHolder="Type minimum base here" />
+<br />
+Maximum base for precision testing:
+<br />
+<NumberInput @ref="@ChartMaxInput" DefaultValue="100" PlaceHolder="Type maximum base here" />
+<br />
+<button @onclick="ComparePrecision">Compare precision</button>
+<br />
+y = x ^ Exponent
+
+<RadzenChart>
+    <RadzenLineSeries Smooth="false" Data="@RealValues" CategoryProperty="Base" ValueProperty="Value" Title="Real values" />
+    <RadzenLineSeries Smooth="false" Data="@ApproximateValues" CategoryProperty="Base" ValueProperty="Value" Title="Approximate values" />
+</RadzenChart>
+<br />
+
+Max error: <b>@(FormatError(maxError))</b>% for number <b>@maxErrorNumber</b>
+<br />
+Average error: <b>@(FormatError(averageError))</b>%
+
+@code {
+    NumberInput ChartExpInput;
+    NumberInput ChartMinInput;
+    NumberInput ChartMaxInput;
+
+    public class DataItem {
+        public double Value { get; set; }
+        public double Base { get; set; }
+    }
+
+    public const int DataCount = 200;
+
+    public List<DataItem> RealValues = new List<DataItem>();
+    public List<DataItem> ApproximateValues = new List<DataItem>();
+
+    private double maxErrorNumber = 0;
+    private double maxError = 0;
+    private double averageError = 0;
+
+    double ToPercentage(double ratio) {
+        return ratio > 0d ? ratio - 1d : 1d - ratio;
+    }
+
+    string FormatError(double error) {
+        return String.Format("{0:0.00}", error);
+    }
+
+    void ComparePrecision() {
+        var exp = ChartExpInput.Value;
+        var min = ChartMinInput.Value;
+        var max = ChartMaxInput.Value;
+        var step = Math.Abs(max - min) / (double)DataCount;
+
+        RealValues = new List<DataItem>();
+        ApproximateValues = new List<DataItem>();
+
+        maxError = double.MinValue;
+        double totalDifference = 0;
+        for(double v = ChartMinInput.Value; v <= ChartMaxInput.Value; v += step) {
+            var realValue = Math.Pow(v, exp);
+            var approximateValue = FastMath.FastPower(v, exp);
+            if(double.IsNaN(realValue) || double.IsNaN(approximateValue)) {
+                continue;
+            }
+            RealValues.Add(new DataItem { Base = v, Value = realValue });
+            ApproximateValues.Add(new DataItem { Base = v, Value = approximateValue });
+
+            var diff = Math.Abs(realValue / approximateValue);
+            if(double.IsNaN(diff)) {
+                continue;
+            }
+            var percentageDiff = ToPercentage(diff);
+            if(percentageDiff > maxError) {
+                maxErrorNumber = v;
+                maxError = percentageDiff;
+            }
+            totalDifference += diff;
+        }
+        averageError = ToPercentage(totalDifference / RealValues.Count);
+        Console.WriteLine("Done comparing precision for {0} numbers", RealValues.Count);
+    }
+
+    protected override void OnAfterRender(bool firstRender) {
+        if(firstRender) {
+            ComparePrecision();
+            StateHasChanged();
+        }
+        base.OnAfterRender(firstRender);
+    }
+}
