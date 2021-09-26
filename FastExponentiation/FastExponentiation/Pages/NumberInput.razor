@@ -1,4 +1,6 @@
-﻿<textarea @bind="InputString" @bind:event="oninput" placeholder="@PlaceHolder" />
+﻿@using System.Globalization
+
+<textarea @bind="InputString" @bind:event="oninput" placeholder="@PlaceHolder" />
 
 @code {
     [Parameter]
@@ -9,33 +11,39 @@
     [Parameter]
     public bool IntegerNumber { get; set; } = false;
 
-    private string inputString = "";
     private bool inputStringIsEmpty = true;
-    private bool inputShowTrailingZeroes = false;
+    private bool showTrailingZeroes = false;
+    private bool showMinus = false;
 
     private string FormatOutput(double d) {
-        return d.ToString() + (inputShowTrailingZeroes ? "." : "");
+        return d.ToString() + (showTrailingZeroes ? "." : "");
     }
 
     private string InputString {
         get {
+            if(showMinus) {
+                return "-";
+            }
             if(inputStringIsEmpty) {
                 return "";
             }
             return FormatOutput(Value);
         }
         set {
-            if(double.TryParse(value, out double v)) {
+            if(value == "-") {
+                showMinus = true;
+            } else if(double.TryParse(value, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out double v)) {
                 if(IntegerNumber) {
                     v = (int)v;
                 } else {
-                    inputShowTrailingZeroes = value.Last() == '.';
+                    showTrailingZeroes = value.Last() == '.';
                 }
                 Value = v;
                 inputStringIsEmpty = false;
+                showMinus = false;
             } else if(String.IsNullOrEmpty(value)) {
                 Value = 0;
-                inputShowTrailingZeroes = false;
+                showMinus = showTrailingZeroes = false;
                 inputStringIsEmpty = true;
             }
         }
