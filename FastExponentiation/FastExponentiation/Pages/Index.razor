@@ -24,9 +24,9 @@
 
 <NumberInput @ref="@ChartExpInput" DefaultValue="2" PlaceHolder="Type exponent for precision testing here..." />
 <br />
-<NumberInput @ref="@ChartMinInput" DefaultValue="0" PlaceHolder="Type minimum for precision testing here..." />
+<NumberInput @ref="@ChartMinInput" DefaultValue="0" PlaceHolder="Type minimum base for precision testing here..." />
 <br />
-<NumberInput @ref="@ChartMaxInput" DefaultValue="100" PlaceHolder="Type maximum for precision testing here..." />
+<NumberInput @ref="@ChartMaxInput" DefaultValue="100" PlaceHolder="Type maximum base for precision testing here..." />
 <br />
 <button @onclick="ComparePrecision">Compare precision</button>
 
@@ -36,7 +36,7 @@
 </RadzenChart>
 
 @code {
-    const double step = 10;
+    public const int DataCount = 200;
     NumberInput ChartExpInput;
     NumberInput ChartMinInput;
     NumberInput ChartMaxInput;
@@ -46,13 +46,18 @@
         public double Base { get; set; }
     }
 
-    public List<DataItem> RealValues;
-    public List<DataItem> ApproximateValues;
+    public List<DataItem> RealValues = new List<DataItem>();
+    public List<DataItem> ApproximateValues = new List<DataItem>();
 
     void ComparePrecision() {
         var exp = ChartExpInput.Value;
+        var min = ChartMinInput.Value;
+        var max = ChartMaxInput.Value;
+        var step = Math.Abs(max - min) / (double)DataCount;
+
         RealValues = new List<DataItem>();
         ApproximateValues = new List<DataItem>();
+
         for(double v = ChartMinInput.Value; v <= ChartMaxInput.Value; v += step) {
             if(v == 0) {
                 continue;
