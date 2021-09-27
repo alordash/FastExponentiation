@@ -53,7 +53,7 @@ Average error: <b>@(FormatError(averageError))</b>%
     private double averageError = 0;
 
     double ToPercentage(double ratio) {
-        return ratio > 0d ? ratio - 1d : 1d - ratio;
+        return Math.Abs(ratio - 1d);
     }
 
     string FormatError(double error) {
@@ -75,7 +75,7 @@ Average error: <b>@(FormatError(averageError))</b>%
         int i = -1;
         for(double v = MinInput.Value; v <= MaxInput.Value; v += step) {
             var realValue = Math.Pow(v, exp);
-            var approximateValue = FastMath.FastPower(v, exp);
+            var approximateValue = 1;//FastMath.FastPower(v, exp);
             i++;
             if(double.IsNaN(realValue) || double.IsNaN(approximateValue)) {
                 continue;
