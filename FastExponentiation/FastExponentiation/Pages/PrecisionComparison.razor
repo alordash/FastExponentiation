@@ -25,6 +25,9 @@ y = x ^ Exponent
 <RadzenChart>
     <RadzenLineSeries Smooth="false" Data="@RealValues" CategoryProperty="Base" ValueProperty="Value" Title="Real values" />
     <RadzenLineSeries Smooth="false" Data="@ApproximateValues" CategoryProperty="Base" ValueProperty="Value" Title="Approximate values" />
+    <RadzenLineSeries Smooth="false" Data="@HighestError" CategoryProperty="Base" ValueProperty="Value" Title="Highest error" Stroke="red">
+        <RadzenMarkers MarkerType="MarkerType.Circle" />
+    </RadzenLineSeries>
 </RadzenChart>
 <br />
 
@@ -45,8 +48,9 @@ Average error: <b>@(FormatError(averageError))</b>%
 
     public const int DataCount = 200;
 
-    public List<DataItem> RealValues = new List<DataItem>();
-    public List<DataItem> ApproximateValues = new List<DataItem>();
+    public List<DataItem> RealValues;
+    public List<DataItem> ApproximateValues;
+    public List<DataItem> HighestError;
 
     private double maxErrorNumber = 0;
     private double maxError = 0;
@@ -73,9 +77,10 @@ Average error: <b>@(FormatError(averageError))</b>%
         maxError = double.MinValue;
         double totalDifference = 0;
         int i = -1;
+
         for(double v = MinInput.Value; v <= MaxInput.Value; v += step) {
             var realValue = Math.Pow(v, exp);
-            var approximateValue = 1;//FastMath.FastPower(v, exp);
+            var approximateValue = FastMath.FastPower(v, exp);
             i++;
             if(double.IsNaN(realValue) || double.IsNaN(approximateValue)) {
                 continue;
@@ -93,6 +98,7 @@ Average error: <b>@(FormatError(averageError))</b>%
             if(percentageDiff > maxError) {
                 maxErrorNumber = v;
                 maxError = percentageDiff;
+                HighestError = new List<DataItem>() { new DataItem { Base = v, Value = realValue } };
             }
             totalDifference += diff;
         }
