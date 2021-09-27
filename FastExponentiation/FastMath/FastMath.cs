@@ -17,13 +17,11 @@ namespace FastMath {
 		public static long doubleApproximator = 4606853616395542500L;
 		public static double FastApproximatePower(double b, double e) {
 			//			long k = (long)((1L << 52) * ((1L << 10) - 1.0730088));
-			//long i = BitConverter.ToInt64(BitConverter.GetBytes(b));
 			unsafe {
 				long i = *(long*)&b;
-				i = FastMath.doubleApproximator + (long)e * (i - FastMath.doubleApproximator);
+				i = (long)(FastMath.doubleApproximator + e * (i - FastMath.doubleApproximator));
 				b = *(double*)&i;
 			}
-			//b = BitConverter.ToDouble(BitConverter.GetBytes(i));
 			return b;
 		}
 
