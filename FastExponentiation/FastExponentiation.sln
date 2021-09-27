@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastExponentiation", "FastExponentiation\FastExponentiation.csproj", "{0E334AC4-314D-4645-A514-DF36199F27E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastExponentiationBenchmark", "FastExponentiationBenchmark\FastExponentiationBenchmark.csproj", "{3C14F508-0116-4880-A323-CA51F5F067EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastMath", "FastMath\FastMath.csproj", "{A05270BC-05A0-46C1-A995-D4891C4057B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{0E334AC4-314D-4645-A514-DF36199F27E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E334AC4-314D-4645-A514-DF36199F27E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E334AC4-314D-4645-A514-DF36199F27E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C14F508-0116-4880-A323-CA51F5F067EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C14F508-0116-4880-A323-CA51F5F067EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C14F508-0116-4880-A323-CA51F5F067EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C14F508-0116-4880-A323-CA51F5F067EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A05270BC-05A0-46C1-A995-D4891C4057B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A05270BC-05A0-46C1-A995-D4891C4057B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A05270BC-05A0-46C1-A995-D4891C4057B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A05270BC-05A0-46C1-A995-D4891C4057B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
