@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using BenchmarkDotNet.Attributes;
 
 namespace FastExponentiationBenchmark {
-	public class PowerFunctionsComparison {
+	public class PowerFunctionsSpeedComparison {
 		private const int N = 10000;
 
 		private double[] bases;
@@ -15,8 +15,8 @@ namespace FastExponentiationBenchmark {
 		private int ti = 0;
 		private int ai = 0;
 
-		public PowerFunctionsComparison() {
-			var random = new Random(42);
+		public PowerFunctionsSpeedComparison() {
+			var random = new Random();
 			bases = new double[N];
 			exps = new double[N];
 			for(int i = 0; i < N; i++) {

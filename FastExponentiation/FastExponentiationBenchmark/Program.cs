@@ -5,7 +5,7 @@ using BenchmarkDotNet.Running;
 namespace FastExponentiationBenchmark {
 	class Program {
 		static void Main(string[] args) {
-			var summary = BenchmarkRunner.Run<PowerFunctionsComparison>();
+			var summary = BenchmarkRunner.Run<PowerFunctionsSpeedComparison>();
 			Console.WriteLine("Benchmark done");
 			while(true) {
 				int count;
