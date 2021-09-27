@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using BenchmarkDotNet.Running;
 
 namespace FastExponentiationBenchmark {
 	class Program {
 		static void Main(string[] args) {
+			var summary = BenchmarkRunner.Run<PowerFunctionsComparison>();
+			Console.WriteLine("Benchmark done");
 			while(true) {
 				int count;
 				Console.WriteLine("Enter count:");
