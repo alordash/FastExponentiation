@@ -5,44 +5,26 @@ using BenchmarkDotNet.Running;
 namespace FastExponentiationBenchmark {
 	class Program {
 		static void Main(string[] args) {
-			var summary = BenchmarkRunner.Run<PowerFunctionsSpeedComparison>();
-			Console.WriteLine("Benchmark done");
+			Console.WriteLine("Available benchmarks:");
+			Console.WriteLine("1. Fast power VS built-in power");
+			Console.WriteLine("2. Binary power vs built-in power (for integers only)");
+			Console.WriteLine("3. Approximate power vs built-in power (-1 <= exponent <= 1)");
 			while(true) {
-				int count;
-				Console.WriteLine("Enter count:");
-				while(!int.TryParse(Console.ReadLine(), out count)) {
-					Console.WriteLine("Entered wrong count");
+				Console.WriteLine("Enter benchmark's index to run it (1/2/3):");
+				string input = Console.ReadLine();
+				switch(input) {
+					case "1":
+						BenchmarkRunner.Run<PowerFunctionsSpeedComparison>();
+						break;
+					case "2":
+						BenchmarkRunner.Run<IntegerExpPowerFunctionsSpeedComparison>();
+						break;
+					case "3":
+						break;
+					default:
+						Console.WriteLine("Entered wrong number");
+						break;
 				}
-
-				double Exp;
-				Console.WriteLine("Enter exponent:");
-				while(!double.TryParse(Console.ReadLine(), out Exp)) {
-					Console.WriteLine("Entered wrong exponent");
-				}
-
-				var random = new Random();
-				var bases = new double[count];
-				for(int i = 0; i < count; i++) {
-					bases[i] = random.NextDouble();
-				}
-
-				var realValues = new double[count];
-				var approximateValues = new double[count];
-				var stopWatch = new Stopwatch();
-				stopWatch.Start();
-				for(int i = 0; i < count; i++) {
-					realValues[i] = Math.Pow(bases[i], Exp);
-				}
-				stopWatch.Stop();
-				Console.WriteLine(String.Format("Traditional method took {0}ms for raising {1} numbers to power {2}", stopWatch.ElapsedMilliseconds, count, Exp));
-				stopWatch.Reset();
-
-				stopWatch.Start();
-				for(int i = 0; i < count; i++) {
-					approximateValues[i] = FastMath.FastPower(bases[i], Exp);
-				}
-				stopWatch.Stop();
-				Console.WriteLine(String.Format("Approximate method took {0}ms for raising {1} numbers to power {2}", stopWatch.ElapsedMilliseconds, count, Exp));
 			}
 		}
 	}
