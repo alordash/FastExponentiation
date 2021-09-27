@@ -4,15 +4,19 @@
 <h3>Precision comparison test</h3>
 Exponent for precision testing:
 <br />
-<NumberInput @ref="@ChartExpInput" DefaultValue="-0.5" PlaceHolder="Type exponent here" />
+<NumberInput @ref="@ExpInput" DefaultValue="-0.5" PlaceHolder="Type exponent here" />
 <br />
 Minimum base for precision testing:
 <br />
-<NumberInput @ref="@ChartMinInput" DefaultValue="1" PlaceHolder="Type minimum base here" />
+<NumberInput @ref="@MinInput" DefaultValue="1" PlaceHolder="Type minimum base here" />
 <br />
 Maximum base for precision testing:
 <br />
-<NumberInput @ref="@ChartMaxInput" DefaultValue="100" PlaceHolder="Type maximum base here" />
+<NumberInput @ref="@MaxInput" DefaultValue="100" PlaceHolder="Type maximum base here" />
+<br />
+Number of iterations for precision testing:
+<br />
+<NumberInput @ref="@IterationsInput" DefaultValue="10000" PlaceHolder="Type iterations count here" />
 <br />
 <button @onclick="ComparePrecision">Compare precision</button>
 <br />
@@ -29,9 +33,10 @@ Max error: <b>@(FormatError(maxError))</b>% for number <b>@maxErrorNumber</b>
 Average error: <b>@(FormatError(averageError))</b>%
 
 @code {
-    NumberInput ChartExpInput;
-    NumberInput ChartMinInput;
-    NumberInput ChartMaxInput;
+        NumberInput ExpInput;
+        NumberInput MinInput;
+        NumberInput MaxInput;
+        NumberInput IterationsInput;
 
     public class DataItem {
         public double Value { get; set; }
@@ -56,24 +61,29 @@ Average error: <b>@(FormatError(averageError))</b>%
     }
 
     void ComparePrecision() {
-        var exp = ChartExpInput.Value;
-        var min = ChartMinInput.Value;
-        var max = ChartMaxInput.Value;
-        var step = Math.Abs(max - min) / (double)DataCount;
+        var exp = ExpInput.Value;
+        var min = MinInput.Value;
+        var max = MaxInput.Value;
+        var step = Math.Abs(max - min) / IterationsInput.Value;
+        var ignoreCount = (int)IterationsInput.Value / DataCount;
 
         RealValues = new List<DataItem>();
         ApproximateValues = new List<DataItem>();
 
         maxError = double.MinValue;
         double totalDifference = 0;
-        for(double v = ChartMinInput.Value; v <= ChartMaxInput.Value; v += step) {
+        int i = -1;
+        for(double v = MinInput.Value; v <= MaxInput.Value; v += step) {
             var realValue = Math.Pow(v, exp);
             var approximateValue = FastMath.FastPower(v, exp);
+            i++;
             if(double.IsNaN(realValue) || double.IsNaN(approximateValue)) {
                 continue;
             }
-            RealValues.Add(new DataItem { Base = v, Value = realValue });
-            ApproximateValues.Add(new DataItem { Base = v, Value = approximateValue });
+            if(i % ignoreCount == 0) {
+                RealValues.Add(new DataItem { Base = v, Value = realValue });
+                ApproximateValues.Add(new DataItem { Base = v, Value = approximateValue });
+            }
 
             var diff = Math.Abs(realValue / approximateValue);
             if(double.IsNaN(diff)) {
@@ -86,7 +96,7 @@ Average error: <b>@(FormatError(averageError))</b>%
             }
             totalDifference += diff;
         }
-        averageError = ToPercentage(totalDifference / RealValues.Count);
+        averageError = ToPercentage(totalDifference / IterationsInput.Value);
         Console.WriteLine("Done comparing precision for {0} numbers", RealValues.Count);
     }
 
