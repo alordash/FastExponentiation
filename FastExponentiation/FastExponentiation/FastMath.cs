@@ -5,24 +5,27 @@ using System.Threading.Tasks;
 
 namespace FastExponentiation {
 	public static class FastMath {
-		private static double BinaryPower(double b, long e) {
+		public static double BinaryPower(double b, long e) {
 			double v = 1;
 			while(e > 0) {
-				if((e & 1) == 1) {
-					v *= b;
-				}
+				v += (e & 1) * v * (b - 1);
+//				v *= (e & 1) == 1 ? b : 1;
 				e >>= 1;
 				b *= b;
 			}
 			return v;
 		}
 
-		private static long doubleApproximator = 4606853616395542500L;
-		private static double FastApproximatePower(double b, double e) {
-//			long k = (long)((1L << 52) * ((1L << 10) - 1.0730088));
-			long i = BitConverter.ToInt64(BitConverter.GetBytes(b));
-			i = (long)(FastMath.doubleApproximator + e * (i - FastMath.doubleApproximator));
-			b = BitConverter.ToDouble(BitConverter.GetBytes(i));
+		public static long doubleApproximator = 4606853616395542500L;
+		public static double FastApproximatePower(double b, double e) {
+			//			long k = (long)((1L << 52) * ((1L << 10) - 1.0730088));
+			//long i = BitConverter.ToInt64(BitConverter.GetBytes(b));
+			unsafe {
+				long i = *(long*)&b;
+				i = FastMath.doubleApproximator + (long)e * (i - FastMath.doubleApproximator);
+				b = *(double*)&i;
+			}
+			//b = BitConverter.ToDouble(BitConverter.GetBytes(i));
 			return b;
 		}
 
