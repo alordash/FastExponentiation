@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 
 namespace FastExponentiationBenchmark {
-	[SimpleJob(id: "Fast power vs built-in power")]
-	public class PowerFunctionsSpeedComparison {
+	[SimpleJob(id: "Approximate power vs built-in power")]
+	public class ApproximatePowerFunctionsSpeedComparison {
 		private const int N = 10000;
 
 		private double[] bases;
@@ -15,13 +15,13 @@ namespace FastExponentiationBenchmark {
 		private int ti = 0;
 		private int ai = 0;
 
-		public PowerFunctionsSpeedComparison() {
+		public ApproximatePowerFunctionsSpeedComparison() {
 			var random = new Random();
 			bases = new double[N];
 			exps = new double[N];
 			for(int i = 0; i < N; i++) {
 				bases[i] = Math.Pow(random.NextDouble(), 4) * 1000d;
-				exps[i] = Math.Pow(random.NextDouble(), 4) * 1000d;
+				exps[i] = random.NextDouble();
 			}
 		}
 
@@ -37,8 +37,8 @@ namespace FastExponentiationBenchmark {
 		}
 
 		[Benchmark]
-		public double FastPower() {
-			var v = FastMath.FastPower(bases[ai], exps[ai]);
+		public double Approximate() {
+			var v = FastMath.FastApproximatePower(bases[ai], exps[ai]);
 			ai = NextIndex(ai);
 			return v;
 		}

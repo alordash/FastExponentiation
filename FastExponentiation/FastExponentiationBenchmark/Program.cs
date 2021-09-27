@@ -20,6 +20,7 @@ namespace FastExponentiationBenchmark {
 						BenchmarkRunner.Run<IntegerExpPowerFunctionsSpeedComparison>();
 						break;
 					case "3":
+						BenchmarkRunner.Run<ApproximatePowerFunctionsSpeedComparison>();
 						break;
 					default:
 						Console.WriteLine("Entered wrong number");
