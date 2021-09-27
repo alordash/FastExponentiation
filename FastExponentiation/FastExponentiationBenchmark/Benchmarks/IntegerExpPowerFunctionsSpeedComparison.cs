@@ -7,13 +7,8 @@ using BenchmarkDotNet.Attributes;
 
 namespace FastExponentiationBenchmark {
 	[SimpleJob(id: "Binary power vs built-in power")]
-	public class IntegerExpPowerFunctionsSpeedComparison {
-		private const int N = 10000;
-
-		private double[] bases;
+	public class IntegerExpPowerFunctionsSpeedComparison : BenchmarkTemplate {
 		private Int64[] exps;
-		private int ti = 0;
-		private int ai = 0;
 
 		public IntegerExpPowerFunctionsSpeedComparison() {
 			var random = new Random();
@@ -23,13 +18,6 @@ namespace FastExponentiationBenchmark {
 				bases[i] = random.NextDouble();
 				exps[i] = (long)random.Next();
 			}
-		}
-
-		private int NextIndex(int i) {
-			if(i % 1000 == 0) {
-				Console.WriteLine(String.Format("Base: {0}, exp: {1}", bases[i], exps[i]));
-			}
-			return (i + 1) % N;
 		}
 
 		[Benchmark]
@@ -43,7 +31,6 @@ namespace FastExponentiationBenchmark {
 		public double Binary() {
 			var v = FastMath.BinaryPower(bases[ai], exps[ai]);
 			ai = NextIndex(ai);
-			Console.WriteLine(String.Format("ai = {0}", ai));
 			return v;
 		}
 	}
