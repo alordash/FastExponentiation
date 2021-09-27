@@ -8,15 +8,15 @@ using BenchmarkDotNet.Attributes;
 namespace FastExponentiationBenchmark {
 	[SimpleJob(id: "Binary power vs built-in power")]
 	public class IntegerExpPowerFunctionsSpeedComparison : BenchmarkTemplate {
-		private Int64[] exps;
+		private new Int64[] exps;
 
 		public IntegerExpPowerFunctionsSpeedComparison() {
 			var random = new Random();
 			bases = new double[N];
 			exps = new Int64[N];
 			for(int i = 0; i < N; i++) {
-				bases[i] = random.NextDouble();
-				exps[i] = (long)random.Next();
+				bases[i] = i + i / 1000d;
+				exps[i] = i;
 			}
 		}
 

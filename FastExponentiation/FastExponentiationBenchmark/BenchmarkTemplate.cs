@@ -17,12 +17,5 @@ namespace FastExponentiationBenchmark {
 		protected int NextIndex(int i) {
 			return (i + 1) % N;
 		}
-
-		[Benchmark]
-		public double Traditional() {
-			var v = Math.Pow(bases[ti], exps[ti]);
-			ti = NextIndex(ti);
-			return v;
-		}
 	}
 }

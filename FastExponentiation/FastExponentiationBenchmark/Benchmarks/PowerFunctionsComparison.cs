@@ -13,9 +13,16 @@ namespace FastExponentiationBenchmark {
 			bases = new double[N];
 			exps = new double[N];
 			for(int i = 0; i < N; i++) {
-				bases[i] = Math.Pow(random.NextDouble(), 4) * 1000d;
-				exps[i] = Math.Pow(random.NextDouble(), 4) * 1000d;
+				bases[i] = i + i / 1000d;
+				exps[i] = i / 2000d;
 			}
+		}
+
+		[Benchmark]
+		public double Traditional() {
+			var v = Math.Pow(bases[ti], exps[ti]);
+			ti = NextIndex(ti);
+			return v;
 		}
 
 		[Benchmark]

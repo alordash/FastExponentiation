@@ -7,8 +7,8 @@ public static class FastMath {
 			if((e & 1) != 0) {
 				v *= b;
 			}
-			e >>= 1;
 			b *= b;
+			e >>= 1;
 		}
 		return v;
 	}
