@@ -1,10 +1,10 @@
 ﻿using System;
 
 public static class FastMath {
-	public static double BinaryPower(double b, long e) {
+	public static double BinaryPower(double b, Int64 e) {
 		double v = 1;
 		while(e > 0) {
-			if((e & 1) == 1) {
+			if((e & 1) != 0) {
 				v *= b;
 			}
 			e >>= 1;
