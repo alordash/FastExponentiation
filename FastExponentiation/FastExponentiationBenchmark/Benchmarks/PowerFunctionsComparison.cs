@@ -13,7 +13,7 @@ namespace FastExponentiationBenchmark {
 			exps = new double[N];
 			for(int i = 0; i < N; i++) {
 				bases[i] = i + i / 1000d;
-				exps[i] = i / 2000d;
+				exps[i] = (i- 5000) / 2000d;
 			}
 		}
 
