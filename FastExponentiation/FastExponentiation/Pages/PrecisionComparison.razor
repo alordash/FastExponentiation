@@ -57,7 +57,7 @@ Average error: <b>@(FormatError(averageError))</b>%
     private double averageError = 0;
 
     double ToPercentage(double ratio) {
-        return Math.Abs(ratio - 1d);
+        return Math.Abs(ratio - 1d) * 100d;
     }
 
     string FormatError(double error) {
