@@ -1,20 +1,22 @@
 ﻿@page "/precision"
 <a href="/"><i>Get back</i></a>
 
-<h3>Precision comparison test</h3>
-Exponent for precision testing:
+<h3>Precision comparison test for specified exponent</h3>
+Parameters for precision test:
+<br />
+Exponent:
 <br />
 <NumberInput @ref="@ExpInput" DefaultValue="-0.5" PlaceHolder="Type exponent here" />
 <br />
-Minimum base for precision testing:
+Minimum base:
 <br />
 <NumberInput @ref="@MinInput" DefaultValue="1" PlaceHolder="Type minimum base here" />
 <br />
-Maximum base for precision testing:
+Maximum base:
 <br />
 <NumberInput @ref="@MaxInput" DefaultValue="100" PlaceHolder="Type maximum base here" />
 <br />
-Number of iterations for precision testing:
+Number of iterations:
 <br />
 <NumberInput @ref="@IterationsInput" DefaultValue="10000" PlaceHolder="Type iterations count here" />
 <br />
@@ -114,3 +116,7 @@ Average error: <b>@(FormatError(averageError))</b>%
         base.OnAfterRender(firstRender);
     }
 }
+
+<hr />
+
+<WidePrecisionComparison />

@@ -1,0 +1,103 @@
+﻿<h3>Wide precision comparison test <i>(for a range of exponents)</i></h3>
+
+Parameters for wide precision test:
+<br />
+Minimum exponent:
+<br />
+<NumberInput @ref="@MinExp" DefaultValue="-1" PlaceHolder="Type exponent here" />
+<br />
+Maximum exponent:
+<br />
+<NumberInput @ref="@MaxExp" DefaultValue="1" PlaceHolder="Type exponent here" />
+<br />
+Minimum base:
+<br />
+<NumberInput @ref="@MinBase" DefaultValue="1" PlaceHolder="Type minimum base here" />
+<br />
+Maximum base:
+<br />
+<NumberInput @ref="@MaxBase" DefaultValue="100" PlaceHolder="Type maximum base here" />
+<br />
+Exponent and base iterations:
+<br />
+<NumberInput @ref="@Iterations" DefaultValue="100" PlaceHolder="Type iterations count here" />
+<br />
+<button @onclick="ComparePrecision">Compare precision</button>
+<br />
+
+Max error: <b>@(FormatError(maxError))</b>% for number <b>@maxErrorBase</b> in power <b>@maxErrorExp</b>
+<br />
+Average error: <b>@(FormatError(averageError))</b>%
+<br />
+Iterations count: @IterationsRealCount
+
+@code {
+    NumberInput MinExp;
+    NumberInput MaxExp;
+    NumberInput MinBase;
+    NumberInput MaxBase;
+    NumberInput Iterations;
+
+    private double maxErrorBase = 0;
+    private double maxErrorExp = 0;
+    private double maxError = 0;
+    private double averageError = 0;
+    public int IterationsRealCount = 0;
+
+    double ToPercentage(double ratio) {
+        return Math.Abs(ratio - 1d) * 100d;
+    }
+
+    string FormatError(double error) {
+        return String.Format("{0:0.00}", error);
+    }
+
+    void ComparePrecision() {
+        var minExp = MinExp.Value;
+        var maxExp = MaxExp.Value;
+        var minBase = MinBase.Value;
+        var maxBase = MaxBase.Value;
+
+        var expStep = Math.Max(0.073d, Math.Abs(maxExp - minExp) / Iterations.Value);
+        var baseStep = Math.Max(0.01d, Math.Abs(maxBase - minBase) / Iterations.Value);
+
+        maxError = double.MinValue;
+        double totalDifference = 0d;
+        IterationsRealCount = 0;
+
+        for(double b = minBase; b <= maxBase; b += baseStep) {
+            for(double e = minExp; e <= maxExp; e += expStep) {
+                if(b == 0d) {
+                    continue;
+                }
+                var realValue = Math.Pow(b, e);
+                var approximateValue = FastMath.FastPower(b, e);
+                if(double.IsNaN(realValue) || double.IsNaN(approximateValue)) {
+                    continue;
+                }
+                var diff = Math.Abs(realValue / approximateValue);
+                if(double.IsNaN(diff) || !double.IsFinite(diff) || !double.IsFinite(realValue) || !double.IsFinite(approximateValue)) {
+                    continue;
+                }
+                var percentageDiff = ToPercentage(diff);
+                if(percentageDiff >= maxError) {
+                    maxErrorBase = b;
+                    maxErrorExp = e;
+                    maxError = percentageDiff;
+                }
+                totalDifference += diff;
+                IterationsRealCount++;
+            }
+        }
+        averageError = ToPercentage(totalDifference / IterationsRealCount);
+        Console.WriteLine("Done comparing wide precisions for {0} numbers", IterationsRealCount);
+    }
+
+    protected override void OnAfterRender(bool firstRender) {
+        if(firstRender) {
+            ComparePrecision();
+            StateHasChanged();
+        }
+        base.OnAfterRender(firstRender);
+    }
+}
