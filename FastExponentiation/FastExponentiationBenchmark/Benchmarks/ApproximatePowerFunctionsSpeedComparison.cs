@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 
 namespace FastExponentiationBenchmark {
-	[SimpleJob(id: "Approximate power vs built-in power")]
+	[SimpleJob(id: "Approximate power vs built-in power", invocationCount: 10_000_000)]
 	public class ApproximatePowerFunctionsSpeedComparison : BenchmarkTemplate {
 		public ApproximatePowerFunctionsSpeedComparison() {
-			bases = new double[N];
-			exps = new double[N];
-			for(int i = 0; i < N; i++) {
-				bases[i] = i + i / 1000d; // Math.Pow(random.NextDouble(), 4) * 1000d;
-				exps[i] = (i - N / 2) / (double)(N / 2); //random.NextDouble() * 2d - 1d;
-			}
+			minExp = -1d;
+			maxExp = 1d;
+			FillValues();
 		}
 
 		[Benchmark(Baseline = true)]

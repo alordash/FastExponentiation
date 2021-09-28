@@ -23,7 +23,7 @@ namespace FastExponentiationBenchmark {
 						BenchmarkRunner.Run<ApproximatePowerFunctionsSpeedComparison>();
 						break;
 					default:
-						Console.WriteLine("Entered wrong number");
+						Console.WriteLine("Entered wrong index");
 						break;
 				}
 			}
