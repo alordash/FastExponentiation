@@ -25,8 +25,21 @@ public static class FastMath {
 	}
 
 	public static double FastPower(double b, double e) {
+		// To avoid undefined behaviour around anchor
+		// points, we can hardcode results for them
+		if(b == 1d || e == 0d) {
+			return 1d;
+		}
 		var el = (long)Math.Ceiling(Math.Abs(e));
-		var basePart = FastApproximatePower(b, e / el);
+		var basePart = FastApproximatePower(b, Math.Abs(e) / el);
+
+		// Because FastApproximatePower gives inaccurate results
+		// with negative exponent, we can increase precision
+		// by calculating exponent of a number in positive power
+		// and then dividing 1 by this result
+		if(e < 0d) {
+			return 1 / BinaryPower(basePart, el);
+		}
 		return BinaryPower(basePart, el);
 	}
 }
