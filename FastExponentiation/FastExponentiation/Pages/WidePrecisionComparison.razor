@@ -44,10 +44,6 @@ Iterations count: @IterationsRealCount
     private double averageError = 0;
     public int IterationsRealCount = 0;
 
-    double ToPercentage(double ratio) {
-        return Math.Abs(ratio - 1d) * 100d;
-    }
-
     string FormatError(double error) {
         return String.Format("{0:0.00}", error);
     }
@@ -79,7 +75,7 @@ Iterations count: @IterationsRealCount
                 if(double.IsNaN(diff) || !double.IsFinite(diff) || !double.IsFinite(realValue) || !double.IsFinite(approximateValue)) {
                     continue;
                 }
-                var percentageDiff = ToPercentage(diff);
+                var percentageDiff = FastMath.ToPercentage(diff);
                 if(percentageDiff >= maxError) {
                     maxErrorBase = b;
                     maxErrorExp = e;
@@ -89,7 +85,7 @@ Iterations count: @IterationsRealCount
                 IterationsRealCount++;
             }
         }
-        averageError = ToPercentage(totalDifference / IterationsRealCount);
+        averageError = FastMath.ToPercentage(totalDifference / IterationsRealCount);
         Console.WriteLine("Done comparing wide precisions for {0} numbers", IterationsRealCount);
     }
 

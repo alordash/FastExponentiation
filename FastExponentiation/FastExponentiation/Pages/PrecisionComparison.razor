@@ -55,10 +55,6 @@ Average error: <b>@(FormatError(averageError))</b>%
     private double maxError = 0;
     private double averageError = 0;
 
-    double ToPercentage(double ratio) {
-        return Math.Abs(ratio - 1d) * 100d;
-    }
-
     string FormatError(double error) {
         return String.Format("{0:0.00}", error);
     }
@@ -92,7 +88,7 @@ Average error: <b>@(FormatError(averageError))</b>%
                 RealValues.Add(new DataItem { Base = v, Value = realValue });
                 ApproximateValues.Add(new DataItem { Base = v, Value = approximateValue });
             }
-            var percentageDiff = ToPercentage(diff);
+            var percentageDiff = FastMath.ToPercentage(diff);
             if(percentageDiff > maxError) {
                 maxErrorNumber = v;
                 maxError = percentageDiff;
@@ -101,7 +97,7 @@ Average error: <b>@(FormatError(averageError))</b>%
             totalDifference += diff;
             i++;
         }
-        averageError = ToPercentage(totalDifference / i);
+        averageError = FastMath.ToPercentage(totalDifference / i);
         Console.WriteLine("Done comparing precision for {0} numbers", RealValues.Count);
     }
 

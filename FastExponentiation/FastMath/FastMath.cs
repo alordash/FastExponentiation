@@ -50,4 +50,9 @@ public static class FastMath {
 		var basePart = FastApproximatePower(b, e / el);
 		return BinaryPower(basePart, el);
 	}
+
+	// Technical method not used in calculation
+	public static double ToPercentage(double ratio) {
+		return Math.Abs(ratio - 1d) * 100d;
+	}
 }
