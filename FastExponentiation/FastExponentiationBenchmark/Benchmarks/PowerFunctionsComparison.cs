@@ -9,7 +9,6 @@ namespace FastExponentiationBenchmark {
 	[SimpleJob(id: "Fast power vs built-in power")]
 	public class PowerFunctionsSpeedComparison : BenchmarkTemplate {
 		public PowerFunctionsSpeedComparison() {
-			var random = new Random();
 			bases = new double[N];
 			exps = new double[N];
 			for(int i = 0; i < N; i++) {
@@ -18,7 +17,7 @@ namespace FastExponentiationBenchmark {
 			}
 		}
 
-		[Benchmark]
+		[Benchmark(Baseline = true)]
 		public double Traditional() {
 			var v = Math.Pow(bases[ti], exps[ti]);
 			ti = NextIndex(ti);

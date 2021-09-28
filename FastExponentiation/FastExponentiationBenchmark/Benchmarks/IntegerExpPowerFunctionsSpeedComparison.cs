@@ -11,7 +11,6 @@ namespace FastExponentiationBenchmark {
 		private new Int64[] exps;
 
 		public IntegerExpPowerFunctionsSpeedComparison() {
-			var random = new Random();
 			bases = new double[N];
 			exps = new Int64[N];
 			for(int i = 0; i < N; i++) {
@@ -20,7 +19,7 @@ namespace FastExponentiationBenchmark {
 			}
 		}
 
-		[Benchmark]
+		[Benchmark(Baseline = true)]
 		public double Traditional() {
 			var v = Math.Pow(bases[ti], exps[ti]);
 			ti = NextIndex(ti);
