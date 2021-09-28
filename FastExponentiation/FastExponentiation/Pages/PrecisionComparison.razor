@@ -78,23 +78,22 @@ Average error: <b>@(FormatError(averageError))</b>%
 
         maxError = double.MinValue;
         double totalDifference = 0;
-        int i = -1;
+        int i = 0;
 
         for(double v = MinInput.Value; v <= MaxInput.Value; v += step) {
+            if(v == 0d) {
+                continue;
+            }
             var realValue = Math.Pow(v, exp);
             var approximateValue = FastMath.FastPower(v, exp);
-            i++;
-            if(double.IsNaN(realValue) || double.IsNaN(approximateValue)) {
+
+            var diff = Math.Abs(realValue / approximateValue);
+            if(double.IsNaN(diff) || !double.IsFinite(diff) || double.IsNaN(realValue) || double.IsNaN(approximateValue) || !double.IsFinite(realValue) || !double.IsFinite(approximateValue)) {
                 continue;
             }
             if(i % ignoreCount == 0) {
                 RealValues.Add(new DataItem { Base = v, Value = realValue });
                 ApproximateValues.Add(new DataItem { Base = v, Value = approximateValue });
-            }
-
-            var diff = Math.Abs(realValue / approximateValue);
-            if(double.IsNaN(diff)) {
-                continue;
             }
             var percentageDiff = ToPercentage(diff);
             if(percentageDiff > maxError) {
@@ -103,8 +102,9 @@ Average error: <b>@(FormatError(averageError))</b>%
                 HighestError = new List<DataItem>() { new DataItem { Base = v, Value = realValue } };
             }
             totalDifference += diff;
+            i++;
         }
-        averageError = ToPercentage(totalDifference / IterationsInput.Value);
+        averageError = ToPercentage(totalDifference / i);
         Console.WriteLine("Done comparing precision for {0} numbers", RealValues.Count);
     }
 
