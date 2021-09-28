@@ -42,4 +42,10 @@ public static class FastMath {
 		}
 		return BinaryPower(basePart, el);
 	}
+
+	public static double RawFastPower(double b, double e) {
+		var el = (long)Math.Ceiling(Math.Abs(e));
+		var basePart = FastApproximatePower(b, e / el);
+		return BinaryPower(basePart, el);
+	}
 }

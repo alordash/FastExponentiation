@@ -30,5 +30,12 @@ namespace FastExponentiationBenchmark {
 			ai = NextIndex(ai);
 			return v;
 		}
+
+		[Benchmark]
+		public double RawFastPower() {
+			var v = FastMath.RawFastPower(bases[ai], exps[ai]);
+			ai = NextIndex(ai);
+			return v;
+		}
 	}
 }
