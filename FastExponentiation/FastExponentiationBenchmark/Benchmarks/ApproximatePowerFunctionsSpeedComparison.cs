@@ -19,15 +19,15 @@ namespace FastExponentiationBenchmark {
 
 		[Benchmark(Baseline = true)]
 		public double Traditional() {
-			var v = Math.Pow(bases[ti], exps[ti]);
-			ti = NextIndex(ti);
+			var v = Math.Pow(bases[index], exps[index]);
+			NextIndex();
 			return v;
 		}
 
 		[Benchmark]
 		public double Approximate() {
-			var v = FastMath.FastApproximatePower(bases[ai], exps[ai]);
-			ai = NextIndex(ai);
+			var v = FastMath.FastApproximatePower(bases[index], exps[index]);
+			NextIndex();
 			return v;
 		}
 	}

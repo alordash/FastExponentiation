@@ -11,11 +11,15 @@ namespace FastExponentiationBenchmark {
 
 		protected double[] bases;
 		protected double[] exps;
-		protected int ti = 0;
-		protected int ai = 0;
+		protected int index = 0;
 
-		protected int NextIndex(int i) {
-			return (i + 1) % N;
+		protected void NextIndex() {
+			index = (index + 1) % N;
+		}
+
+		[IterationSetup]
+		protected void ResetIndex() {
+			index = 0;
 		}
 	}
 }

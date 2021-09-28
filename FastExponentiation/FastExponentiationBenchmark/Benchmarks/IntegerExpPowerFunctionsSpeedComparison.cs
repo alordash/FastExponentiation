@@ -21,15 +21,15 @@ namespace FastExponentiationBenchmark {
 
 		[Benchmark(Baseline = true)]
 		public double Traditional() {
-			var v = Math.Pow(bases[ti], exps[ti]);
-			ti = NextIndex(ti);
+			var v = Math.Pow(bases[index], exps[index]);
+			NextIndex();
 			return v;
 		}
 
 		[Benchmark]
 		public double Binary() {
-			var v = FastMath.BinaryPower(bases[ai], exps[ai]);
-			ai = NextIndex(ai);
+			var v = FastMath.BinaryPower(bases[index], exps[index]);
+			NextIndex();
 			return v;
 		}
 	}
