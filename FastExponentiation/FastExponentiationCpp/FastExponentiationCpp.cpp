@@ -43,7 +43,6 @@ int main() {
 		std::cin >> exponent;
 		double realValue = pow(base, exponent);
 		double approximateValue = FastMath::FastPower(base, exponent);
-		approximateValue = 50.0;
 		std::cout << "Real result: " << realValue << "\n";
 		std::cout << "Approximate result: " << approximateValue << "\n";
 		double percentageDifference = FastMath::ToPercentage(realValue / approximateValue);
