@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FastMathUsageExample.cpp">
+    <ClCompile Include="FastExponentiationCpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

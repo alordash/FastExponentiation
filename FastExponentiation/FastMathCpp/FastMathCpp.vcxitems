@@ -3,8 +3,7 @@
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <ItemsProjectGuid>{f46d7f10-80e1-4bd8-b13b-5388578d090e}</ItemsProjectGuid>
-    <ItemsProjectName>FastMath</ItemsProjectName>
+    <ItemsProjectGuid>{890ac366-985c-41e6-afea-4aea2e9b468d}</ItemsProjectGuid>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

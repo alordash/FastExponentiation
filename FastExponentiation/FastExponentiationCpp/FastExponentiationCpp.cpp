@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
+#include <iomanip>
 #include "FastMath.h"
 
 int main() {
@@ -14,5 +15,6 @@ int main() {
 		std::cout << "Real result: " << realValue << "\n";
 		std::cout << "Approximate result: " << approximateValue << "\n";
 		std::cout << "Difference: " << FastMath::ToPercentage(realValue / approximateValue) << "%\n";
+		std::cout << std::setfill(char(196)) << std::setw(50) << "\n";
 	}
 }
