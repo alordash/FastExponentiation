@@ -4,8 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Toolchains.CsProj;
+using BenchmarkDotNet.Toolchains.DotNetCli;
 
 namespace FastExponentiationBenchmark {
+	public class PlatformsComparingConfig : ManualConfig {
+		public PlatformsComparingConfig() {
+			var x86core50 = Job.ShortRun
+						.WithPlatform(BenchmarkDotNet.Environments.Platform.X86)
+						.WithToolchain(CsProjCoreToolchain.From(NetCoreAppSettings.NetCoreApp50.WithCustomDotNetCliPath(@"C:\Program Files (x86)\dotnet\dotnet.exe")))
+						.WithId("x86 .NET Core 5.0")
+						.WithInvocationCount(1_000_000)
+						.WithIterationCount(100)
+						.WithUnrollFactor(1)
+						.WithGcConcurrent(true)
+						.WithStrategy(BenchmarkDotNet.Engines.RunStrategy.Throughput);
+			var x64core50 = Job.ShortRun
+						.WithPlatform(BenchmarkDotNet.Environments.Platform.X64)
+						.WithToolchain(CsProjCoreToolchain.From(NetCoreAppSettings.NetCoreApp50.WithCustomDotNetCliPath(@"C:\Program Files\dotnet\dotnet.exe")))
+						.WithId("x64 .NET Core 5.0")
+						.WithInvocationCount(1_000_000)
+						.WithIterationCount(100)
+						.WithUnrollFactor(1)
+						.WithGcConcurrent(true)
+						.WithStrategy(BenchmarkDotNet.Engines.RunStrategy.Throughput);
+			AddJob(x86core50);
+			AddJob(x64core50);
+		}
+	}
+
 	public abstract class BenchmarkTemplate {
 		protected double minExp = -5d;
 		protected double maxExp = 5d;
