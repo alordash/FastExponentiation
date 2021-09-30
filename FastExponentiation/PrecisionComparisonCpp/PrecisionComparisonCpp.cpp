@@ -3,7 +3,7 @@
 #include <math.h>
 #include "FastMath.h"
 
-#define _WIDTH 14
+#define _WIDTH 20
 #define _SETW std::setw(_WIDTH)
 #define _L std::left
 
@@ -63,7 +63,7 @@ TComparisonResult ComparePrecision(double minExp, double maxExp, double minBase,
 }
 
 void ShowComparisonResult(TComparisonResult cr) {
-	std::cout << "Max error: " << _FORMAT_ERROR(cr.maxError) << "% for number " << _BOLD(cr.maxErrorBase) << " in power " << _BOLD(cr.maxErrorExp) << "\n";
+	std::cout << "Maximal error: " << _FORMAT_ERROR(cr.maxError) << "% for number " << _BOLD(cr.maxErrorBase) << " in power " << _BOLD(cr.maxErrorExp) << "\n";
 	std::cout << "Average error: " << _FORMAT_ERROR(cr.averageError) << "%\n";
 	std::cout << "Numbers processed: " << cr.numbersCount << "\n";
 }
@@ -99,7 +99,7 @@ int main() {
 			minBase = t;
 		}
 
-		std::cout << _SETW << _L << "Maximum iterations count: " << _HIGHLIGHT_S;
+		std::cout << _SETW << _L << "Maximum iterations: " << _HIGHLIGHT_S;
 		std::cin >> maxIterationsCount;
 		std::cout << _DEFAULT << "\n";
 
