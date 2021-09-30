@@ -4,13 +4,17 @@
 #include "FastMath.h"
 
 #define _WIDTH 14
-#define _SETW std::setw(28)
+#define _SETW std::setw(_WIDTH)
 #define _L std::left
 
-#define _FORMAT_ERROR(x) (x > 25 ? "\033[31m" : (x > 10 ? "\033[33m" : "\033[32m")) << x << "\033[0m"
+#define _DEFAULT "\033[0m"
+
+#define _NUM_IS_UNREAL(x) std::isnan(x) || !std::isfinite(x)
+#define _FORMAT_ERROR_S(x) (_NUM_IS_UNREAL(x) ? "\033[31;7m" : (x > 25 ? "\033[31m" : (x > 10 ? "\033[33m" : "\033[32m")))
+#define _FORMAT_ERROR(x) _FORMAT_ERROR_S(x) << x << _DEFAULT
+
 #define _BOLD(x) "\033[1m" << x << "\033[0m"
 #define _HIGHLIGHT_S "\033[7;1m"
-#define _DEFAULT "\033[0m"
 #define _HIGHLIGHT(x) _HIGHLIGHT_S << x << _DEFAULT
 
 struct TComparisonResult {
@@ -36,11 +40,11 @@ TComparisonResult ComparePrecision(double minExp, double maxExp, double minBase,
 			}
 			double realValue = pow(b, e);
 			double approximateValue = FastMath::FastPower(b, e);
-			if(std::isnan(realValue) || std::isnan(approximateValue)) {
+			if(_NUM_IS_UNREAL(realValue) || _NUM_IS_UNREAL(approximateValue)) {
 				continue;
 			}
 			double diff = abs(realValue / approximateValue);
-			if(std::isnan(diff) || !std::isfinite(diff) || !std::isfinite(realValue) || !std::isfinite(approximateValue)) {
+			if(_NUM_IS_UNREAL(diff) || _NUM_IS_UNREAL(realValue) || _NUM_IS_UNREAL(approximateValue)) {
 				continue;
 			}
 			double percentageDiff = FastMath::ToPercentage(diff);
