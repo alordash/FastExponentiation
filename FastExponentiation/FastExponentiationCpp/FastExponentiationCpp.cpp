@@ -3,10 +3,6 @@
 #include <iomanip>
 #include "FastMath.h"
 
-#define _NUM_IS_UNREAL(x) std::isnan(x) || !std::isfinite(x)
-#define _FORMAT_ERROR_S(x) (_NUM_IS_UNREAL(x) ? "\033[31;7m" : (x > 25 ? "\033[31m" : (x > 10 ? "\033[33m" : "\033[32m")))
-#define _DEFAULT "\033[0m"
-#define _FORMAT_ERROR(x) _FORMAT_ERROR_S(x) << x << _DEFAULT
 #define DIFFERENCE_BAR_WIDTH 100
 
 #define _WIDTH 16
@@ -14,6 +10,12 @@
 #define _L std::left
 #define _R std::right
 #define _FILL(x) std::setfill(x)
+
+#define _DEFAULT "\033[0m"
+
+#define _NUM_IS_UNREAL(x) std::isnan(x) || !std::isfinite(x)
+#define _FORMAT_ERROR_S(x) (_NUM_IS_UNREAL(x) ? "\033[31;7m" : (x > 25 ? "\033[31m" : (x > 10 ? "\033[33m" : "\033[32m")))
+#define _FORMAT_ERROR(x) _FORMAT_ERROR_S(x) << x << _DEFAULT
 
 void ShowDifference(double percentageDifference) {
 	int fillAmount = 0;
