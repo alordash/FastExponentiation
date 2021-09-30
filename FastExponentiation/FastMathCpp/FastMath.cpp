@@ -47,5 +47,8 @@ double FastMath::RawFastPower(double b, double e) {
 }
 
 double FastMath::ToPercentage(double ratio) {
+	if(ratio == 0.0) {
+		return 0.0;
+	}
 	return fabs(ratio - 1.0) * 100.0;
 }
