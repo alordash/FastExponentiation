@@ -53,6 +53,9 @@ public static class FastMath {
 
 	// Technical method not used in calculation
 	public static double ToPercentage(double ratio) {
+		if(ratio == 0d) {
+			return 0d;
+		}
 		return Math.Abs(ratio - 1d) * 100d;
 	}
 }
