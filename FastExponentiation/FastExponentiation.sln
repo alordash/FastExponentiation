@@ -17,8 +17,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FastMathCpp", "FastMathCpp\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FastExponentiationBenchmarkCpp", "FastExponentiationBenchmarkCpp\FastExponentiationBenchmarkCpp.vcxproj", "{F5B8670A-03A3-4925-9BFB-34A94CEB3EAC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PrecisionComparisonCpp", "PrecisionComparisonCpp\PrecisionComparisonCpp.vcxproj", "{35F7234F-5752-4D69-BA52-A8871E691D17}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		FastMathCpp\FastMathCpp.vcxitems*{35f7234f-5752-4d69-ba52-a8871e691d17}*SharedItemsImports = 4
 		FastMathCpp\FastMathCpp.vcxitems*{890ac366-985c-41e6-afea-4aea2e9b468d}*SharedItemsImports = 9
 		FastMathCpp\FastMathCpp.vcxitems*{ef549b5b-ab1f-4a5a-8b9d-968b6caf5124}*SharedItemsImports = 4
 		FastMathCpp\FastMathCpp.vcxitems*{f5b8670a-03a3-4925-9bfb-34a94ceb3eac}*SharedItemsImports = 4
@@ -92,6 +95,17 @@ Global
 		{F5B8670A-03A3-4925-9BFB-34A94CEB3EAC}.Release|x64.Build.0 = Release|x64
 		{F5B8670A-03A3-4925-9BFB-34A94CEB3EAC}.Release|x86.ActiveCfg = Release|Win32
 		{F5B8670A-03A3-4925-9BFB-34A94CEB3EAC}.Release|x86.Build.0 = Release|Win32
+		{35F7234F-5752-4D69-BA52-A8871E691D17}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{35F7234F-5752-4D69-BA52-A8871E691D17}.Debug|x64.ActiveCfg = Debug|x64
+		{35F7234F-5752-4D69-BA52-A8871E691D17}.Debug|x64.Build.0 = Debug|x64
+		{35F7234F-5752-4D69-BA52-A8871E691D17}.Debug|x86.ActiveCfg = Debug|Win32
+		{35F7234F-5752-4D69-BA52-A8871E691D17}.Debug|x86.Build.0 = Debug|Win32
+		{35F7234F-5752-4D69-BA52-A8871E691D17}.Release|Any CPU.ActiveCfg = Release|Win32
+		{35F7234F-5752-4D69-BA52-A8871E691D17}.Release|Any CPU.Build.0 = Release|Win32
+		{35F7234F-5752-4D69-BA52-A8871E691D17}.Release|x64.ActiveCfg = Release|x64
+		{35F7234F-5752-4D69-BA52-A8871E691D17}.Release|x64.Build.0 = Release|x64
+		{35F7234F-5752-4D69-BA52-A8871E691D17}.Release|x86.ActiveCfg = Release|Win32
+		{35F7234F-5752-4D69-BA52-A8871E691D17}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +114,7 @@ Global
 		{EF549B5B-AB1F-4A5A-8B9D-968B6CAF5124} = {667AEC9B-76E2-4A40-9DF9-F5DD985B8AD9}
 		{890AC366-985C-41E6-AFEA-4AEA2E9B468D} = {667AEC9B-76E2-4A40-9DF9-F5DD985B8AD9}
 		{F5B8670A-03A3-4925-9BFB-34A94CEB3EAC} = {667AEC9B-76E2-4A40-9DF9-F5DD985B8AD9}
+		{35F7234F-5752-4D69-BA52-A8871E691D17} = {667AEC9B-76E2-4A40-9DF9-F5DD985B8AD9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {06D6C204-3F02-4F1B-90A2-D5E47A987117}
