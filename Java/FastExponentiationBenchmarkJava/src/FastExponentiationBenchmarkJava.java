@@ -16,9 +16,14 @@ public class FastExponentiationBenchmarkJava {
 
     public static Misc.MeasureResult TestApproximateFunction(int iterationsCount, double[] bases, double[] exps) {
         var calculationResult = 0.0;
+        long[] nums = new long[exps.length];
+        for (int i = 0; i < exps.length; i++) {
+            nums[i] = (long) exps[i];
+        }
         var start = System.nanoTime();
         for (int i = 0; i < iterationsCount; i++) {
-            calculationResult += FastMath.RawFastPower(bases[i], exps[i]);
+            calculationResult += FastMath.BinaryPower(bases[i], nums[i]);
+            calculationResult += FastMath.FastApproximatePower(bases[i], exps[i]);
         }
         var end = System.nanoTime();
         var duration = end - start;
@@ -29,7 +34,7 @@ public class FastExponentiationBenchmarkJava {
     public static void main(String[] args) throws Exception {
         var rand = new Random();
         rand.setSeed(System.currentTimeMillis());
-        int n = 10_000_000;
+        int n = 100_000_000;
         var scanner = new Scanner(System.in);
         while (true) {
             double baseMul = 100002.9;
