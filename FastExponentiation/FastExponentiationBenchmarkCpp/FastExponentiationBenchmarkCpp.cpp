@@ -17,12 +17,24 @@ struct TMeasureResult {
 	double calculationResult;
 };
 
+double fastPow(double a, double b) {
+	union {
+		double d;
+		int x[2];
+	} u = { a };
+	u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
+	u.x[0] = 0;
+	return u.d;
+}
+
+
 TMeasureResult RunBenchmark(std::string functionName, BenchmarkFunction f, long long iterationsCount, double* bases, double* exps) {
 	volatile double calculationResult = 0.0;
 	double* base = bases;
 	double* exp = exps;
+	double* baseEnd = base + iterationsCount;
 	auto start = std::chrono::high_resolution_clock::now();
-	for(volatile long long i = 0; i < iterationsCount; i++) {
+	while(base < baseEnd) {
 		calculationResult += f(*base++, *exps++);
 	}
 	auto finish = std::chrono::high_resolution_clock::now();
@@ -46,7 +58,7 @@ double SignedRand() {
 
 int main() {
 	srand((unsigned int)time(NULL));
-	int n = 10'000'000;
+	int n = 100'000'000;
 	while(true) {
 		double baseMul = 100002.0;
 		double expMul = 12.1;
@@ -65,15 +77,17 @@ int main() {
 
 		auto builtInMethodTest = RunBenchmark("Built-in", pow, n, bases, exps);
 		auto approximateMethodTest = RunBenchmark("Approximate", FastMath::FastPower, n, bases, exps);
-		TMeasureResult* mrs = new TMeasureResult[2]{ builtInMethodTest, approximateMethodTest };
+		auto newMethodTest = RunBenchmark("New", fastPow, n, bases, exps);
+
+		TMeasureResult* mrs = new TMeasureResult[3]{ builtInMethodTest, approximateMethodTest, newMethodTest };
 		std::cout << "Performance results:\n";
-		DisplayMeasureResult(mrs, 2);
+		DisplayMeasureResult(mrs, 3);
 		std::cout << "Speed ";
 		if(abs(builtInMethodTest.meanTime - approximateMethodTest.meanTime) <= 5.0) {
 			std::cout << "\033[33m";
 		} else if(builtInMethodTest.meanTime > approximateMethodTest.meanTime) {
 			std::cout << "\033[32m";
-		} else  {
+		} else {
 			std::cout << "\033[31m";
 		}
 		std::cout << "x" << builtInMethodTest.meanTime / approximateMethodTest.meanTime << "\033[0m\n";
