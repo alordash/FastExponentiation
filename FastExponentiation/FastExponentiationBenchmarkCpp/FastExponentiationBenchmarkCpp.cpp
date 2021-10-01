@@ -8,6 +8,7 @@
 #define _SETW std::setw(WIDTH)
 
 typedef double (*BenchmarkFunction)(double, double);
+typedef double (*BenchmarkIntFunction)(double, long long);
 
 struct TMeasureResult {
 	std::string functionName;
@@ -27,7 +28,6 @@ double fastPow(double a, double b) {
 	return u.d;
 }
 
-
 TMeasureResult RunBenchmark(std::string functionName, BenchmarkFunction f, long long iterationsCount, double* bases, double* exps) {
 	volatile double calculationResult = 0.0;
 	double* base = bases;
@@ -35,12 +35,33 @@ TMeasureResult RunBenchmark(std::string functionName, BenchmarkFunction f, long 
 	double* baseEnd = base + iterationsCount;
 	auto start = std::chrono::high_resolution_clock::now();
 	while(base < baseEnd) {
-		calculationResult += f(*base++, *exps++);
+		calculationResult += f(*base++, *exp++);
 	}
 	auto finish = std::chrono::high_resolution_clock::now();
 	auto nanoSeconds = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
 
 	TMeasureResult measureResult = { functionName, nanoSeconds, nanoSeconds / (double)iterationsCount, iterationsCount, calculationResult };
+	return measureResult;
+}
+
+TMeasureResult RunBenchmark(std::string functionName, BenchmarkIntFunction f, long long iterationsCount, double* bases, double* exps) {
+	volatile double calculationResult = 0.0;
+	double* base = bases;
+	long long *intExps = new long long[iterationsCount];
+	for(long long i = 0; i < iterationsCount; i++) {
+		intExps[i] = (long long)exps[i];
+	}
+	long long* exp = intExps;
+	double* baseEnd = base + iterationsCount;
+	auto start = std::chrono::high_resolution_clock::now();
+	while(base < baseEnd) {
+		calculationResult += f(*base++, *exp++);
+	}
+	auto finish = std::chrono::high_resolution_clock::now();
+	auto nanoSeconds = std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count();
+
+	TMeasureResult measureResult = { functionName, nanoSeconds, nanoSeconds / (double)iterationsCount, iterationsCount, calculationResult };
+	delete[] intExps;
 	return measureResult;
 }
 
@@ -66,6 +87,8 @@ int main() {
 		std::cin >> baseMul;
 		std::cout << "Enter exponent multiplicator: ";
 		std::cin >> expMul;
+
+		std::cout << "Generating data values\n";
 		double* bases = new double[n];
 		double* exps = new double[n];
 		for(unsigned long long i = 0; i < n; i++) {
@@ -74,14 +97,16 @@ int main() {
 			exp = exp >= 0.0 ? exp : -exp;
 			exps[i] = exp;
 		}
+		std::cout << "Done generating values, running benchmarks\n";
 
 		auto builtInMethodTest = RunBenchmark("Built-in", pow, n, bases, exps);
+		auto binaryMethodTest = RunBenchmark("Binary", FastMath::BinaryPower, n, bases, exps);
 		auto approximateMethodTest = RunBenchmark("Approximate", FastMath::FastPower, n, bases, exps);
 		auto newMethodTest = RunBenchmark("New", fastPow, n, bases, exps);
 
-		TMeasureResult* mrs = new TMeasureResult[3]{ builtInMethodTest, approximateMethodTest, newMethodTest };
+		TMeasureResult* mrs = new TMeasureResult[]{ builtInMethodTest, binaryMethodTest, approximateMethodTest, newMethodTest };
 		std::cout << "Performance results:\n";
-		DisplayMeasureResult(mrs, 3);
+		DisplayMeasureResult(mrs, 4);
 		std::cout << "Speed ";
 		if(abs(builtInMethodTest.meanTime - approximateMethodTest.meanTime) <= 5.0) {
 			std::cout << "\033[33m";
