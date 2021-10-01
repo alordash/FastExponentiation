@@ -6,9 +6,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch FastExponentiationJava",
+            "name": "Launch Current File",
             "request": "launch",
-            "mainClass": "FastExponentiationJava"
+            "mainClass": "${file}"
         }
     ]
 }
