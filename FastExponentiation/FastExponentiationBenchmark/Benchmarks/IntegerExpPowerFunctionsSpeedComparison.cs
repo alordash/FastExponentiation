@@ -8,8 +8,8 @@ using BenchmarkDotNet.Attributes;
 namespace FastExponentiationBenchmark {
 	[SimpleJob(id: "Binary power vs built-in power", invocationCount: 10_000_000)]
 	public class IntegerExpPowerFunctionsSpeedComparison : BenchmarkTemplate {
-		protected new double minExp = 67108864d;
-		protected new double maxExp = 134217728;
+		protected new double minExp = 0d; // 67108864d;		// boundaries where built-in power
+		protected new double maxExp = 42; // 134217728;		// outperforms binary power
 
 		private new Int64[] exps;
 
