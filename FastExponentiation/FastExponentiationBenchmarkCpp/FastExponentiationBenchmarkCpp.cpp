@@ -58,13 +58,15 @@ int main() {
 		double* exps = new double[n];
 		for(unsigned long long i = 0; i < n; i++) {
 			bases[i] = baseMul * SignedRand();
-			exps[i] = expMul * SignedRand();
+			double exp = expMul * SignedRand();
+			exp = exp >= 0.0 ? exp : -exp;
+			exps[i] = exp;
 		}
 
 		auto builtInMethodTest = RunBenchmark("Built-in", pow, n, bases, exps);
 		auto approximateMethodTest = RunBenchmark("Approximate", FastMath::FastPower, n, bases, exps);
 		TMeasureResult* mrs = new TMeasureResult[2]{ builtInMethodTest, approximateMethodTest };
-		std::cout << "Performance result:\n";
+		std::cout << "Performance results:\n";
 		DisplayMeasureResult(mrs, 2);
 		std::cout << "Speed ";
 		if(abs(builtInMethodTest.meanTime - approximateMethodTest.meanTime) <= 5.0) {

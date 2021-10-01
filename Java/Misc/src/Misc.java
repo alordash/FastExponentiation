@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public abstract class Misc {
     public static boolean IsUnreal(double x) {
         return Double.isNaN(x) || Double.isInfinite(x);
@@ -74,7 +76,6 @@ public abstract class Misc {
         var str = FormatErrorColor(percentageDifference);
         LeftPrint(str, fillAmount + str.length(), filler);
         Printf(DefaultFont);
-//        std::cout << _FORMAT_ERROR_S(percentageDifference) << (differenceIsNan ? _FILL('?') : _FILL('#')) << std::setw(fillAmount + 4) << _DEFAULT;
     
         // emptiness filler
         RightPrint("│", emptinessAmount + 1);
@@ -84,5 +85,45 @@ public abstract class Misc {
         Printf("└");
         RightPrint("┘", differenceBarWidth + 1, '─');
         Printf("\n");
+    }
+
+    // returns random double between -1 and 1
+    public static double SignedRand(Random rand) {
+        return (rand.nextDouble() - 0.5) * 2.0;
+    }
+
+    public static class MeasureResult {
+        String functionName;
+        double totalTime;
+        double meanTime;
+        long iterationsCount;
+        double calculationResult;
+    
+        public MeasureResult(String functionName, double totalTime, double meanTime, long iterationsCount,
+                double calculationResult) {
+            this.functionName = functionName;
+            this.totalTime = totalTime;
+            this.meanTime = meanTime;
+            this.iterationsCount = iterationsCount;
+            this.calculationResult = calculationResult;
+        }
+    }
+
+    public static void DisplayMeasureResult(MeasureResult[] mrs, int width) {
+        RightPrint("Function", width);
+        RightPrint("Mean time", width);
+        RightPrint("Total time", width);
+        RightPrint("Iterations", width);
+        RightPrint("Sum\n", width);
+
+        for(int i = 0; i < mrs.length; i++) {
+            var mr = mrs[i];
+            RightPrint(mr.functionName, width);
+            RightPrint(String.valueOf(mr.meanTime) + " ns", width);
+            RightPrint(String.valueOf(mr.totalTime) + " ns", width);
+            RightPrint(String.valueOf(mr.iterationsCount), width);
+            RightPrint(String.valueOf(mr.calculationResult), width);
+            Printf('\n');
+        }
     }
 }
