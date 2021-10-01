@@ -1,4 +1,5 @@
 #include "FastMath.h"
+
 double FastMath::BinaryPower(double b, long long e) {
 	double v = 1;
 	while(e > 0) {
@@ -27,8 +28,10 @@ double FastMath::FastPower(double b, double e) {
 	if(b == 1.0 || e == 0.0) {
 		return 1.0;
 	}
-	double el = ceil(fabs(e));
-	double basePart = FastApproximatePower(b, fabs(e) / el);
+
+	double eAbs = fabs(e);
+	double el = ceil(eAbs);
+	double basePart = FastApproximatePower(b, eAbs / el);
 
 	// Because FastApproximatePower gives inaccurate results
 	// with negative exponent, we can increase precision
@@ -41,8 +44,9 @@ double FastMath::FastPower(double b, double e) {
 }
 
 double FastMath::RawFastPower(double b, double e) {
-	double el = ceil(fabs(e));
-	double basePart = FastApproximatePower(b, e / el);
+	double eAbs = fabs(e);
+	double el = ceil(eAbs);
+	double basePart = FastApproximatePower(b, eAbs / el);
 	return BinaryPower(basePart, (long long)el);
 }
 

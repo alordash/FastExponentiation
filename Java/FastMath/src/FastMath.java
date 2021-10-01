@@ -30,8 +30,9 @@ public abstract class FastMath {
         if (b == 1d || e == 0d) {
             return 1d;
         }
-        var el = Math.ceil(Math.abs(e));
-        var basePart = FastApproximatePower(b, Math.abs(e) / el);
+        var eAbs = Math.abs(e);
+        var el = Math.ceil(eAbs);
+        var basePart = FastApproximatePower(b, eAbs / el);
 
         // Because FastApproximatePower gives inaccurate results
         // with negative exponent, we can increase precision
@@ -44,8 +45,9 @@ public abstract class FastMath {
     }
 
     public static double RawFastPower(double b, double e) {
-        var el = Math.ceil(Math.abs(e));
-        var basePart = FastApproximatePower(b, e / el);
+        var eAbs = Math.abs(e);
+        var el = Math.ceil(eAbs);
+        var basePart = FastApproximatePower(b, eAbs / el);
         return BinaryPower(basePart, (long) el);
     }
 

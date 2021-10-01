@@ -32,8 +32,9 @@ public static class FastMath {
 		if(b == 1d || e == 0d) {
 			return 1d;
 		}
-		var el = Math.Ceiling(Math.Abs(e));
-		var basePart = FastApproximatePower(b, Math.Abs(e) / el);
+		var eAbs = Math.Abs(e);
+		var el = Math.Ceiling(eAbs);
+		var basePart = FastApproximatePower(b, eAbs / el);
 
 		// Because FastApproximatePower gives inaccurate results
 		// with negative exponent, we can increase precision
@@ -46,8 +47,9 @@ public static class FastMath {
 	}
 
 	public static double RawFastPower(double b, double e) {
-		var el = Math.Ceiling(Math.Abs(e));
-		var basePart = FastApproximatePower(b, e / el);
+		var eAbs = Math.Abs(e);
+		var el = Math.Ceiling(eAbs);
+		var basePart = FastApproximatePower(b, eAbs / el);
 		return BinaryPower(basePart, (long)el);
 	}
 
