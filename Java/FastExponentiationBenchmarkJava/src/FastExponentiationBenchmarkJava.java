@@ -23,11 +23,10 @@ public class FastExponentiationBenchmarkJava {
         var start = System.nanoTime();
         for (int i = 0; i < iterationsCount; i++) {
             calculationResult += FastMath.BinaryPower(bases[i], nums[i]);
-            calculationResult += FastMath.FastApproximatePower(bases[i], exps[i]);
         }
         var end = System.nanoTime();
         var duration = end - start;
-        return new Misc.MeasureResult("Approximate", duration, duration / (double) iterationsCount, iterationsCount,
+        return new Misc.MeasureResult("Binary", duration, duration / (double) iterationsCount, iterationsCount,
                 calculationResult);
     }
 
@@ -44,7 +43,8 @@ public class FastExponentiationBenchmarkJava {
             baseMul = scanner.nextDouble();
             Misc.Printf("Enter exponent multiplicator: ");
             expMul = scanner.nextDouble();
-
+            
+            Misc.Printf("Generating data values\n");
             double[] bases = new double[n];
             double[] exps = new double[n];
             for (int i = 0; i < n; i++) {
@@ -53,6 +53,7 @@ public class FastExponentiationBenchmarkJava {
                 exp = exp >= 0.0 ? exp : -exp;
                 exps[i] = exp;
             }
+            Misc.Printf("Done generating values, running benchmarks\n");
 
             var builtInFunctionTest = TestTraditionalFunction(n, bases, exps);
             var approximateFunctionTest = TestApproximateFunction(n, bases, exps);
