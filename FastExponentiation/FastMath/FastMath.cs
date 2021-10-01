@@ -32,7 +32,7 @@ public static class FastMath {
 		if(b == 1d || e == 0d) {
 			return 1d;
 		}
-		var el = (long)Math.Ceiling(Math.Abs(e));
+		var el = Math.Ceiling(Math.Abs(e));
 		var basePart = FastApproximatePower(b, Math.Abs(e) / el);
 
 		// Because FastApproximatePower gives inaccurate results
@@ -40,15 +40,15 @@ public static class FastMath {
 		// by calculating exponent of a number in positive power
 		// and then dividing 1 by result of calculation
 		if(e < 0d) {
-			return 1d / BinaryPower(basePart, el);
+			return 1d / BinaryPower(basePart, (long)el);
 		}
-		return BinaryPower(basePart, el);
+		return BinaryPower(basePart, (long)el);
 	}
 
 	public static double RawFastPower(double b, double e) {
-		var el = (long)Math.Ceiling(Math.Abs(e));
+		var el = Math.Ceiling(Math.Abs(e));
 		var basePart = FastApproximatePower(b, e / el);
-		return BinaryPower(basePart, el);
+		return BinaryPower(basePart, (long)el);
 	}
 
 	// Technical method not used in calculation

@@ -1,5 +1,5 @@
 public abstract class FastMath {
-    public static double BinaryPower(double b, Long e) {
+    public static double BinaryPower(double b, long e) {
         double v = 1;
         while (e > 0) {
             if ((e & 1) != 0) {
@@ -30,7 +30,7 @@ public abstract class FastMath {
         if (b == 1d || e == 0d) {
             return 1d;
         }
-        var el = (long) Math.ceil(Math.abs(e));
+        var el = Math.ceil(Math.abs(e));
         var basePart = FastApproximatePower(b, Math.abs(e) / el);
 
         // Because FastApproximatePower gives inaccurate results
@@ -38,15 +38,15 @@ public abstract class FastMath {
         // by calculating exponent of a number in positive power
         // and then dividing 1 by result of calculation
         if (e < 0d) {
-            return 1d / BinaryPower(basePart, el);
+            return 1d / BinaryPower(basePart, (long) el);
         }
-        return BinaryPower(basePart, el);
+        return BinaryPower(basePart, (long) el);
     }
 
     public static double RawFastPower(double b, double e) {
-        var el = (long) Math.ceil(Math.abs(e));
+        var el = Math.ceil(Math.abs(e));
         var basePart = FastApproximatePower(b, e / el);
-        return BinaryPower(basePart, el);
+        return BinaryPower(basePart, (long) el);
     }
 
     // Technical method not used in calculation

@@ -27,7 +27,7 @@ double FastMath::FastPower(double b, double e) {
 	if(b == 1.0 || e == 0.0) {
 		return 1.0;
 	}
-	long long el = (long long)ceil(fabs(e));
+	double el = ceil(fabs(e));
 	double basePart = FastApproximatePower(b, fabs(e) / el);
 
 	// Because FastApproximatePower gives inaccurate results
@@ -35,15 +35,15 @@ double FastMath::FastPower(double b, double e) {
 	// by calculating exponent of a number in positive power
 	// and then dividing 1 by result of calculation
 	if(e < 0.0) {
-		return 1.0 / BinaryPower(basePart, el);
+		return 1.0 / BinaryPower(basePart, (long long)el);
 	}
-	return BinaryPower(basePart, el);
+	return BinaryPower(basePart, (long long)el);
 }
 
 double FastMath::RawFastPower(double b, double e) {
-	long long el = (long long)ceil(fabs(e));
+	double el = ceil(fabs(e));
 	double basePart = FastApproximatePower(b, e / el);
-	return BinaryPower(basePart, el);
+	return BinaryPower(basePart, (long long)el);
 }
 
 double FastMath::ToPercentage(double ratio) {
