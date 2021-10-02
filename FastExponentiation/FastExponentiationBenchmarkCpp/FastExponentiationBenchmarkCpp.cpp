@@ -91,31 +91,29 @@ int main() {
 		std::cout << "Generating data values\n";
 		double* bases = new double[n];
 		double* exps = new double[n];
-		for(unsigned long long i = 0; i < n; i++) {
+		for(int i = 0; i < n; i++) {
 			bases[i] = baseMul * SignedRand();
-			double exp = expMul * SignedRand();
-			exp = exp >= 0.0 ? exp : -exp;
-			exps[i] = exp;
+			exps[i] = abs(expMul * SignedRand());
 		}
 		std::cout << "Done generating values, running benchmarks\n";
 
 		auto builtInMethodTest = RunBenchmark("Built-in", pow, n, bases, exps);
 		auto binaryMethodTest = RunBenchmark("Binary", FastMath::BinaryPower, n, bases, exps);
-		auto approximateMethodTest = RunBenchmark("Approximate", FastMath::FastPower, n, bases, exps);
+		auto fastPowerMethodTest = RunBenchmark("Fast power", FastMath::FastPower, n, bases, exps);
 		auto newMethodTest = RunBenchmark("New", fastPow, n, bases, exps);
 
-		TMeasureResult* mrs = new TMeasureResult[]{ builtInMethodTest, binaryMethodTest, approximateMethodTest, newMethodTest };
+		TMeasureResult* mrs = new TMeasureResult[]{ builtInMethodTest, binaryMethodTest, fastPowerMethodTest, newMethodTest };
 		std::cout << "Performance results:\n";
 		DisplayMeasureResult(mrs, 4);
 		std::cout << "Speed ";
-		if(abs(builtInMethodTest.meanTime - approximateMethodTest.meanTime) <= 5.0) {
+		if(abs(builtInMethodTest.meanTime - fastPowerMethodTest.meanTime) <= 5.0) {
 			std::cout << "\033[33m";
-		} else if(builtInMethodTest.meanTime > approximateMethodTest.meanTime) {
+		} else if(builtInMethodTest.meanTime > fastPowerMethodTest.meanTime) {
 			std::cout << "\033[32m";
 		} else {
 			std::cout << "\033[31m";
 		}
-		std::cout << "x" << builtInMethodTest.meanTime / approximateMethodTest.meanTime << "\033[0m\n";
+		std::cout << "x" << builtInMethodTest.meanTime / fastPowerMethodTest.meanTime << "\033[0m\n";
 		delete[] mrs;
 		delete[] bases;
 		delete[] exps;
