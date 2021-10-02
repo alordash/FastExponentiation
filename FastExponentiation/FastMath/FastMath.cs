@@ -17,6 +17,7 @@ public static class FastMath {
 	public static double FastApproximatePower(double b, double e) {
 		// Formula of magic constant
 		// long k = (long)((1L << 52) * ((1L << 10) - 1.0730088));
+		//						 manually set value - ^^^^^^^^^
 		unsafe {
 			long i = *(long*)&b;
 			i = (long)(FastMath.doubleApproximator + e * (i - FastMath.doubleApproximator));
