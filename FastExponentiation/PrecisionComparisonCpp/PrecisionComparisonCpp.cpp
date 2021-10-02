@@ -25,10 +25,10 @@ struct TComparisonResult {
 	long long numbersCount = 0;
 };
 
-TComparisonResult ComparePrecision(double minExp, double maxExp, double minBase, double maxBase, int maxIterationsCount) {
+TComparisonResult ComparePrecision(double minExp, double maxExp, double minBase, double maxBase, long long maxIterationsCount) {
 	TComparisonResult result;
 
-	double expStep = std::max(0.073, abs(maxExp - minExp) / maxIterationsCount);
+	double expStep = std::max(0.075, abs(maxExp - minExp) / maxIterationsCount);
 	double baseStep = std::max(0.01, abs(maxBase - minBase) / maxIterationsCount);
 
 	double totalDifference = 0.0;

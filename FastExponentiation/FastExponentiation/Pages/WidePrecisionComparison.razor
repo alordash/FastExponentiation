@@ -54,7 +54,7 @@ Iterations count: @IterationsRealCount
         var minBase = MinBase.Value;
         var maxBase = MaxBase.Value;
 
-        var expStep = Math.Max(0.073d, Math.Abs(maxExp - minExp) / Iterations.Value);
+        var expStep = Math.Max(0.075d, Math.Abs(maxExp - minExp) / Iterations.Value);
         var baseStep = Math.Max(0.01d, Math.Abs(maxBase - minBase) / Iterations.Value);
 
         maxError = double.MinValue;
