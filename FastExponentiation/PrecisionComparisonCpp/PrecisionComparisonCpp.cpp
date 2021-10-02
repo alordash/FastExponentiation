@@ -44,7 +44,7 @@ TComparisonResult ComparePrecision(double minExp, double maxExp, double minBase,
 				continue;
 			}
 			double diff = abs(realValue / approximateValue);
-			if(_NUM_IS_UNREAL(diff) || _NUM_IS_UNREAL(realValue) || _NUM_IS_UNREAL(approximateValue)) {
+			if(_NUM_IS_UNREAL(diff)) {
 				continue;
 			}
 			double percentageDiff = FastMath::ToPercentage(diff);
