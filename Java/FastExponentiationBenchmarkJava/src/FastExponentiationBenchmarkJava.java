@@ -2,7 +2,45 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class FastExponentiationBenchmarkJava {
-    public static Misc.MeasureResult TestTraditionalFunction(int iterationsCount, double[] bases, double[] exps) {
+    public static class MeasureResult {
+        String functionName;
+        double totalTime;
+        double meanTime;
+        long iterationsCount;
+        double calculationResult;
+    
+        public MeasureResult(String functionName, double totalTime, double meanTime, long iterationsCount,
+                double calculationResult) {
+            this.functionName = functionName;
+            this.totalTime = totalTime;
+            this.meanTime = meanTime;
+            this.iterationsCount = iterationsCount;
+            this.calculationResult = calculationResult;
+        }
+
+        public void Display(int width) {
+            Misc.RightPrint(functionName, width);
+            Misc.RightPrint(String.valueOf(meanTime) + " ns", width);
+            Misc.RightPrint(String.valueOf(totalTime) + " ns", width);
+            Misc.RightPrint(String.valueOf(iterationsCount), width);
+            Misc.RightPrint(String.valueOf(calculationResult), width);
+            Misc.Printf('\n');
+        }
+    }
+
+    public static void DisplayMeasureResults(MeasureResult[] mrs, int width) {
+        Misc.RightPrint("Function", width);
+        Misc.RightPrint("Mean time", width);
+        Misc.RightPrint("Total time", width);
+        Misc.RightPrint("Iterations", width);
+        Misc.RightPrint("Sum\n", width);
+
+        for(int i = 0; i < mrs.length; i++) {
+            mrs[i].Display(width);
+        }
+    }
+
+    public static MeasureResult TestTraditionalFunction(int iterationsCount, double[] bases, double[] exps) {
         var calculationResult = 0.0;
         var start = System.nanoTime();
         for (int i = 0; i < iterationsCount; i++) {
@@ -10,11 +48,11 @@ public class FastExponentiationBenchmarkJava {
         }
         var end = System.nanoTime();
         var duration = end - start;
-        return new Misc.MeasureResult("Traditional", duration, duration / (double) iterationsCount, iterationsCount,
+        return new MeasureResult("Traditional", duration, duration / (double) iterationsCount, iterationsCount,
                 calculationResult);
     }
 
-    public static Misc.MeasureResult TestApproximateFunction(int iterationsCount, double[] bases, double[] exps) {
+    public static MeasureResult TestApproximateFunction(int iterationsCount, double[] bases, double[] exps) {
         var calculationResult = 0.0;
         long[] nums = new long[exps.length];
         for (int i = 0; i < exps.length; i++) {
@@ -26,14 +64,14 @@ public class FastExponentiationBenchmarkJava {
         }
         var end = System.nanoTime();
         var duration = end - start;
-        return new Misc.MeasureResult("Binary", duration, duration / (double) iterationsCount, iterationsCount,
+        return new MeasureResult("Binary", duration, duration / (double) iterationsCount, iterationsCount,
                 calculationResult);
     }
 
     public static void main(String[] args) throws Exception {
         var rand = new Random();
         rand.setSeed(System.currentTimeMillis());
-        int n = 100_000_000;
+        int n = 10_000_000;
         var scanner = new Scanner(System.in);
         while (true) {
             double baseMul = 100002.9;
@@ -58,9 +96,9 @@ public class FastExponentiationBenchmarkJava {
             var builtInFunctionTest = TestTraditionalFunction(n, bases, exps);
             var approximateFunctionTest = TestApproximateFunction(n, bases, exps);
 
-            Misc.MeasureResult[] measureResults = { builtInFunctionTest, approximateFunctionTest };
+            MeasureResult[] measureResults = { builtInFunctionTest, approximateFunctionTest };
             Misc.Printf("Performance results:\n");
-            Misc.DisplayMeasureResult(measureResults, 20);
+            DisplayMeasureResults(measureResults, 20);
             Misc.Printf("Speed ");
             if (Math.abs(builtInFunctionTest.meanTime - approximateFunctionTest.meanTime) <= 5.0) {
                 Misc.Printf("\033[33m");
