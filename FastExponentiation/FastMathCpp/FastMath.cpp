@@ -1,6 +1,7 @@
 #include "FastMath.h"
+
 double FastMath::BinaryPower(double b, long long e) {
-	double v = 1;
+	double v = 1.0;
 	while(e > 0) {
 		if((e & 1) != 0) {
 			v *= b;
@@ -14,6 +15,7 @@ double FastMath::BinaryPower(double b, long long e) {
 double FastMath::FastApproximatePower(double b, double e) {
 	// Formula of magic constant
 	// long long k = (long long)((1L << 52) * ((1L << 10) - 1.0730088));
+	//								   manually set value - ^^^^^^^^^
 	long long i = *(long long*)&b;
 	i = (long long)(doubleApproximator + e * (i - doubleApproximator));
 	b = *(double*)&i;
@@ -27,23 +29,26 @@ double FastMath::FastPower(double b, double e) {
 	if(b == 1.0 || e == 0.0) {
 		return 1.0;
 	}
-	long long el = (long long)ceil(fabs(e));
-	double basePart = FastApproximatePower(b, fabs(e) / el);
+
+	double eAbs = fabs(e);
+	double el = ceil(eAbs);
+	double basePart = FastApproximatePower(b, eAbs / el);
 
 	// Because FastApproximatePower gives inaccurate results
 	// with negative exponent, we can increase precision
 	// by calculating exponent of a number in positive power
 	// and then dividing 1 by result of calculation
 	if(e < 0.0) {
-		return 1.0 / BinaryPower(basePart, el);
+		return 1.0 / BinaryPower(basePart, (long long)el);
 	}
-	return BinaryPower(basePart, el);
+	return BinaryPower(basePart, (long long)el);
 }
 
 double FastMath::RawFastPower(double b, double e) {
-	long long el = (long long)ceil(fabs(e));
-	double basePart = FastApproximatePower(b, e / el);
-	return BinaryPower(basePart, el);
+	double eAbs = fabs(e);
+	double el = ceil(eAbs);
+	double basePart = FastApproximatePower(b, eAbs / el);
+	return BinaryPower(basePart, (long long)el);
 }
 
 double FastMath::ToPercentage(double ratio) {
