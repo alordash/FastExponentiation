@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 public static class FastMath {
 	public static double BinaryPower(double b, Int64 e) {
@@ -13,17 +14,22 @@ public static class FastMath {
 		return v;
 	}
 
+	[StructLayout(LayoutKind.Explicit)]
+	public struct TApproximatingUnion {
+		[FieldOffset(0)] public double d;
+		[FieldOffset(0)] public long i;
+	}
+
 	public static long doubleApproximator = 4606853616395542500L;
 	public static double FastApproximatePower(double b, double e) {
 		// Formula of magic constant
 		// long k = (long)((1L << 52) * ((1L << 10) - 1.0730088));
 		//						 manually set value - ^^^^^^^^^
-		unsafe {
-			long i = *(long*)&b;
-			i = (long)(FastMath.doubleApproximator + e * (i - FastMath.doubleApproximator));
-			b = *(double*)&i;
-		}
-		return b;
+
+		TApproximatingUnion u = new TApproximatingUnion() { d = b };
+		u.i = (long)(FastMath.doubleApproximator + e * (u.i - FastMath.doubleApproximator));
+		b = u.d;
+		return u.d;
 	}
 
 	public static double FastPower(double b, double e) {
