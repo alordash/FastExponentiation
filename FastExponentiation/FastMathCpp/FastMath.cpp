@@ -16,9 +16,12 @@ double FastMath::FastApproximatePower(double b, double e) {
 	// Formula of magic constant
 	// long long k = (long long)((1L << 52) * ((1L << 10) - 1.0730088));
 	//								   manually set value - ^^^^^^^^^
-	long long i = *(long long*)&b;
-	i = (long long)(doubleApproximator + e * (i - doubleApproximator));
-	b = *(double*)&i;
+	union {
+		double d;
+		long long i;
+	} u = { b };
+	u.i = (long long)(doubleApproximator + e * (u.i - doubleApproximator));
+	b = *(double*)&u.i;
 	return b;
 }
 
@@ -56,4 +59,16 @@ double FastMath::ToPercentage(double ratio) {
 		return 0.0;
 	}
 	return fabs(ratio - 1.0) * 100.0;
+}
+
+// Not my realization
+// Found it here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
+double FastMath::AnotherFastPower(double a, double b) {
+	union {
+		double d;
+		int x[2];
+	} u = { a };
+	u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
+	u.x[0] = 0;
+	return u.d;
 }

@@ -13,5 +13,7 @@ public:
 	static double RawFastPower(double b, double e);
 
 	static double ToPercentage(double ratio);
+
+	static double AnotherFastPower(double a, double b);
 };
 
