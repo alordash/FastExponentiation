@@ -21,8 +21,7 @@ double FastMath::FastApproximatePower(double b, double e) {
 		long long i;
 	} u = { b };
 	u.i = (long long)(doubleApproximator + e * (u.i - doubleApproximator));
-	b = *(double*)&u.i;
-	return b;
+	return u.d;
 }
 
 double FastMath::FastPower(double b, double e) {
