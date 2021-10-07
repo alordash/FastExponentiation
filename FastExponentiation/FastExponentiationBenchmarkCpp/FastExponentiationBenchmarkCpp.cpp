@@ -47,7 +47,7 @@ TMeasureResult RunBenchmark(std::string functionName, BenchmarkFunction f, long 
 TMeasureResult RunBenchmark(std::string functionName, BenchmarkIntFunction f, long long iterationsCount, double* bases, double* exps) {
 	volatile double calculationResult = 0.0;
 	double* base = bases;
-	long long *intExps = new long long[iterationsCount];
+	long long* intExps = new long long[iterationsCount];
 	for(long long i = 0; i < iterationsCount; i++) {
 		intExps[i] = (long long)exps[i];
 	}
@@ -65,11 +65,22 @@ TMeasureResult RunBenchmark(std::string functionName, BenchmarkIntFunction f, lo
 	return measureResult;
 }
 
-void DisplayMeasureResult(TMeasureResult* mrs, size_t count) {
-	std::cout << _SETW << "Function" << _SETW << "Mean time" << _SETW << "Total time" << _SETW << "Iterations" << _SETW << "Sum\n";
+void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineIndex = 0) {
+	double baselineMeanTime = mrs[baselineIndex].meanTime;
+	std::cout << _SETW << "Function" << _SETW << "Mean time" << _SETW << "Total time" << _SETW << "Ratio" << _SETW << "Iterations" << _SETW << "Sum\n";
 	for(size_t i = 0; i < count; i++) {
 		TMeasureResult& mr = mrs[i];
-		std::cout << _SETW << mr.functionName << std::setw(WIDTH - 2) << mr.meanTime << "ns" << _SETW << mr.totalTime << _SETW << mr.iterationsCount << _SETW << mr.calculationResult << "\n";
+		double ratio = mr.meanTime / baselineMeanTime;
+		std::cout << _SETW << mr.functionName << std::setw(WIDTH - 2) << mr.meanTime << "ns" << _SETW << mr.totalTime;
+		if(ratio < 0.9) {
+			std::cout << "\033[32m";
+		} else if(ratio > 1.1) {
+			std::cout << "\033[31m";
+		} else {
+			std::cout << "\033[33m";
+		}
+		std::cout << _SETW << std::fixed << std::setprecision(2) << ratio << "\033[0m";
+		std::cout << _SETW << mr.iterationsCount << _SETW << mr.calculationResult << "\n";
 	}
 }
 
@@ -79,7 +90,7 @@ double SignedRand() {
 
 int main() {
 	srand((unsigned int)time(NULL));
-	int n = 100'000'000;
+	int n = 1'000'000;
 	while(true) {
 		double baseMul = 100002.0;
 		double expMul = 12.1;
@@ -97,23 +108,17 @@ int main() {
 		}
 		std::cout << "Done generating values, running benchmarks\n";
 
-		auto builtInMethodTest = RunBenchmark("Built-in", pow, n, bases, exps);
-		auto binaryMethodTest = RunBenchmark("Binary", FastMath::BinaryPower, n, bases, exps);
-		auto fastPowerMethodTest = RunBenchmark("Fast power", FastMath::FastPower, n, bases, exps);
-		auto newMethodTest = RunBenchmark("New", fastPow, n, bases, exps);
+		TMeasureResult* mrs = new TMeasureResult[]{
+			RunBenchmark("Built-in", pow, n, bases, exps),
+			RunBenchmark("Fast power", FastMath::FastPower, n, bases, exps),
+			RunBenchmark("Approximate", FastMath::FastApproximatePower, n, bases, exps),
+			RunBenchmark("Binary", FastMath::BinaryPower, n, bases, exps),
+			RunBenchmark("Raw fast power", FastMath::RawFastPower, n, bases, exps),
+			RunBenchmark("New", fastPow, n, bases, exps)
+		};
 
-		TMeasureResult* mrs = new TMeasureResult[]{ builtInMethodTest, binaryMethodTest, fastPowerMethodTest, newMethodTest };
-		std::cout << "Performance results:\n";
-		DisplayMeasureResult(mrs, 4);
-		std::cout << "Speed ";
-		if(abs(builtInMethodTest.meanTime - fastPowerMethodTest.meanTime) <= 5.0) {
-			std::cout << "\033[33m";
-		} else if(builtInMethodTest.meanTime > fastPowerMethodTest.meanTime) {
-			std::cout << "\033[32m";
-		} else {
-			std::cout << "\033[31m";
-		}
-		std::cout << "x" << builtInMethodTest.meanTime / fastPowerMethodTest.meanTime << "\033[0m\n";
+		std::cout << "Benchmark results:\n";
+		DisplayMeasureResult(mrs, 6);
 		delete[] mrs;
 		delete[] bases;
 		delete[] exps;
