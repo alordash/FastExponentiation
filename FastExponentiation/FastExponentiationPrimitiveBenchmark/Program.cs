@@ -87,13 +87,13 @@ namespace FastExponentiationPrimitiveBenchmark {
 		}
 
 		public static void DisplayMeasureResults(List<TMeasureResult> mrs, int baselineIndex = 0) {
+			var baselineMeanTime = mrs[baselineIndex].meanTime;
 			Misc.Display("Function", WIDTH);
 			Misc.Display("Mean time", WIDTH);
 			Misc.Display("Total time", WIDTH);
 			Misc.Display("Ratio", WIDTH);
 			Misc.Display("Iterations", WIDTH);
 			Misc.Display("Sum\n", WIDTH + SUM_WIDTH);
-			var baselineMeanTime = mrs[baselineIndex].meanTime;
 			foreach(var mr in mrs) {
 				Misc.Display(mr.functionName, WIDTH);
 				Misc.Display(mr.meanTime.ToString() + "ns", WIDTH);
