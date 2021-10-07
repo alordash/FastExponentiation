@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace FastExponentiationPrimitiveBenchmark {
 	class Program {
 		const int WIDTH = 20;
+		const int SUM_WIDTH = 10;
 
 		public struct TMeasureResult {
 			public String functionName;
@@ -85,19 +86,30 @@ namespace FastExponentiationPrimitiveBenchmark {
 				: RunBenchmark(benchmarkSetUp.functionName, benchmarkSetUp.benchmarkIntFunction, iterationsCount, bases, expsInt);
 		}
 
-		public static void DisplayMeasureResults(List<TMeasureResult> mrs) {
-			const int sumWidth = 10;
+		public static void DisplayMeasureResults(List<TMeasureResult> mrs, int baselineIndex = 0) {
 			Misc.Display("Function", WIDTH);
 			Misc.Display("Mean time", WIDTH);
 			Misc.Display("Total time", WIDTH);
+			Misc.Display("Ratio", WIDTH);
 			Misc.Display("Iterations", WIDTH);
-			Misc.Display("Sum\n", WIDTH + sumWidth);
+			Misc.Display("Sum\n", WIDTH + SUM_WIDTH);
+			var baselineMeanTime = mrs[baselineIndex].meanTime;
 			foreach(var mr in mrs) {
 				Misc.Display(mr.functionName, WIDTH);
 				Misc.Display(mr.meanTime.ToString() + "ns", WIDTH);
 				Misc.Display(mr.totalTime.ToString() + "ns", WIDTH);
+				var ratio = mr.meanTime / baselineMeanTime;
+				if(ratio < 0.9d) {
+					Console.ForegroundColor = ConsoleColor.DarkGreen;
+				} else if(ratio > 1.1d) {
+					Console.ForegroundColor = ConsoleColor.DarkRed;
+				} else {
+					Console.ForegroundColor = ConsoleColor.DarkYellow;
+				}
+				Misc.Display(ratio.ToString("0.00"), WIDTH);
+				Console.ForegroundColor = ConsoleColor.White;
 				Misc.Display(mr.iterationsCount.ToString(), WIDTH);
-				Misc.Display(mr.calculationResult.ToString() + "\n", WIDTH + sumWidth);
+				Misc.Display(mr.calculationResult.ToString() + "\n", WIDTH + SUM_WIDTH);
 			}
 		}
 
@@ -145,17 +157,6 @@ namespace FastExponentiationPrimitiveBenchmark {
 
 				Console.WriteLine("Performance results:");
 				DisplayMeasureResults(measureResults);
-
-				//Console.Write("Speed ");
-				//if(Math.Abs(builtInMethodTest.meanTime - fastPowerMethodTest.meanTime) <= 5.0) {
-				//	Console.ForegroundColor = ConsoleColor.DarkYellow;
-				//} else if(builtInMethodTest.meanTime > fastPowerMethodTest.meanTime) {
-				//	Console.ForegroundColor = ConsoleColor.DarkGreen;
-				//} else {
-				//	Console.ForegroundColor = ConsoleColor.DarkRed;
-				//}
-				//Console.WriteLine(String.Format("x{0}", builtInMethodTest.meanTime / fastPowerMethodTest.meanTime));
-				//Console.ForegroundColor = ConsoleColor.White;
 			}
 		}
 	}
