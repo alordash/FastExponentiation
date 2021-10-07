@@ -18,16 +18,6 @@ struct TMeasureResult {
 	double calculationResult;
 };
 
-double fastPow(double a, double b) {
-	union {
-		double d;
-		int x[2];
-	} u = { a };
-	u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
-	u.x[0] = 0;
-	return u.d;
-}
-
 TMeasureResult RunBenchmark(std::string functionName, BenchmarkFunction f, long long iterationsCount, double* bases, double* exps) {
 	volatile double calculationResult = 0.0;
 	double* base = bases;
@@ -114,7 +104,7 @@ int main() {
 			RunBenchmark("Approximate", FastMath::FastApproximatePower, n, bases, exps),
 			RunBenchmark("Binary", FastMath::BinaryPower, n, bases, exps),
 			RunBenchmark("Raw fast power", FastMath::RawFastPower, n, bases, exps),
-			RunBenchmark("New", fastPow, n, bases, exps)
+			RunBenchmark("Another fast power", FastMath::AnotherFastPower, n, bases, exps)
 		};
 
 		std::cout << "Benchmark results:\n";
