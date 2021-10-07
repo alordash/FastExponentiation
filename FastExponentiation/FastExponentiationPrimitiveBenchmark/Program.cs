@@ -34,7 +34,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 				var b = a1.ToDouble(null);
 				var e = a2.ToDouble(null);
 
-				if(benchmarkFunction is	null) {
+				if(benchmarkFunction is null) {
 					return benchmarkIntFunction(b, (Int64)e);
 				}
 				return benchmarkFunction(b, e);
@@ -105,7 +105,8 @@ namespace FastExponentiationPrimitiveBenchmark {
 			new BenchmarkSetUp{ functionName = "Built-in", benchmarkFunction =  Math.Pow },
 			new BenchmarkSetUp{ functionName = "Fast power", benchmarkFunction =  FastMath.FastPower },
 			new BenchmarkSetUp{ functionName = "Approximate", benchmarkFunction =  FastMath.FastApproximatePower },
-			new BenchmarkSetUp{ functionName = "Binary power", benchmarkIntFunction =  FastMath.BinaryPower}
+			new BenchmarkSetUp{ functionName = "Binary power", benchmarkIntFunction =  FastMath.BinaryPower },
+			new BenchmarkSetUp{ functionName = "Raw fast power", benchmarkFunction = FastMath.RawFastPower }
 		};
 
 		static void Main(string[] args) {
@@ -118,7 +119,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 				warmUpFunctions.Add(benchmarkSetUp);
 			}
 			Benchmarking.WarmUp(warmUpFunctions);
-			
+
 			var rand = new Random();
 			int n = 1_000_000;
 			while(true) {
