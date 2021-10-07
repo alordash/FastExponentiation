@@ -13,7 +13,7 @@ namespace FastExponentiationBenchmark {
 		}
 
 		[Benchmark(Baseline = true)]
-		public double Traditional() {
+		public double BuiltIn() {
 			var v = Math.Pow(bases[index], exps[index]);
 			NextIndex();
 			return v;
