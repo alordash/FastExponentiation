@@ -35,5 +35,12 @@ namespace FastExponentiationBenchmark {
 			NextIndex();
 			return v;
 		}
+
+		[Benchmark]
+		public double AnotherApproximation() {
+			var v = FastMath.AnotherApproximation(bases[index], exps[index]);
+			NextIndex();
+			return v;
+		}
 	}
 }

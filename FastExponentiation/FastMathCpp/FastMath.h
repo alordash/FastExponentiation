@@ -14,6 +14,8 @@ public:
 
 	static double ToPercentage(double ratio);
 
-	static double AnotherFastPower(double a, double b);
+	// Not my realization
+	// Found it here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
+	static double AnotherApproximation(double a, double b);
 };
 

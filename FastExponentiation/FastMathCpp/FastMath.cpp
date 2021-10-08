@@ -62,7 +62,7 @@ double FastMath::ToPercentage(double ratio) {
 
 // Not my realization
 // Found it here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
-double FastMath::AnotherFastPower(double a, double b) {
+double FastMath::AnotherApproximation(double a, double b) {
 	union {
 		double d;
 		int x[2];

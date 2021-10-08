@@ -59,4 +59,11 @@ public abstract class FastMath {
         }
         return Math.abs(ratio - 1d) * 100d;
     }
+
+    public static double AnotherApproximation(final double a, final double b) {
+        final int x = (int) (Double.doubleToLongBits(a) >> 32);
+        final int y = (int) (b * (x - 1072632447) + 1072632447);
+        return Double.longBitsToDouble(((long) y) << 32);
+    }
+    
 }

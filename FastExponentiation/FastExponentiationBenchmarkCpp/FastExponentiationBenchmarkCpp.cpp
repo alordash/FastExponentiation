@@ -104,7 +104,7 @@ int main() {
 			RunBenchmark("Approximate", FastMath::FastApproximatePower, n, bases, exps),
 			RunBenchmark("Binary", FastMath::BinaryPower, n, bases, exps),
 			RunBenchmark("Raw fast power", FastMath::RawFastPower, n, bases, exps),
-			RunBenchmark("Another fast power", FastMath::AnotherFastPower, n, bases, exps)
+			RunBenchmark("Another approx", FastMath::AnotherApproximation, n, bases, exps)
 		};
 
 		std::cout << "Benchmark results:\n";
