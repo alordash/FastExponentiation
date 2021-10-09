@@ -64,19 +64,55 @@ public class FastExponentiationBenchmarkJava {
                 calculationResult);
     }
 
-    public static MeasureResult TestApproximateFunction(int iterationsCount, double[] bases, double[] exps) {
+    public static MeasureResult TestFastPowerFunction(int iterationsCount, double[] bases, double[] exps) {
         var calculationResult = 0.0;
-        long[] nums = new long[exps.length];
-        for (int i = 0; i < exps.length; i++) {
-            nums[i] = (long) exps[i];
-        }
         var start = System.nanoTime();
         for (int i = 0; i < iterationsCount; i++) {
-            calculationResult += FastMath.FastApproximatePower(bases[i], nums[i]);
+            calculationResult += FastMath.FastPower(bases[i], exps[i]);
+        }
+        var end = System.nanoTime();
+        var duration = end - start;
+        return new MeasureResult("Fast power", duration, duration / (double) iterationsCount, iterationsCount,
+                calculationResult);
+    }
+
+    public static MeasureResult TestApproximateFunction(int iterationsCount, double[] bases, double[] exps) {
+        var calculationResult = 0.0;
+        var start = System.nanoTime();
+        for (int i = 0; i < iterationsCount; i++) {
+            calculationResult += FastMath.FastApproximatePower(bases[i], exps[i]);
         }
         var end = System.nanoTime();
         var duration = end - start;
         return new MeasureResult("Approximate", duration, duration / (double) iterationsCount, iterationsCount,
+                calculationResult);
+    }
+
+    public static MeasureResult TestBinaryFunction(int iterationsCount, double[] bases, double[] exps) {
+        var calculationResult = 0.0;
+        long nums[] = new long[exps.length];
+        for(int i = 0; i < exps.length; i++) {
+            nums[i] = (long)exps[i];
+        }
+        var start = System.nanoTime();
+        for (int i = 0; i < iterationsCount; i++) {
+            calculationResult += FastMath.BinaryPower(bases[i], nums[i]);
+        }
+        var end = System.nanoTime();
+        var duration = end - start;
+        return new MeasureResult("Binary", duration, duration / (double) iterationsCount, iterationsCount,
+                calculationResult);
+    }
+
+    public static MeasureResult TestRawFastPowerFunction(int iterationsCount, double[] bases, double[] exps) {
+        var calculationResult = 0.0;
+        var start = System.nanoTime();
+        for (int i = 0; i < iterationsCount; i++) {
+            calculationResult += FastMath.RawFastPower(bases[i], exps[i]);
+        }
+        var end = System.nanoTime();
+        var duration = end - start;
+        return new MeasureResult("Another approx", duration, duration / (double) iterationsCount, iterationsCount,
                 calculationResult);
     }
 
@@ -121,8 +157,14 @@ public class FastExponentiationBenchmarkJava {
             }
             Misc.Printf("Done generating values, running benchmarks\n");
 
-            MeasureResult[] measureResults = { TestBuiltInFunction(n, bases, exps),
-                    TestApproximateFunction(n, bases, exps), TestAnotherApproximateFunction(n, bases, exps) };
+            MeasureResult[] measureResults = { 
+                TestBuiltInFunction(n, bases, exps),
+                TestFastPowerFunction(n, bases, exps),
+                TestRawFastPowerFunction(n, bases, exps),
+                TestBinaryFunction(n, bases, exps),
+                TestApproximateFunction(n, bases, exps),
+                TestAnotherApproximateFunction(n, bases, exps),
+            };
             Misc.Printf("Performance results:\n");
             DisplayMeasureResults(measureResults, 20, 0);
         }
