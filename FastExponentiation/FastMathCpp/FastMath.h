@@ -5,6 +5,9 @@ static class FastMath {
 public:
 	static double BinaryPower(double b, long long e);
 
+	// Formula of magic constant
+	// long long doubleApproximator = (long long)((1L << 52) * ((1L << 10) - 1.0730088));
+	//													manually set value - ^^^^^^^^^
 	static const long long doubleApproximator = 4606853616395542500L;
 	static double FastApproximatePower(double b, double e);
 

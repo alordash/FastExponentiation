@@ -14,17 +14,18 @@ public static class FastMath {
 		return v;
 	}
 
+	// Using union-kind struct to avoid unsafe code
 	[StructLayout(LayoutKind.Explicit)]
 	public struct TApproximatingUnion {
 		[FieldOffset(0)] public double d;
 		[FieldOffset(0)] public long i;
 	}
 
+	// Formula of magic constant
+	// long doubleApproximator = (long)((1L << 52) * ((1L << 10) - 1.0730088));
+	//										  manually set value - ^^^^^^^^^
 	public static long doubleApproximator = 4606853616395542500L;
 	public static double FastApproximatePower(double b, double e) {
-		// Formula of magic constant
-		// long k = (long)((1L << 52) * ((1L << 10) - 1.0730088));
-		//						 manually set value - ^^^^^^^^^
 
 		TApproximatingUnion u = new TApproximatingUnion() { d = b };
 		u.i = (long)(FastMath.doubleApproximator + e * (u.i - FastMath.doubleApproximator));

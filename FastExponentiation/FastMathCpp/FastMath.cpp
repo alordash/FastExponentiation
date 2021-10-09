@@ -14,8 +14,8 @@ double FastMath::BinaryPower(double b, long long e) {
 
 double FastMath::FastApproximatePower(double b, double e) {
 	// Formula of magic constant
-	// long long k = (long long)((1L << 52) * ((1L << 10) - 1.0730088));
-	//								   manually set value - ^^^^^^^^^
+	// long long doubleApproximator = (long long)((1L << 52) * ((1L << 10) - 1.0730088));
+	//													manually set value - ^^^^^^^^^
 	union {
 		double d;
 		long long i;
