@@ -101,9 +101,9 @@ int main() {
 		TMeasureResult* mrs = new TMeasureResult[]{
 			RunBenchmark("Built-in", pow, n, bases, exps),
 			RunBenchmark("Fast power", FastMath::FastPower, n, bases, exps),
-			RunBenchmark("Approximate", FastMath::FastApproximatePower, n, bases, exps),
-			RunBenchmark("Binary", FastMath::BinaryPower, n, bases, exps),
 			RunBenchmark("Raw fast power", FastMath::RawFastPower, n, bases, exps),
+			RunBenchmark("Binary", FastMath::BinaryPower, n, bases, exps),
+			RunBenchmark("Approximate", FastMath::FastApproximatePower, n, bases, exps),
 			RunBenchmark("Another approx", FastMath::AnotherApproximation, n, bases, exps)
 		};
 
