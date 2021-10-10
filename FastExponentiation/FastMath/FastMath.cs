@@ -26,7 +26,6 @@ public static class FastMath {
 	//										  manually set value - ^^^^^^^^^
 	public static long doubleApproximator = 4606853616395542500L;
 	public static double FastApproximatePower(double b, double e) {
-
 		TDoubleLongUnion u = new TDoubleLongUnion() { d = b };
 		u.i = (long)(FastMath.doubleApproximator + e * (u.i - FastMath.doubleApproximator));
 		b = u.d;
