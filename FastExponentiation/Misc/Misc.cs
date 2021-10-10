@@ -80,6 +80,15 @@ public static class Misc {
 		return (rand.NextDouble() - 0.5d) * 2d;
 	}
 
+	public static string GetErrorColor(double percentageError) {
+		if(percentageError > 25d) {
+			return "#d52c2c";
+		} else if(percentageError > 10){
+			return "#cccc3c";
+		}
+		return "#4ebd4e";
+	}
+
 	public static string FormatDouble(double value) {
 		return value.ToString("0.0000");
 	}

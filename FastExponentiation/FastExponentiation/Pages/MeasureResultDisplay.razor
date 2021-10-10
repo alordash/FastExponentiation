@@ -1,9 +1,17 @@
 ﻿<div class="info">
-    <div><b>@MeasuresResult.PowerFunctionModel.Name</b></div>
-    <div>Max error: <b>@(Misc.FormatError(MeasuresResult.MaxError))</b>% for number <b>@Misc.FormatDouble(MeasuresResult.MaxErrorBase)</b></div>
-    <div>Average error: <b>@(Misc.FormatError(MeasuresResult.AverageError))</b>%</div>
+    <div><b>@measuresResult.PowerFunctionModel.Name</b></div>
+    <div>Max error: <div style="display:inline; background: @maxErrorColor"><b>@(Misc.FormatError(measuresResult.MaxError))</b>%</div> for number <b>@Misc.FormatDouble(measuresResult.MaxErrorBase)</b></div>
+    <div>Average error: <div style="display:inline; background: @averageErrorColor"><b>@(Misc.FormatError(measuresResult.AverageError))</b>%</div></div>
 </div>
 @code {
+    private string maxErrorColor = "";
+    private string averageErrorColor = "";
+    private MeasuresResult measuresResult;
     [Parameter]
-    public MeasuresResult MeasuresResult { get; set; }
+    public MeasuresResult MeasuresResult { get => measuresResult; set {
+            measuresResult = value;
+            maxErrorColor = Misc.GetErrorColor(measuresResult.MaxError);
+            averageErrorColor = Misc.GetErrorColor(measuresResult.AverageError);
+        }
+    }
 }

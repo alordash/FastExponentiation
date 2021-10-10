@@ -1,10 +1,20 @@
 ﻿<div class="info">
-    <div><b>@WideMeasuresResult.PowerFunctionModel.Name</b></div>
-    <div>Max error: <b>@(Misc.FormatError(WideMeasuresResult.MaxError))</b>% for number <b>@Misc.FormatDouble(WideMeasuresResult.MaxErrorBase)</b> in power <b>@Misc.FormatDouble(WideMeasuresResult.MaxErrorExp)</b></div>
-    <div>Average error: <b>@(Misc.FormatError(WideMeasuresResult.AverageError))</b>%</div>
-    <div>Iterations count: @WideMeasuresResult.IterationsCount</div>
+    <div><b>@wideMeasuresResult.PowerFunctionModel.Name</b></div>
+    <div>Max error: <div style="display: inline; background: @maxErrorColor"><b>@(Misc.FormatError(wideMeasuresResult.MaxError))</b>%</div> for number <b>@Misc.FormatDouble(wideMeasuresResult.MaxErrorBase)</b> in power <b>@Misc.FormatDouble(wideMeasuresResult.MaxErrorExp)</b></div>
+    <div>Average error: <div style="display:inline; background: @averageErrorColor"><b>@(Misc.FormatError(wideMeasuresResult.AverageError))</b>%</div></div>
+    <div>Iterations count: @wideMeasuresResult.IterationsCount</div>
 </div>
 @code {
+    private string maxErrorColor = "";
+    private string averageErrorColor = "";
+    private WideMeasuresResult wideMeasuresResult;
     [Parameter]
-    public WideMeasuresResult WideMeasuresResult { get; set; }
+    public WideMeasuresResult WideMeasuresResult {
+        get => wideMeasuresResult;
+        set {
+            wideMeasuresResult = value;
+            maxErrorColor = Misc.GetErrorColor(wideMeasuresResult.MaxError);
+            averageErrorColor = Misc.GetErrorColor(wideMeasuresResult.AverageError);
+        }
+    }
 }
