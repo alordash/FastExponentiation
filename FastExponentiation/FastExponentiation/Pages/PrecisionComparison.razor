@@ -1,12 +1,11 @@
 ﻿<h3>Precision comparison test for specified exponent</h3>
-Parameters for precision test:
+Testing following power functions:
 <br />
-Power function:
-<select @bind="PowerFunctionIndex">
-    @for(int i = 0; i < Misc.PowerFunctionObjects.Count; i++) {
-        <option value="@i">@(Misc.PowerFunctionObjects[i].Name)</option>
-    }
-</select>
+@for(int i = 0; i < Misc.PowerFunctionModels.Count; i++) {
+    <div>"<b>@Misc.PowerFunctionModels[i].Name</b>"</div>
+}
+<br />
+Parameters for precision test:
 <br />
 Exponent:
 <br />
@@ -29,52 +28,29 @@ Number of iterations:
 y = x ^ Exponent
 
 <RadzenChart>
-    <RadzenLineSeries Smooth="false" Data="@RealValues" CategoryProperty="Base" ValueProperty="Value" Title="Real values" />
-    <RadzenLineSeries Smooth="false" Data="@ApproximateValues" CategoryProperty="Base" ValueProperty="Value" Title="Approximate values" />
-    <RadzenLineSeries Smooth="false" Data="@HighestError" CategoryProperty="Base" ValueProperty="Value" Title="Highest error" Stroke="red">
-        <RadzenMarkers MarkerType="MarkerType.Circle" />
-    </RadzenLineSeries>
+    @foreach(var measureResult in MeasuresResults) {
+        <RadzenLineSeries Smooth="false" Data="@measureResult.dataItems" CategoryProperty="Base" ValueProperty="Value" Title="@measureResult.powerFunctionModel.Name" />
+    }
 </RadzenChart>
-<br />
-Max error: <b>@(FormatError(maxError))</b>% for number <b>@maxErrorNumber</b>
-<br />
-Average error: <b>@(FormatError(averageError))</b>%
+<div class="container">
+    @foreach(var measureResult in MeasuresResults) {
+        <MeasureResultDisplay MeasuresResult="@measureResult" />
+        <br />
+    }
+</div>
 
 @code {
-    private static int originalPowerFunctionIndex = Misc.PowerFunctionObjects.IndexOf(new Misc.PowerFunctionModel { Name = "Fast power" });
-    private int powerFunctionIndex = originalPowerFunctionIndex;
-    public int PowerFunctionIndex {
-        get => powerFunctionIndex;
-        set {
-            powerFunctionIndex = value;
-            PowerFunctionObject = Misc.PowerFunctionObjects[powerFunctionIndex];
-        }
-    }
-    public Misc.PowerFunctionModel PowerFunctionObject = Misc.PowerFunctionObjects[originalPowerFunctionIndex];
+    private static int baselinePowerFunctionIndex = Misc.PowerFunctionModels.IndexOf(new Misc.PowerFunctionModel { Name = "Built-in power" });
 
     public NumberInput ExpInput;
     public NumberInput MinInput;
     public NumberInput MaxInput;
     public NumberInput IterationsInput;
 
-    public class DataItem {
-        public double Value { get; set; }
-        public double Base { get; set; }
-    }
 
     public const int DataCount = 200;
 
-    public List<DataItem> RealValues;
-    public List<DataItem> ApproximateValues;
-    public List<DataItem> HighestError;
-
-    private double maxErrorNumber = 0;
-    private double maxError = 0;
-    private double averageError = 0;
-
-    string FormatError(double error) {
-        return String.Format("{0:0.00}", error);
-    }
+    public List< MeasuresResult> MeasuresResults = new List<MeasuresResult>();
 
     void ComparePrecision() {
         var exp = ExpInput.Value;
@@ -83,39 +59,40 @@ Average error: <b>@(FormatError(averageError))</b>%
         var step = Math.Abs(max - min) / IterationsInput.Value;
         var ignoreCount = (int)IterationsInput.Value / DataCount;
 
-        RealValues = new List<DataItem>();
-        ApproximateValues = new List<DataItem>();
+        var baselineFunction = Misc.PowerFunctionModels[baselinePowerFunctionIndex].Function;
+        MeasuresResults = new List<MeasuresResult>();
+        foreach(var powerFunctionModel in Misc.PowerFunctionModels) {
+            var measureResult = new MeasuresResult(powerFunctionModel);
+            var totalDifference = 0.0d;
 
-        maxError = double.MinValue;
-        double totalDifference = 0;
-        int i = 0;
+            int i = 0;
 
-        for(double v = MinInput.Value; v <= MaxInput.Value; v += step) {
-            if(v == 0d) {
-                continue;
-            }
-            var realValue = Math.Pow(v, exp);
-            var approximateValue = PowerFunctionObject.Function(v, exp);
+            for(double v = MinInput.Value; v <= MaxInput.Value; v += step) {
+                if(v == 0d) {
+                    continue;
+                }
+                var baselineValue = baselineFunction(v, exp);
+                var myValue = powerFunctionModel.Function(v, exp);
 
-            var diff = Math.Abs(realValue / approximateValue);
-            if(double.IsNaN(diff) || !double.IsFinite(diff) || double.IsNaN(realValue) || double.IsNaN(approximateValue) || !double.IsFinite(realValue) || !double.IsFinite(approximateValue)) {
-                continue;
+                var diff = Math.Abs(baselineValue / myValue);
+                if(double.IsNaN(diff) || !double.IsFinite(diff) || double.IsNaN(baselineValue) || double.IsNaN(myValue) || !double.IsFinite(baselineValue) || !double.IsFinite(myValue)) {
+                    continue;
+                }
+                if(i % ignoreCount == 0) {
+                    measureResult.dataItems.Add(new DataItem { Base = v, Value = myValue });
+                }
+                var percentageDiff = FastMath.ToPercentage(diff);
+                if(percentageDiff > measureResult.maxError) {
+                    measureResult.maxErrorNumber = v;
+                    measureResult.maxError = percentageDiff;
+                }
+                totalDifference += diff;
+                i++;
             }
-            if(i % ignoreCount == 0) {
-                RealValues.Add(new DataItem { Base = v, Value = realValue });
-                ApproximateValues.Add(new DataItem { Base = v, Value = approximateValue });
-            }
-            var percentageDiff = FastMath.ToPercentage(diff);
-            if(percentageDiff > maxError) {
-                maxErrorNumber = v;
-                maxError = percentageDiff;
-                HighestError = new List<DataItem>() { new DataItem { Base = v, Value = realValue } };
-            }
-            totalDifference += diff;
-            i++;
+            measureResult.averageError = FastMath.ToPercentage(totalDifference / i);
+            MeasuresResults.Add(measureResult);
         }
-        averageError = FastMath.ToPercentage(totalDifference / i);
-        Console.WriteLine("Done comparing precision for {0} numbers", RealValues.Count);
+        Console.WriteLine("Done comparing precision for {0} numbers", MeasuresResults[baselinePowerFunctionIndex].dataItems.Count);
     }
 
     protected override void OnAfterRender(bool firstRender) {

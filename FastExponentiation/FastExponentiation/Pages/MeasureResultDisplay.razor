@@ -1,0 +1,9 @@
+﻿<div class="info">
+    <div>Test results for "<b>@MeasuresResult.powerFunctionModel.Name</b>"</div>
+    <div>Max error: <b>@(Misc.FormatError(MeasuresResult.maxError))</b>% for number <b>@MeasuresResult.maxErrorNumber.ToString("0.0000")</b></div>
+    <div>Average error: <b>@(Misc.FormatError(MeasuresResult. averageError))</b>%</div>
+</div>
+@code {
+    [Parameter]
+    public MeasuresResult MeasuresResult { get; set; }
+}

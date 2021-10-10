@@ -52,10 +52,10 @@ public static class Misc {
 		}
 	}
 
-	public static List<PowerFunctionModel> PowerFunctionObjects = new List<PowerFunctionModel>() {
+	public static List<PowerFunctionModel> PowerFunctionModels = new List<PowerFunctionModel>() {
 		new PowerFunctionModel { Function = Math.Pow, Name = "Built-in power" },
 		new PowerFunctionModel { Function = FastMath.FastPower, Name = "Fast power" },
-		new PowerFunctionModel { Function = FastMath.FastApproximatePower, Name = "Pure approximation"},
+		new PowerFunctionModel { Function = FastMath.FastApproximatePower, Name = "Power approximation"},
 		new PowerFunctionModel { Function = FastMath.AnotherApproximation, Name = "Another approximation"}
 	};
 
@@ -76,5 +76,9 @@ public static class Misc {
 
 	public static double SignedRand(Random rand) {
 		return (rand.NextDouble() - 0.5d) * 2d;
+	}
+
+	public static string FormatError(double error) {
+		return String.Format("{0:0.00}", error);
 	}
 }

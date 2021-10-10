@@ -19,9 +19,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FastExponentiationBenchmark
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PrecisionComparisonCpp", "PrecisionComparisonCpp\PrecisionComparisonCpp.vcxproj", "{35F7234F-5752-4D69-BA52-A8871E691D17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastExponentiationPrimitiveBenchmark", "FastExponentiationPrimitiveBenchmark\FastExponentiationPrimitiveBenchmark.csproj", "{C1399E84-CC6F-4866-9043-F48179D35A0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FastExponentiationPrimitiveBenchmark", "FastExponentiationPrimitiveBenchmark\FastExponentiationPrimitiveBenchmark.csproj", "{C1399E84-CC6F-4866-9043-F48179D35A0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Misc", "Misc\Misc.csproj", "{4E4274FE-3AB3-4208-BBAB-BFC85D99063E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Misc", "Misc\Misc.csproj", "{4E4274FE-3AB3-4208-BBAB-BFC85D99063E}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

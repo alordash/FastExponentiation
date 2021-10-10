@@ -25,9 +25,9 @@ Exponent and base iterations:
 <button @onclick="ComparePrecision">Compare precision</button>
 <br />
 
-Max error: <b>@(FormatError(maxError))</b>% for number <b>@maxErrorBase</b> in power <b>@maxErrorExp</b>
+Max error: <b>@(Misc.FormatError(maxError))</b>% for number <b>@maxErrorBase</b> in power <b>@maxErrorExp</b>
 <br />
-Average error: <b>@(FormatError(averageError))</b>%
+Average error: <b>@(Misc.FormatError(averageError))</b>%
 <br />
 Iterations count: @IterationsRealCount
 
@@ -43,10 +43,6 @@ Iterations count: @IterationsRealCount
     private double maxError = 0;
     private double averageError = 0;
     public int IterationsRealCount = 0;
-
-    string FormatError(double error) {
-        return String.Format("{0:0.00}", error);
-    }
 
     void ComparePrecision() {
         var minExp = MinExp.Value;
