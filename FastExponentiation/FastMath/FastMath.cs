@@ -22,7 +22,7 @@ public static class FastMath {
 	}
 
 	// Formula of magic constant
-	// long doubleApproximator = (long)((1L << 52) * ((1L << 10) - 1.0730088));
+	// long doubleApproximator = (long)((1L << 52) * ((1L << 10) - 1.0730088d));
 	//										  manually set value - ^^^^^^^^^
 	public static long doubleApproximator = 4606853616395542500L;
 	public static double FastApproximatePower(double b, double e) {
