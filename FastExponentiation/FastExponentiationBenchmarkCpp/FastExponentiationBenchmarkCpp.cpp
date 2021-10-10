@@ -79,6 +79,7 @@ double SignedRand() {
 }
 
 int main() {
+	std::cout << "C++\n";
 	srand((unsigned int)time(NULL));
 	int n = 1'000'000;
 	while(true) {

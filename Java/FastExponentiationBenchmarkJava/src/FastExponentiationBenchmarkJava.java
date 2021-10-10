@@ -133,6 +133,7 @@ public class FastExponentiationBenchmarkJava {
     }
 
     public static void main(String[] args) throws Exception {
+        Misc.Printf("Java");
         var rand = new Random();
         rand.setSeed(System.currentTimeMillis());
         int n = 10_000_000;

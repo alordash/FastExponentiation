@@ -120,6 +120,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 		};
 
 		static void Main(string[] args) {
+			Console.WriteLine("C#");
 			// Setting process configuration: single-core, high priority
 			Benchmarking.SetUpForBenchmarking();
 
