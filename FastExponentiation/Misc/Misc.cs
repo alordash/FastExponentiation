@@ -59,6 +59,8 @@ public static class Misc {
 		new PowerFunctionModel { Function = FastMath.AnotherApproximation, Name = "Another approximation"}
 	};
 
+	public static int BaselinePowerFunctionIndex = Misc.PowerFunctionModels.IndexOf(new Misc.PowerFunctionModel { Name = "Built-in power" });
+
 	public static void Display(string str, int width) {
 		Console.Write(str.PadLeft(width));
 	}
@@ -76,6 +78,10 @@ public static class Misc {
 
 	public static double SignedRand(Random rand) {
 		return (rand.NextDouble() - 0.5d) * 2d;
+	}
+
+	public static string FormatDouble(double value) {
+		return value.ToString("0.0000");
 	}
 
 	public static string FormatError(double error) {

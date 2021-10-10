@@ -1,4 +1,4 @@
-﻿<h3>Wide precision comparison test <i>(for a range of exponents)</i></h3>
+﻿<h3>Wide precision comparison test <i>for a range of exponents</i></h3>
 
 Parameters for wide precision test:
 <br />
@@ -25,11 +25,12 @@ Exponent and base iterations:
 <button @onclick="ComparePrecision">Compare precision</button>
 <br />
 
-Max error: <b>@(Misc.FormatError(maxError))</b>% for number <b>@maxErrorBase</b> in power <b>@maxErrorExp</b>
-<br />
-Average error: <b>@(Misc.FormatError(averageError))</b>%
-<br />
-Iterations count: @IterationsRealCount
+<div class="container">
+    @foreach(var measureResult in WideMeasureResults) {
+        <WideMeasureResultDisplay WideMeasuresResult="@measureResult" />
+        <br />
+    }
+</div>
 
 @code {
     NumberInput MinExp;
@@ -38,11 +39,7 @@ Iterations count: @IterationsRealCount
     NumberInput MaxBase;
     NumberInput Iterations;
 
-    private double maxErrorBase = 0;
-    private double maxErrorExp = 0;
-    private double maxError = 0;
-    private double averageError = 0;
-    public int IterationsRealCount = 0;
+    public List<WideMeasuresResult> WideMeasureResults = new List<WideMeasuresResult>();
 
     void ComparePrecision() {
         var minExp = MinExp.Value;
@@ -53,36 +50,44 @@ Iterations count: @IterationsRealCount
         var expStep = Math.Max(0.075d, Math.Abs(maxExp - minExp) / Iterations.Value);
         var baseStep = Math.Max(0.01d, Math.Abs(maxBase - minBase) / Iterations.Value);
 
-        maxError = double.MinValue;
-        double totalDifference = 0d;
-        IterationsRealCount = 0;
+        var baselineFunction = Misc.PowerFunctionModels[Misc.BaselinePowerFunctionIndex].Function;
+        WideMeasureResults = new List<WideMeasuresResult>();
 
-        for(double b = minBase; b <= maxBase; b += baseStep) {
-            for(double e = minExp; e <= maxExp; e += expStep) {
-                if(b == 0d) {
-                    continue;
+        foreach(var powerFunctionModel in Misc.PowerFunctionModels) {
+            var measureResult = new WideMeasuresResult(powerFunctionModel);
+
+            var totalDifference = 0d;
+
+            for(double b = minBase; b <= maxBase; b += baseStep) {
+                for(double e = minExp; e <= maxExp; e += expStep) {
+                    if(b == 0d) {
+                        continue;
+                    }
+
+                    var baselineValue = baselineFunction(b, e);
+                    var myValue = powerFunctionModel.Function(b, e);
+
+                    if(double.IsNaN(baselineValue) || double.IsNaN(myValue)) {
+                        continue;
+                    }
+                    var diff = Math.Abs(baselineValue / myValue);
+                    if(double.IsNaN(diff) || !double.IsFinite(diff) || !double.IsFinite(baselineValue) || !double.IsFinite(myValue)) {
+                        continue;
+                    }
+                    var percentageDiff = FastMath.ToPercentage(diff);
+                    if(percentageDiff >= measureResult.MaxError) {
+                        measureResult.MaxErrorBase = b;
+                        measureResult.MaxErrorExp = e;
+                        measureResult.MaxError = percentageDiff;
+                    }
+                    totalDifference += diff;
+                    measureResult.IterationsCount++;
                 }
-                var realValue = Math.Pow(b, e);
-                var approximateValue = FastMath.FastPower(b, e);
-                if(double.IsNaN(realValue) || double.IsNaN(approximateValue)) {
-                    continue;
-                }
-                var diff = Math.Abs(realValue / approximateValue);
-                if(double.IsNaN(diff) || !double.IsFinite(diff) || !double.IsFinite(realValue) || !double.IsFinite(approximateValue)) {
-                    continue;
-                }
-                var percentageDiff = FastMath.ToPercentage(diff);
-                if(percentageDiff >= maxError) {
-                    maxErrorBase = b;
-                    maxErrorExp = e;
-                    maxError = percentageDiff;
-                }
-                totalDifference += diff;
-                IterationsRealCount++;
             }
+            measureResult.AverageError = FastMath.ToPercentage(totalDifference / measureResult.IterationsCount);
+            WideMeasureResults.Add(measureResult);
         }
-        averageError = FastMath.ToPercentage(totalDifference / IterationsRealCount);
-        Console.WriteLine("Done comparing wide precisions for {0} numbers", IterationsRealCount);
+        Console.WriteLine("Done comparing wide precisions for {0} numbers", WideMeasureResults.Sum(x => x.DataItems.Count));
     }
 
     protected override void OnAfterRender(bool firstRender) {

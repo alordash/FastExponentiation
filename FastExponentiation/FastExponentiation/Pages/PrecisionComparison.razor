@@ -1,10 +1,5 @@
 ﻿<h3>Precision comparison test for specified exponent</h3>
-Testing following power functions:
-<br />
-@for(int i = 0; i < Misc.PowerFunctionModels.Count; i++) {
-    <div>"<b>@Misc.PowerFunctionModels[i].Name</b>"</div>
-}
-<br />
+
 Parameters for precision test:
 <br />
 Exponent:
@@ -29,7 +24,7 @@ y = x ^ Exponent
 
 <RadzenChart>
     @foreach(var measureResult in MeasuresResults) {
-        <RadzenLineSeries Smooth="false" Data="@measureResult.dataItems" CategoryProperty="Base" ValueProperty="Value" Title="@measureResult.powerFunctionModel.Name" />
+        <RadzenLineSeries Smooth="false" Data="@measureResult.DataItems" CategoryProperty="Base" ValueProperty="Value" Title="@measureResult.PowerFunctionModel.Name" />
     }
 </RadzenChart>
 <div class="container">
@@ -40,8 +35,6 @@ y = x ^ Exponent
 </div>
 
 @code {
-    private static int baselinePowerFunctionIndex = Misc.PowerFunctionModels.IndexOf(new Misc.PowerFunctionModel { Name = "Built-in power" });
-
     public NumberInput ExpInput;
     public NumberInput MinInput;
     public NumberInput MaxInput;
@@ -59,10 +52,12 @@ y = x ^ Exponent
         var step = Math.Abs(max - min) / IterationsInput.Value;
         var ignoreCount = (int)IterationsInput.Value / DataCount;
 
-        var baselineFunction = Misc.PowerFunctionModels[baselinePowerFunctionIndex].Function;
+        var baselineFunction = Misc.PowerFunctionModels[Misc.BaselinePowerFunctionIndex].Function;
         MeasuresResults = new List<MeasuresResult>();
+
         foreach(var powerFunctionModel in Misc.PowerFunctionModels) {
             var measureResult = new MeasuresResult(powerFunctionModel);
+
             var totalDifference = 0.0d;
 
             int i = 0;
@@ -71,6 +66,7 @@ y = x ^ Exponent
                 if(v == 0d) {
                     continue;
                 }
+
                 var baselineValue = baselineFunction(v, exp);
                 var myValue = powerFunctionModel.Function(v, exp);
 
@@ -79,20 +75,21 @@ y = x ^ Exponent
                     continue;
                 }
                 if(i % ignoreCount == 0) {
-                    measureResult.dataItems.Add(new DataItem { Base = v, Value = myValue });
+                    measureResult.DataItems.Add(new DataItem { Base = v, Value = myValue });
                 }
                 var percentageDiff = FastMath.ToPercentage(diff);
-                if(percentageDiff > measureResult.maxError) {
-                    measureResult.maxErrorNumber = v;
-                    measureResult.maxError = percentageDiff;
+                if(percentageDiff > measureResult.MaxError) {
+                    measureResult.MaxErrorBase = v;
+                    measureResult.MaxError = percentageDiff;
                 }
                 totalDifference += diff;
                 i++;
             }
-            measureResult.averageError = FastMath.ToPercentage(totalDifference / i);
+            measureResult.AverageError = FastMath.ToPercentage(totalDifference / i);
             MeasuresResults.Add(measureResult);
         }
-        Console.WriteLine("Done comparing precision for {0} numbers", MeasuresResults[baselinePowerFunctionIndex].dataItems.Count);
+
+        Console.WriteLine("Done comparing precision for {0} numbers", MeasuresResults.Sum(x => x.DataItems.Count));
     }
 
     protected override void OnAfterRender(bool firstRender) {

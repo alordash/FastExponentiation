@@ -1,0 +1,10 @@
+﻿<div class="info">
+    <div><b>@WideMeasuresResult.PowerFunctionModel.Name</b></div>
+    <div>Max error: <b>@(Misc.FormatError(WideMeasuresResult.MaxError))</b>% for number <b>@Misc.FormatDouble(WideMeasuresResult.MaxErrorBase)</b> in power <b>@Misc.FormatDouble(WideMeasuresResult.MaxErrorExp)</b></div>
+    <div>Average error: <b>@(Misc.FormatError(WideMeasuresResult.AverageError))</b>%</div>
+    <div>Iterations count: @WideMeasuresResult.IterationsCount</div>
+</div>
+@code {
+    [Parameter]
+    public WideMeasuresResult WideMeasuresResult { get; set; }
+}

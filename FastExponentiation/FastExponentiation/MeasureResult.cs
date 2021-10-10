@@ -10,15 +10,15 @@ namespace FastExponentiation {
     }
 
     public class MeasuresResult {
-        public Misc.PowerFunctionModel powerFunctionModel;
-        public double maxError = double.MinValue;
-        public double maxErrorNumber = 0;
-        public double averageError = 0;
-        public List<DataItem> dataItems;
+        public Misc.PowerFunctionModel PowerFunctionModel;
+        public double MaxError = double.MinValue;
+        public double MaxErrorBase = 0;
+        public double AverageError = 0d;
+        public List<DataItem> DataItems;
 
         public MeasuresResult(Misc.PowerFunctionModel powerFunctionModel) {
-            this.powerFunctionModel = powerFunctionModel;
-            dataItems = new List<DataItem>();
+            PowerFunctionModel = powerFunctionModel;
+            DataItems = new List<DataItem>();
         }
     }
 }
