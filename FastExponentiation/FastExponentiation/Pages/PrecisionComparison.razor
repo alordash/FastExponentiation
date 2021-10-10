@@ -1,6 +1,13 @@
 ﻿<h3>Precision comparison test for specified exponent</h3>
 Parameters for precision test:
 <br />
+Power function:
+<select @bind="PowerFunctionIndex">
+    @for(int i = 0; i < Misc.PowerFunctionObjects.Count; i++) {
+        <option value="@i">@(Misc.PowerFunctionObjects[i].Name)</option>
+    }
+</select>
+<br />
 Exponent:
 <br />
 <NumberInput @ref="@ExpInput" DefaultValue="-0.5" PlaceHolder="Type exponent here" />
@@ -29,16 +36,26 @@ y = x ^ Exponent
     </RadzenLineSeries>
 </RadzenChart>
 <br />
-
 Max error: <b>@(FormatError(maxError))</b>% for number <b>@maxErrorNumber</b>
 <br />
 Average error: <b>@(FormatError(averageError))</b>%
 
 @code {
-    NumberInput ExpInput;
-    NumberInput MinInput;
-    NumberInput MaxInput;
-    NumberInput IterationsInput;
+    private static int originalPowerFunctionIndex = Misc.PowerFunctionObjects.IndexOf(new Misc.PowerFunctionModel { Name = "Fast power" });
+    private int powerFunctionIndex = originalPowerFunctionIndex;
+    public int PowerFunctionIndex {
+        get => powerFunctionIndex;
+        set {
+            powerFunctionIndex = value;
+            PowerFunctionObject = Misc.PowerFunctionObjects[powerFunctionIndex];
+        }
+    }
+    public Misc.PowerFunctionModel PowerFunctionObject = Misc.PowerFunctionObjects[originalPowerFunctionIndex];
+
+    public NumberInput ExpInput;
+    public NumberInput MinInput;
+    public NumberInput MaxInput;
+    public NumberInput IterationsInput;
 
     public class DataItem {
         public double Value { get; set; }
@@ -78,7 +95,7 @@ Average error: <b>@(FormatError(averageError))</b>%
                 continue;
             }
             var realValue = Math.Pow(v, exp);
-            var approximateValue = FastMath.FastPower(v, exp);
+            var approximateValue = PowerFunctionObject.Function(v, exp);
 
             var diff = Math.Abs(realValue / approximateValue);
             if(double.IsNaN(diff) || !double.IsFinite(diff) || double.IsNaN(realValue) || double.IsNaN(approximateValue) || !double.IsFinite(realValue) || !double.IsFinite(approximateValue)) {

@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FastMath\FastMath.csproj" />
+    <ProjectReference Include="..\Misc\Misc.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,13 +15,10 @@ namespace FastExponentiationPrimitiveBenchmark {
 			public double calculationResult;
 		}
 
-		public delegate double BenchmarkFunction(double b, double e);
-		public delegate double BenchmarkIntFunction(double b, Int64 e);
-
 		public class BenchmarkSetUp : Benchmarking.IWarmUpable {
 			public String functionName;
-			public BenchmarkFunction benchmarkFunction;
-			public BenchmarkIntFunction benchmarkIntFunction;
+			public Misc.PowerFunction benchmarkFunction;
+			public Misc.PowerIntFunction benchmarkIntFunction;
 
 			public object Calculate(params object[] args) {
 				var a1 = args[0] as IConvertible;
@@ -42,7 +39,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 			}
 		}
 
-		public static TMeasureResult RunBenchmark(String functionName, BenchmarkFunction benchmarkFunction, Int64 iterationsCount, double[] bases, double[] exps) {
+		public static TMeasureResult RunBenchmark(String functionName, Misc.PowerFunction benchmarkFunction, Int64 iterationsCount, double[] bases, double[] exps) {
 			var calculationResult = 0.0;
 			var stopWatch = new Stopwatch();
 			stopWatch.Start();
@@ -61,7 +58,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 			};
 		}
 
-		public static TMeasureResult RunBenchmark(String functionName, BenchmarkIntFunction benchmarkFunction, Int64 iterationsCount, double[] bases, Int64[] exps) {
+		public static TMeasureResult RunBenchmark(String functionName, Misc.PowerIntFunction benchmarkFunction, Int64 iterationsCount, double[] bases, Int64[] exps) {
 			var calculationResult = 0.0;
 			var stopWatch = new Stopwatch();
 			stopWatch.Start();

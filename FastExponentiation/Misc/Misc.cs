@@ -41,6 +41,24 @@ public static class Benchmarking {
 }
 
 public static class Misc {
+	public delegate double PowerFunction(double b, double e);
+	public delegate double PowerIntFunction(double b, Int64 e);
+	public class PowerFunctionModel : IEquatable<PowerFunctionModel> {
+		public PowerFunction Function;
+		public string Name;
+
+		public bool Equals(PowerFunctionModel powerFunctionObject) {
+			return this.Name == powerFunctionObject.Name;
+		}
+	}
+
+	public static List<PowerFunctionModel> PowerFunctionObjects = new List<PowerFunctionModel>() {
+		new PowerFunctionModel { Function = Math.Pow, Name = "Built-in power" },
+		new PowerFunctionModel { Function = FastMath.FastPower, Name = "Fast power" },
+		new PowerFunctionModel { Function = FastMath.FastApproximatePower, Name = "Pure approximation"},
+		new PowerFunctionModel { Function = FastMath.AnotherApproximation, Name = "Another approximation"}
+	};
+
 	public static void Display(string str, int width) {
 		Console.Write(str.PadLeft(width));
 	}

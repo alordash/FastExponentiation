@@ -16,7 +16,7 @@ public static class FastMath {
 
 	// Using union-kind struct to avoid unsafe code
 	[StructLayout(LayoutKind.Explicit)]
-	public struct TApproximatingUnion {
+	public struct TDoubleLongUnion {
 		[FieldOffset(0)] public double d;
 		[FieldOffset(0)] public long i;
 	}
@@ -27,7 +27,7 @@ public static class FastMath {
 	public static long doubleApproximator = 4606853616395542500L;
 	public static double FastApproximatePower(double b, double e) {
 
-		TApproximatingUnion u = new TApproximatingUnion() { d = b };
+		TDoubleLongUnion u = new TDoubleLongUnion() { d = b };
 		u.i = (long)(FastMath.doubleApproximator + e * (u.i - FastMath.doubleApproximator));
 		b = u.d;
 		return u.d;
