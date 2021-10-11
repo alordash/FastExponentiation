@@ -36,7 +36,7 @@ public static class Benchmarking {
 			i = (i + 1) % length;
 		}
 		stopWatch.Stop();
-		Console.WriteLine("Warm up sum = {0}", sum);
+		Console.WriteLine("Warm up sum = {0} (ignore this)", sum);
 	}
 }
 

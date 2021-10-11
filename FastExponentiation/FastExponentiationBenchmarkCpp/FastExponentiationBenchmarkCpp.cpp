@@ -7,6 +7,12 @@
 #define WIDTH 20
 #define _SETW std::setw(WIDTH)
 
+#define PRECISION 2
+#define _SETP(x) std::fixed << std::setprecision(2) << x
+
+#define TOO_BIG_SUM 100'000'000'000.0
+#define TOO_BIG_MESSAGE "Too big"
+
 typedef double (*BenchmarkFunction)(double, double);
 typedef double (*BenchmarkIntFunction)(double, long long);
 
@@ -61,7 +67,7 @@ void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineInde
 	for(size_t i = 0; i < count; i++) {
 		TMeasureResult& mr = mrs[i];
 		double ratio = mr.meanTime / baselineMeanTime;
-		std::cout << _SETW << mr.functionName << std::setw(WIDTH - 2) << mr.meanTime << "ns" << _SETW << mr.totalTime;
+		std::cout << _SETW << mr.functionName << std::setw(WIDTH - 2) << _SETP(mr.meanTime) << "ns" << _SETW << mr.totalTime;
 		if(ratio < 0.9) {
 			std::cout << "\033[32m";
 		} else if(ratio > 1.1) {
@@ -69,8 +75,13 @@ void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineInde
 		} else {
 			std::cout << "\033[33m";
 		}
-		std::cout << _SETW << std::fixed << std::setprecision(2) << ratio << "\033[0m";
-		std::cout << _SETW << mr.iterationsCount << _SETW << std::fixed << std::setprecision(2) << mr.calculationResult << "\n";
+		std::cout << _SETW << _SETP(ratio) << "\033[0m";
+		std::cout << _SETW << mr.iterationsCount;
+		if(mr.calculationResult > TOO_BIG_SUM) {
+			std::cout << _SETW << TOO_BIG_MESSAGE << "\n";
+		} else {
+			std::cout << _SETW << _SETP(mr.calculationResult) << "\n";
+		}
 	}
 }
 
@@ -79,10 +90,10 @@ double SignedRand() {
 }
 
 int main() {
-	std::cout << "C++\n";
 	srand((unsigned int)time(NULL));
 	int n = 1'000'000;
 	while(true) {
+		std::cout << "C++\n";
 		double baseMul = 100002.0;
 		double expMul = 12.1;
 		std::cout << "Enter base multiplicator: ";
@@ -108,7 +119,7 @@ int main() {
 			RunBenchmark("Another approx", FastMath::AnotherApproximation, n, bases, exps)
 		};
 
-		std::cout << "Benchmark results:\n";
+		std::cout << "Performance results:\n";
 		DisplayMeasureResult(mrs, 6);
 		delete[] mrs;
 		delete[] bases;

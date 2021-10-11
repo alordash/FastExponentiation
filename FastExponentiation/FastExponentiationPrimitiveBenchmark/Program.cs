@@ -5,7 +5,8 @@ using System.Collections.Generic;
 namespace FastExponentiationPrimitiveBenchmark {
 	class Program {
 		const int WIDTH = 20;
-		const int SUM_WIDTH = 10;
+		const double TOO_BIG_SUM = 100_000_000_000d;
+		const string TOO_BIG_MESSAGE = "Too big";
 
 		public struct TMeasureResult {
 			public String functionName;
@@ -90,10 +91,10 @@ namespace FastExponentiationPrimitiveBenchmark {
 			Misc.Display("Total time", WIDTH);
 			Misc.Display("Ratio", WIDTH);
 			Misc.Display("Iterations", WIDTH);
-			Misc.Display("Sum\n", WIDTH + SUM_WIDTH);
+			Misc.Display("Sum\n", WIDTH);
 			foreach(var mr in mrs) {
 				Misc.Display(mr.functionName, WIDTH);
-				Misc.Display(mr.meanTime.ToString() + "ns", WIDTH);
+				Misc.Display(mr.meanTime.ToString("0.00") + "ns", WIDTH);
 				Misc.Display(mr.totalTime.ToString() + "ns", WIDTH);
 				var ratio = mr.meanTime / baselineMeanTime;
 				if(ratio < 0.9d) {
@@ -106,7 +107,11 @@ namespace FastExponentiationPrimitiveBenchmark {
 				Misc.Display(ratio.ToString("0.00"), WIDTH);
 				Console.ForegroundColor = ConsoleColor.White;
 				Misc.Display(mr.iterationsCount.ToString(), WIDTH);
-				Misc.Display(mr.calculationResult.ToString("0.00") + "\n", WIDTH + SUM_WIDTH);
+				if(mr.calculationResult > TOO_BIG_SUM) {
+					Misc.Display(TOO_BIG_MESSAGE + "\n", WIDTH);
+				} else {
+					Misc.Display(mr.calculationResult.ToString("0.00") + "\n", WIDTH);
+				}
 			}
 		}
 
@@ -120,7 +125,6 @@ namespace FastExponentiationPrimitiveBenchmark {
 		};
 
 		static void Main(string[] args) {
-			Console.WriteLine("C#");
 			// Setting process configuration: single-core, high priority
 			Benchmarking.SetUpForBenchmarking();
 
@@ -134,6 +138,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 			var rand = new Random();
 			int n = 1_000_000;
 			while(true) {
+				Console.WriteLine("C#");
 				double baseMul = Misc.GetDouble("Enter base multiplicator: ");
 				double expMul = Misc.GetDouble("Enter exponent multiplicator: ");
 
