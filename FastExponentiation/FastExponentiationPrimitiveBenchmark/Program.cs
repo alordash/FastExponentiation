@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 
@@ -118,6 +119,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 		static BenchmarkSetUp[] benchmarkSetUps = {
 			new BenchmarkSetUp{ functionName = "Built-in", benchmarkFunction =  Math.Pow },
 			new BenchmarkSetUp{ functionName = "Fast power", benchmarkFunction =  FastMath.FastPower },
+			new BenchmarkSetUp{ functionName = "Fast power1", benchmarkFunction =  FastMath.FastPower1 },
 			new BenchmarkSetUp{ functionName = "Raw fast power", benchmarkFunction = FastMath.RawFastPower },
 			new BenchmarkSetUp{ functionName = "Binary", benchmarkIntFunction =  FastMath.BinaryPower },
 			new BenchmarkSetUp{ functionName = "Approximate", benchmarkFunction =  FastMath.FastApproximatePower },
@@ -137,30 +139,57 @@ namespace FastExponentiationPrimitiveBenchmark {
 
 			var rand = new Random();
 			int n = 1_000_000;
+			double[] bases = new double[n];
+			double[] exps = new double[n];
+			Int64[] expsInt = new Int64[n];
+			double baseMul = Misc.GetDouble("Enter base multiplicator: ");
+			double expMul = Misc.GetDouble("Enter exponent multiplicator: ");
+
+			Console.WriteLine("Generating data values");
+
+			for(int i = 0; i < n; i++) {
+				bases[i] = Math.Abs(baseMul * Misc.SignedRand(rand));
+				exps[i] = Math.Abs(expMul * Misc.SignedRand(rand));
+				expsInt[i] = (Int64)exps[i];
+			}
+			Console.WriteLine("Done generating values, running benchmarks");
+
 			while(true) {
 				Console.WriteLine("C#");
-				double baseMul = Misc.GetDouble("Enter base multiplicator: ");
-				double expMul = Misc.GetDouble("Enter exponent multiplicator: ");
 
-				Console.WriteLine("Generating data values");
-				double[] bases = new double[n];
-				double[] exps = new double[n];
-				Int64[] expsInt = new Int64[n];
-				for(int i = 0; i < n; i++) {
-					bases[i] = Math.Abs(baseMul * Misc.SignedRand(rand));
-					exps[i] = Math.Abs(expMul * Misc.SignedRand(rand));
-					expsInt[i] = (Int64)exps[i];
-				}
 
-				List<TMeasureResult> measureResults = new List<TMeasureResult>();
-				Console.WriteLine("Done generating values, running benchmarks");
+				var measureResults = new Dictionary<BenchmarkSetUp, TMeasureResult>();
 
-				foreach(var benchmarkSetUp in benchmarkSetUps) {
-					measureResults.Add(RunBenchmark(benchmarkSetUp, n, bases, exps, expsInt));
+				var rng = new Random();
+				const int tryes = 50;
+				for(int i = 0; i < tryes; i++) {
+					foreach(var benchmarkSetUp in benchmarkSetUps.OrderBy(a => rng.Next())) {
+						var newRes = RunBenchmark(benchmarkSetUp, n, bases, exps, expsInt);
+						if(measureResults.TryGetValue(benchmarkSetUp, out TMeasureResult oldRes)) {
+							newRes.totalTime += oldRes.totalTime;
+							newRes.meanTime += oldRes.meanTime;
+							newRes.iterationsCount += oldRes.iterationsCount;
+							newRes.calculationResult += oldRes.calculationResult;
+						}
+						measureResults[benchmarkSetUp] = newRes;
+					}
 				}
 
 				Console.WriteLine("Performance results:");
-				DisplayMeasureResults(measureResults);
+				DisplayMeasureResults(measureResults.Values.
+					Select(x => new TMeasureResult() {
+						functionName = x.functionName,
+						totalTime = x.totalTime,
+						meanTime = x.meanTime / tryes,
+						iterationsCount = x.iterationsCount,
+						calculationResult = x.calculationResult,
+					})
+					.OrderBy(x => x.functionName)
+					.ToList());
+
+				Console.WriteLine("Press any key to repeat");
+				Console.ReadLine();
+
 			}
 		}
 	}
