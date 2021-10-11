@@ -94,8 +94,8 @@ namespace FastExponentiationPrimitiveBenchmark {
 			Misc.Display("Sum\n", WIDTH);
 			foreach(var mr in mrs) {
 				Misc.Display(mr.functionName, WIDTH);
-				Misc.Display(mr.meanTime.ToString("0.00") + "ns", WIDTH);
-				Misc.Display(mr.totalTime.ToString() + "ns", WIDTH);
+				Misc.Display(mr.meanTime.ToString("0.00") + " ns", WIDTH);
+				Misc.Display(mr.totalTime.ToString() + " ns", WIDTH);
 				var ratio = mr.meanTime / baselineMeanTime;
 				if(ratio < 0.9d) {
 					Console.ForegroundColor = ConsoleColor.DarkGreen;

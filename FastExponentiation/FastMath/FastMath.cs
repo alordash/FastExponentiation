@@ -67,5 +67,4 @@ public static class FastMath {
 		int tmp2 = (int)(b * (tmp - 1072632447) + 1072632447);
 		return BitConverter.Int64BitsToDouble(((long)tmp2) << 32);
 	}
-
 }

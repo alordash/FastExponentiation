@@ -67,7 +67,7 @@ void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineInde
 	for(size_t i = 0; i < count; i++) {
 		TMeasureResult& mr = mrs[i];
 		double ratio = mr.meanTime / baselineMeanTime;
-		std::cout << _SETW << mr.functionName << std::setw(WIDTH - 2) << _SETP(mr.meanTime) << "ns" << _SETW << mr.totalTime;
+		std::cout << _SETW << mr.functionName << std::setw(WIDTH - 2) << _SETP(mr.meanTime) << " ns" << _SETW << mr.totalTime;
 		if(ratio < 0.9) {
 			std::cout << "\033[32m";
 		} else if(ratio > 1.1) {
