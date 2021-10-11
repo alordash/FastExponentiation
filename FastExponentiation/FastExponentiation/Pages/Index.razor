@@ -9,6 +9,7 @@ Approximate result: <b>@ApproximateResult</b>
 <br />
 Real result: <b>@RealResult</b>
 <br />
+Difference: <div style="display:inline; background: @Misc.GetErrorColor(PercentageDifference)"><b>@PercentageDifference.ToString("0.00")%</b></div>
 
 @code {
     public NumberInput BaseInput;
@@ -16,10 +17,12 @@ Real result: <b>@RealResult</b>
 
     public double ApproximateResult = 0;
     public double RealResult = 0;
+    public double PercentageDifference = 0;
 
     public void Calculate() {
         ApproximateResult = FastMath.FastPower(BaseInput.Value, ExponentInput.Value);
         RealResult = Math.Pow(BaseInput.Value, ExponentInput.Value);
+        PercentageDifference = Misc.ToPercentage(RealResult / ApproximateResult);
     }
 }
 

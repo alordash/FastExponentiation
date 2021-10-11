@@ -1,7 +1,7 @@
 ﻿<div class="info">
     <div><b>@measuresResult.PowerFunctionModel.Name</b></div>
-    <div>Max error: <b>@(Misc.FormatError(measuresResult.MaxError))</b>% for number <b>@Misc.FormatDouble(measuresResult.MaxErrorBase)</b></div>
     <div>Average error: <div style="display:inline; background: @averageErrorColor"><b>@(Misc.FormatError(measuresResult.AverageError))</b>%</div></div>
+    <div>Max error: <b>@(Misc.FormatError(measuresResult.MaxError))</b>% for number <b>@Misc.FormatDouble(measuresResult.MaxErrorBase)</b></div>
 </div>
 @code {
     private string averageErrorColor = "";

@@ -96,4 +96,11 @@ public static class Misc {
 	public static string FormatError(double error) {
 		return String.Format("{0:0.00}", error);
 	}
+
+	public static double ToPercentage(double ratio) {
+		if(ratio == 0d) {
+			return 0d;
+		}
+		return Math.Abs(ratio - 1d) * 100d;
+	}
 }

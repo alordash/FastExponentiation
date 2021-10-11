@@ -60,14 +60,6 @@ public static class FastMath {
 		return BinaryPower(basePart, (long)el);
 	}
 
-	// Technical method not used in calculation
-	public static double ToPercentage(double ratio) {
-		if(ratio == 0d) {
-			return 0d;
-		}
-		return Math.Abs(ratio - 1d) * 100d;
-	}
-
 	// Not my realization
 	// Found it here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
 	public static double AnotherApproximation(double a, double b) {

@@ -77,7 +77,7 @@ y = x ^ Exponent
                 if(i % ignoreCount == 0) {
                     measureResult.DataItems.Add(new DataItem { Base = v, Value = myValue });
                 }
-                var percentageDiff = FastMath.ToPercentage(diff);
+                var percentageDiff = Misc.ToPercentage(diff);
                 if(percentageDiff > measureResult.MaxError) {
                     measureResult.MaxErrorBase = v;
                     measureResult.MaxError = percentageDiff;
@@ -85,7 +85,7 @@ y = x ^ Exponent
                 totalDifference += diff;
                 i++;
             }
-            measureResult.AverageError = FastMath.ToPercentage(totalDifference / i);
+            measureResult.AverageError = Misc.ToPercentage(totalDifference / i);
             MeasuresResults.Add(measureResult);
         }
 

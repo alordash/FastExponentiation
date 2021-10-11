@@ -74,7 +74,7 @@ Exponent and base iterations:
                     if(double.IsNaN(diff) || !double.IsFinite(diff) || !double.IsFinite(baselineValue) || !double.IsFinite(myValue)) {
                         continue;
                     }
-                    var percentageDiff = FastMath.ToPercentage(diff);
+                    var percentageDiff = Misc.ToPercentage(diff);
                     if(percentageDiff >= measureResult.MaxError) {
                         measureResult.MaxErrorBase = b;
                         measureResult.MaxErrorExp = e;
@@ -84,7 +84,7 @@ Exponent and base iterations:
                     measureResult.IterationsCount++;
                 }
             }
-            measureResult.AverageError = FastMath.ToPercentage(totalDifference / measureResult.IterationsCount);
+            measureResult.AverageError = Misc.ToPercentage(totalDifference / measureResult.IterationsCount);
             WideMeasureResults.Add(measureResult);
         }
         Console.WriteLine("Done comparing wide precisions for {0} numbers", WideMeasureResults.Sum(x => x.DataItems.Count));
