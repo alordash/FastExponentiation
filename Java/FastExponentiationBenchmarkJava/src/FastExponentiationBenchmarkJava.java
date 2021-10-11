@@ -33,7 +33,7 @@ public class FastExponentiationBenchmarkJava {
             Misc.RightPrint(String.format("%.2f", ratio), width);
             Misc.Printf("\033[0m");
             Misc.RightPrint(String.valueOf(iterationsCount), width);
-            Misc.RightPrint(String.valueOf(calculationResult), width);
+            Misc.RightPrint(String.format("%.3f", calculationResult), width);
             Misc.Printf('\n');
         }
     }
@@ -112,7 +112,7 @@ public class FastExponentiationBenchmarkJava {
         }
         var end = System.nanoTime();
         var duration = end - start;
-        return new MeasureResult("Another approx", duration, duration / (double) iterationsCount, iterationsCount,
+        return new MeasureResult("Raw fast power", duration, duration / (double) iterationsCount, iterationsCount,
                 calculationResult);
     }
 
@@ -133,10 +133,10 @@ public class FastExponentiationBenchmarkJava {
     }
 
     public static void main(String[] args) throws Exception {
-        Misc.Printf("Java");
+        Misc.Printf("Java\n");
         var rand = new Random();
         rand.setSeed(System.currentTimeMillis());
-        int n = 10_000_000;
+        int n = 1_000_000;
         var scanner = new Scanner(System.in);
         while (true) {
             double baseMul = 100002.9;
@@ -151,10 +151,8 @@ public class FastExponentiationBenchmarkJava {
             double[] bases = new double[n];
             double[] exps = new double[n];
             for (int i = 0; i < n; i++) {
-                bases[i] = baseMul * Misc.SignedRand(rand);
-                var exp = expMul * Misc.SignedRand(rand);
-                exp = exp >= 0.0 ? exp : -exp;
-                exps[i] = exp;
+                bases[i] = Math.abs(baseMul * Misc.SignedRand(rand));
+                exps[i] = Math.abs(expMul * Misc.SignedRand(rand));
             }
             Misc.Printf("Done generating values, running benchmarks\n");
 

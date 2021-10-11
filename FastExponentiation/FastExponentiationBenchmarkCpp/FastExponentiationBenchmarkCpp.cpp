@@ -19,7 +19,7 @@ struct TMeasureResult {
 };
 
 TMeasureResult RunBenchmark(std::string functionName, BenchmarkFunction f, long long iterationsCount, double* bases, double* exps) {
-	volatile double calculationResult = 0.0;
+	double calculationResult = 0.0;
 	double* base = bases;
 	double* exp = exps;
 	double* baseEnd = base + iterationsCount;
@@ -35,7 +35,7 @@ TMeasureResult RunBenchmark(std::string functionName, BenchmarkFunction f, long 
 }
 
 TMeasureResult RunBenchmark(std::string functionName, BenchmarkIntFunction f, long long iterationsCount, double* bases, double* exps) {
-	volatile double calculationResult = 0.0;
+	double calculationResult = 0.0;
 	double* base = bases;
 	long long* intExps = new long long[iterationsCount];
 	for(long long i = 0; i < iterationsCount; i++) {
@@ -70,12 +70,12 @@ void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineInde
 			std::cout << "\033[33m";
 		}
 		std::cout << _SETW << std::fixed << std::setprecision(2) << ratio << "\033[0m";
-		std::cout << _SETW << mr.iterationsCount << _SETW << mr.calculationResult << "\n";
+		std::cout << _SETW << mr.iterationsCount << _SETW << std::fixed << std::setprecision(2) << mr.calculationResult << "\n";
 	}
 }
 
 double SignedRand() {
-	return (rand() - RAND_MAX / 2.0) / (double)RAND_MAX;
+	return (2.0 * (rand() - RAND_MAX / 2.0)) / (double)RAND_MAX;
 }
 
 int main() {
@@ -94,7 +94,7 @@ int main() {
 		double* bases = new double[n];
 		double* exps = new double[n];
 		for(int i = 0; i < n; i++) {
-			bases[i] = baseMul * SignedRand();
+			bases[i] = abs(baseMul * SignedRand());
 			exps[i] = abs(expMul * SignedRand());
 		}
 		std::cout << "Done generating values, running benchmarks\n";

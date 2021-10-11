@@ -106,7 +106,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 				Misc.Display(ratio.ToString("0.00"), WIDTH);
 				Console.ForegroundColor = ConsoleColor.White;
 				Misc.Display(mr.iterationsCount.ToString(), WIDTH);
-				Misc.Display(mr.calculationResult.ToString() + "\n", WIDTH + SUM_WIDTH);
+				Misc.Display(mr.calculationResult.ToString("0.00") + "\n", WIDTH + SUM_WIDTH);
 			}
 		}
 
