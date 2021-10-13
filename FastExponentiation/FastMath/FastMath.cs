@@ -53,6 +53,20 @@ public static class FastMath {
 		return BinaryPower(basePart, (long)el);
 	}
 
+	public static double FastPowerFractional(double b, double e) {
+		// To avoid undefined behaviour near key points,
+		// we can hardcode results for them, but this
+		// will make function slower
+		if(b == 1.0 || e == 0.0) {
+			return 1.0;
+		}
+
+		double eFractPart, eIntPart;
+		eIntPart = Math.Truncate(e);
+		eFractPart = e - eIntPart;
+		return FastApproximatePower(b, eFractPart) * BinaryPower(b, (long)eIntPart);
+	}
+
 	public static double RawFastPower(double b, double e) {
 		var eAbs = Math.Abs(e);
 		var el = Math.Ceiling(eAbs);

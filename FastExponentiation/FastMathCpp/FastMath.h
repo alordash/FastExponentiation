@@ -12,6 +12,7 @@ public:
 	static double FastApproximatePower(double b, double e);
 
 	static double FastPower(double b, double e);
+	static double FastPowerFractional(double b, double e);
 
 	static double RawFastPower(double b, double e);
 
