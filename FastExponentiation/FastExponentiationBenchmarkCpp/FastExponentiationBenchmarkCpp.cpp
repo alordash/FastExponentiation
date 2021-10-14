@@ -134,8 +134,8 @@ int main() {
 	while (true) {
 		std::cout << "C++\n";
 
-		const int tryes = 50;
-		for (int i = 0; i < tryes; i++) {
+		const int tries = 50;
+		for (int i = 0; i < tries; i++) {
 			unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 
 			shuffle(benchmarkSetUps.begin(), benchmarkSetUps.end(), std::default_random_engine(seed));

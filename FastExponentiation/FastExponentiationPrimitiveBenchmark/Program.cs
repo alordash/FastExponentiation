@@ -161,8 +161,8 @@ namespace FastExponentiationPrimitiveBenchmark {
 				var measureResults = new Dictionary<BenchmarkSetUp, TMeasureResult>();
 
 				var rng = new Random();
-				const int tryes = 50;
-				for(int i = 0; i < tryes; i++) {
+				const int tries = 50;
+				for(int i = 0; i < tries; i++) {
 					foreach(var benchmarkSetUp in benchmarkSetUps.OrderBy(a => rng.Next())) {
 						var newRes = RunBenchmark(benchmarkSetUp, n, bases, exps, expsInt);
 						if(measureResults.TryGetValue(benchmarkSetUp, out TMeasureResult oldRes)) {
@@ -180,7 +180,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 					Select(x => new TMeasureResult() {
 						functionName = x.functionName,
 						totalTime = x.totalTime,
-						meanTime = x.meanTime / tryes,
+						meanTime = x.meanTime / tries,
 						iterationsCount = x.iterationsCount,
 						calculationResult = x.calculationResult,
 					})
