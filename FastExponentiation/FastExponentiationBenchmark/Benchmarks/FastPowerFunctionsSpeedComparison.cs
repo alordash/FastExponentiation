@@ -31,14 +31,14 @@ namespace FastExponentiationBenchmark {
 
 		[Benchmark]
 		public double Approximate() {
-			var v = FastMath.FastApproximatePower(bases[index], exps[index]);
+			var v = FastMath.OldApproximatePower(bases[index], exps[index]);
 			NextIndex();
 			return v;
 		}
 
 		[Benchmark]
 		public double AnotherApproximation() {
-			var v = FastMath.AnotherApproximation(bases[index], exps[index]);
+			var v = FastMath.AnotherApproxPower(bases[index], exps[index]);
 			NextIndex();
 			return v;
 		}

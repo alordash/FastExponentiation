@@ -20,7 +20,7 @@ Difference: <div style="display:inline; background: @Misc.GetErrorColor(Percenta
     public double PercentageDifference = 0;
 
     public void Calculate() {
-        ApproximateResult = FastMath.FastPower(BaseInput.Value, ExponentInput.Value);
+        ApproximateResult = FastMath.FastPowerDividing(BaseInput.Value, ExponentInput.Value);
         RealResult = Math.Pow(BaseInput.Value, ExponentInput.Value);
         PercentageDifference = Misc.ToPercentage(RealResult / ApproximateResult);
     }

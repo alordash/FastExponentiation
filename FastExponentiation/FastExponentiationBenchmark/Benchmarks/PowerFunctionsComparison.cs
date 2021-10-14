@@ -21,14 +21,14 @@ namespace FastExponentiationBenchmark {
 
 		[Benchmark]
 		public double FastPower() {
-			var v = FastMath.FastPower(bases[index], exps[index]);
+			var v = FastMath.FastPowerDividing(bases[index], exps[index]);
 			NextIndex();
 			return v;
 		}
 
 		[Benchmark]
 		public double RawFastPower() {
-			var v = FastMath.RawFastPower(bases[index], exps[index]);
+			var v = FastMath.RawFastPowerDividing(bases[index], exps[index]);
 			NextIndex();
 			return v;
 		}

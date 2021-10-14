@@ -36,12 +36,12 @@ namespace FastExponentiationBenchmark {
 	}
 
 	public abstract class BenchmarkTemplate {
-		protected double minExp = -5d;
-		protected double maxExp = 5d;
+		protected double minExp = 0d;
+		protected double maxExp = 5.8d;
 
 		protected const int N = 10000;
-		protected const double minBase = -500d;
-		protected const double maxBase = 500d;
+		protected const double minBase = 0d;
+		protected const double maxBase = 50505d;
 
 		protected double[] bases;
 		protected double[] exps;

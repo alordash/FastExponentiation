@@ -54,10 +54,11 @@ public static class Misc {
 
 	public static List<PowerFunctionModel> PowerFunctionModels = new List<PowerFunctionModel>() {
 		new PowerFunctionModel { Function = Math.Pow, Name = "Built-in power" },
-		new PowerFunctionModel { Function = FastMath.FastPower, Name = "Fast power" },
-		new PowerFunctionModel { Function = FastMath.FastPowerFractional, Name = "FP fractional" },
-		new PowerFunctionModel { Function = FastMath.FastApproximatePower, Name = "Power approximation"},
-		new PowerFunctionModel { Function = FastMath.AnotherApproximation, Name = "Another approximation"}
+		new PowerFunctionModel { Function = FastMath.FastPowerDividing, Name = "Fast power dividing" },
+		new PowerFunctionModel { Function = FastMath.RawFastPowerDividing, Name = "Raw FP dividing"},
+		new PowerFunctionModel { Function = FastMath.FastPowerFractional, Name = "Fast power fractional" },
+		new PowerFunctionModel { Function = FastMath.OldApproximatePower, Name = "Old power approximation"},
+		new PowerFunctionModel { Function = FastMath.AnotherApproxPower, Name = "Another power approximation"}
 	};
 
 	public static int BaselinePowerFunctionIndex = Misc.PowerFunctionModels.IndexOf(new Misc.PowerFunctionModel { Name = "Built-in power" });
