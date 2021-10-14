@@ -6,6 +6,8 @@
 #include <algorithm>    
 #include <array>        
 #include <random>       
+#include <ctime>
+#include <map>
 #include "FastMath.h"
 
 using namespace std;
@@ -30,10 +32,11 @@ struct TMeasureResult {
 	double calculationResult;
 };
 
-
-typedef std::function<TMeasureResult()> BenchmarkSetUpFn;
-
-
+struct BenchmarkSetUp {
+	std::string functionName;
+	BenchmarkFunction benchmarkFunction = nullptr;
+	BenchmarkIntFunction benchmarkIntFunction = nullptr;
+};
 
 TMeasureResult RunBenchmark(std::string functionName, BenchmarkFunction f, long long iterationsCount, double* bases, double* exps) {
 	double calculationResult = 0.0;
@@ -70,6 +73,13 @@ TMeasureResult RunBenchmark(std::string functionName, BenchmarkIntFunction f, lo
 	TMeasureResult measureResult = { functionName, nanoSeconds, nanoSeconds / (double)iterationsCount, iterationsCount, calculationResult };
 	delete[] intExps;
 	return measureResult;
+}
+
+
+TMeasureResult RunBenchmark(BenchmarkSetUp benchmarkSetUp, long long iterationsCount, double* bases, double* exps) {
+	return benchmarkSetUp.benchmarkFunction != nullptr ?
+		RunBenchmark(benchmarkSetUp.functionName, benchmarkSetUp.benchmarkFunction, iterationsCount, bases, exps)
+		: RunBenchmark(benchmarkSetUp.functionName, benchmarkSetUp.benchmarkIntFunction, iterationsCount, bases, exps);
 }
 
 void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineIndex = 0) {
@@ -121,55 +131,54 @@ int main() {
 	}
 	std::cout << "Done generating values, running benchmarks\n";
 
-	std::array<BenchmarkSetUpFn, 6> benchmarkSetUps{
-		[&]() -> TMeasureResult { return RunBenchmark("Built-in", pow, n, bases, exps); },
-		[&]() -> TMeasureResult { return RunBenchmark("Fast power", FastMath::FastPower, n, bases, exps); },
-		[&]() -> TMeasureResult { return RunBenchmark("Raw fast power", FastMath::RawFastPower, n, bases, exps); },
-		[&]() -> TMeasureResult { return RunBenchmark("Binary", FastMath::BinaryPower, n, bases, exps); },
-		[&]() -> TMeasureResult { return RunBenchmark("Approximate", FastMath::FastApproximatePower, n, bases, exps); },
-		[&]() -> TMeasureResult { return RunBenchmark("Another approx", FastMath::AnotherApproximation, n, bases, exps); },
-	};
+
+	std::array<BenchmarkSetUp, 6> benchmarkSetUps{ {
+		{ "Built-in", pow, nullptr },
+		{ "Fast power", FastMath::FastPower, nullptr },
+		////{ "Fast power1", FastMath::FastPower1, nullptr },
+		{ "Raw fast power", FastMath::RawFastPower, nullptr },
+		{ "Binary", nullptr, FastMath::BinaryPower },
+		{ "Approximate",  FastMath::FastApproximatePower, nullptr },
+		{ "Another approx",  FastMath::AnotherApproximation, nullptr }
+	} };
 
 
 	while (true) {
 		std::cout << "C++\n";
 
+		std::map<std::string, TMeasureResult> dictMeasureResults;
+
 		const int tries = 50;
 		for (int i = 0; i < tries; i++) {
-			unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-
+			auto seed = std::chrono::system_clock::now().time_since_epoch().count();
 			shuffle(benchmarkSetUps.begin(), benchmarkSetUps.end(), std::default_random_engine(seed));
 
 			for (auto benchmarkSetUp : benchmarkSetUps) {
-				auto newRes = benchmarkSetUp();
+				auto newRes = RunBenchmark(benchmarkSetUp, n, bases, exps);
+
+				auto it = dictMeasureResults.find(benchmarkSetUp.functionName);
+				if (it != dictMeasureResults.end()) {
+					TMeasureResult oldRes = it->second;
+					newRes.totalTime += oldRes.totalTime;
+					newRes.meanTime += oldRes.meanTime;
+					newRes.iterationsCount += oldRes.iterationsCount;
+					newRes.calculationResult += oldRes.calculationResult;
+				}
+				dictMeasureResults[benchmarkSetUp.functionName] = newRes;
 			}
-			//for (var benchmarkSetUp in benchmarkSetUps.OrderBy(a = > rng.Next())) {
-			//	var newRes = RunBenchmark(benchmarkSetUp, n, bases, exps, expsInt);
-			//	if (measureResults.TryGetValue(benchmarkSetUp, out TMeasureResult oldRes)) {
-			//		newRes.totalTime += oldRes.totalTime;
-			//		newRes.meanTime += oldRes.meanTime;
-			//		newRes.iterationsCount += oldRes.iterationsCount;
-			//		newRes.calculationResult += oldRes.calculationResult;
-			//	}
-			//	measureResults[benchmarkSetUp] = newRes;
-			//}
 		}
 
-		TMeasureResult* mrs = new TMeasureResult[]{
-			RunBenchmark("Built-in", pow, n, bases, exps),
-			RunBenchmark("Fast power", FastMath::FastPower, n, bases, exps),
-			RunBenchmark("Raw fast power", FastMath::RawFastPower, n, bases, exps),
-			RunBenchmark("Binary", FastMath::BinaryPower, n, bases, exps),
-			RunBenchmark("Approximate", FastMath::FastApproximatePower, n, bases, exps),
-			RunBenchmark("Another approx", FastMath::AnotherApproximation, n, bases, exps)
-		};
+		std::vector<TMeasureResult> measureResults;
+		measureResults.reserve(dictMeasureResults.size());
+		for (auto elem : dictMeasureResults) {
+			measureResults.push_back(elem.second);
+		}
 
 		std::cout << "Performance results:\n";
-		DisplayMeasureResult(mrs, 6);
-		delete[] mrs;
+		DisplayMeasureResult(measureResults.data(), measureResults.size());
 
-		std::cout << "Press any key to repeat";
-		std::cin;
+		std::cout << "Press Enter to Continue\n";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	}
 	delete[] bases;
 	delete[] exps;
