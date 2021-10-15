@@ -53,6 +53,9 @@ public static class FastMath {
 		return BinaryPower(basePart, (long)el);
 	}
 
+	// This function is basically FastPowerDividing, except
+	// it doesn't have any extra conditions. Although these
+	// conditions make function slower only by 10% than FastPowerDividing 
 	public static double RawFastPowerDividing(double b, double e) {
 		var eAbs = Math.Abs(e);
 		var el = Math.Ceiling(eAbs);
@@ -68,10 +71,9 @@ public static class FastMath {
 			return 1.0;
 		}
 
-		double eFractPart, eIntPart;
-		eIntPart = Math.Truncate(e);
-		eFractPart = e - eIntPart;
-		return OldApproximatePower(b, eFractPart) * BinaryPower(b, (long)eIntPart);
+		long eIntPart = (long)e;
+		double eFractPart = e - eIntPart;
+		return OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
 	}
 
 	// Found this realization here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
