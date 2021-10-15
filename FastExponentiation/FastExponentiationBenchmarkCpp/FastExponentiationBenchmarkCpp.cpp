@@ -121,7 +121,7 @@ int main() {
 		};
 
 		std::cout << "Performance results:\n";
-		DisplayMeasureResult(mrs, 6);
+		DisplayMeasureResult(mrs, 7);
 		delete[] mrs;
 		delete[] bases;
 		delete[] exps;
