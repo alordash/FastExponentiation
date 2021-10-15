@@ -171,6 +171,7 @@ int main() {
 		std::vector<TMeasureResult> measureResults;
 		measureResults.reserve(dictMeasureResults.size());
 		for (auto elem : dictMeasureResults) {
+			elem.second.meanTime = elem.second.meanTime / tries;
 			measureResults.push_back(elem.second);
 		}
 
