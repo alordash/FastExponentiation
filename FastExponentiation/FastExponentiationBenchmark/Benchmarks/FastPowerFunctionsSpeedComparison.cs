@@ -10,9 +10,12 @@ using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Toolchains.CsProj;
 using BenchmarkDotNet.Toolchains.DotNetCli;
 
+// ————————————————
+// —	UNUSED    —
+// ————————————————
+
 namespace FastExponentiationBenchmark {
 
-//	[Config(typeof(PlatformsComparingConfig))]
 	[SimpleJob(id: "Approximate power vs built-in power", invocationCount: 1_000_000)]
 	public class ApproximatePowerFunctionsSpeedComparison : BenchmarkTemplate {
 
@@ -30,14 +33,14 @@ namespace FastExponentiationBenchmark {
 		}
 
 		[Benchmark]
-		public double Approximate() {
+		public double OldApproximatePower() {
 			var v = FastMath.OldApproximatePower(bases[index], exps[index]);
 			NextIndex();
 			return v;
 		}
 
 		[Benchmark]
-		public double AnotherApproximation() {
+		public double AnotherApproxPower() {
 			var v = FastMath.AnotherApproxPower(bases[index], exps[index]);
 			NextIndex();
 			return v;

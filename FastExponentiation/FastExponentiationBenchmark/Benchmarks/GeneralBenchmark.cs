@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 
-namespace FastExponentiationBenchmark.Benchmarks {
-	[SimpleJob(id: "General benchmark", invocationCount: 1_000_000)]
-	class GeneralBenchmark : BenchmarkTemplate {
+namespace FastExponentiationBenchmark {
+	[SimpleJob(id: "General benchmark", invocationCount: 100_000_000)]
+	public class GeneralBenchmark : BenchmarkTemplate {
 		private Int64[] intExps;
 
 		public GeneralBenchmark() {
