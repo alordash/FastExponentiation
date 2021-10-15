@@ -62,9 +62,14 @@ double FastMath::FastPowerFractional(double b, double e) {
 		return 1.0;
 	}
 
-	long long eIntPart = (long long)e;
-	double eFractPart = e - eIntPart;
-	return OldApproximatePower(b, eFractPart) * BinaryPower(b, (long long)eIntPart);
+	double absExp = fabs(e);
+	long long eIntPart = (long long)absExp;
+	double eFractPart = absExp - eIntPart;
+	double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
+	if(e < 0.0) {
+		return 1.0 / result;
+	}
+	return result;
 }
 
 double FastMath::ToPercentage(double ratio) {

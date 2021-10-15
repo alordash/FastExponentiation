@@ -67,13 +67,18 @@ public static class FastMath {
 		// To avoid undefined behaviour near key points,
 		// we can hardcode results for them, but this
 		// will make function slower
-		if(b == 1.0 || e == 0.0) {
-			return 1.0;
+		if(b == 1d || e == 0d) {
+			return 1d;
 		}
 
-		long eIntPart = (long)e;
-		double eFractPart = e - eIntPart;
-		return OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
+		double absExp = Math.Abs(e);
+		long eIntPart = (long)absExp;
+		double eFractPart = absExp - eIntPart;
+		double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
+		if(e < 0d) {
+			return 1d / result;
+		}
+		return result;
 	}
 
 	// Found this realization here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
