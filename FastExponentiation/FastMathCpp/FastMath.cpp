@@ -62,8 +62,8 @@ double FastMath::FastPowerFractional(double b, double e) {
 		return 1.0;
 	}
 
-	double eFractPart, eIntPart;
-	eFractPart = modf(e, &eIntPart);
+	long long eIntPart = (long long)e;
+	double eFractPart = e - eIntPart;
 	return OldApproximatePower(b, eFractPart) * BinaryPower(b, (long long)eIntPart);
 }
 
