@@ -44,12 +44,12 @@ namespace FastExponentiationBenchmark {
 			return v;
 		}
 
-		[Benchmark]
-		public double RawFastPower() {
-			var v = FastMath.RawFastPowerDividing(bases[index], exps[index]);
-			NextIndex();
-			return v;
-		}
+		//[Benchmark]
+		//public double RawFastPower() {
+		//	var v = FastMath.RawFastPowerDividing(bases[index], exps[index]);
+		//	NextIndex();
+		//	return v;
+		//}
 
 		[Benchmark]
 		public double FastPowerFractional() {
