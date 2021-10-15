@@ -14,7 +14,8 @@ public class PrecisionComparisonJava {
         };
 
         public void Display() {
-            Misc.Printf("Maximal error: " + Misc.FormatError(maxError) + "%% for number " + String.valueOf(maxErrorBase) + " in power " + String.valueOf(maxErrorExp) + "\n");
+            Misc.Printf("Maximal error: " + Misc.FormatError(maxError) + "%% for number " + String.valueOf(maxErrorBase)
+                    + " in power " + String.valueOf(maxErrorExp) + "\n");
             Misc.Printf("Average error: " + Misc.FormatError(averageError) + "%%\n");
             Misc.Printf("Numbers processed: %d\n", numbersCount);
         }
@@ -35,7 +36,7 @@ public class PrecisionComparisonJava {
                     continue;
                 }
                 var realValue = Math.pow(b, e);
-                var approximateValue = FastMath.FastPower(b, e);
+                var approximateValue = FastMath.FastPowerDividing(b, e);
                 if (Misc.IsUnreal(realValue) || Misc.IsUnreal(approximateValue)) {
                     continue;
                 }
@@ -43,7 +44,7 @@ public class PrecisionComparisonJava {
                 if (Misc.IsUnreal(diff)) {
                     continue;
                 }
-                var percentageDiff = FastMath.ToPercentage(diff);
+                var percentageDiff = Misc.ToPercentage(diff);
                 if (percentageDiff >= result.maxError) {
                     result.maxErrorBase = b;
                     result.maxErrorExp = e;
@@ -53,25 +54,24 @@ public class PrecisionComparisonJava {
                 result.numbersCount++;
             }
         }
-        result.averageError = FastMath
-                .ToPercentage(totalDifference / (result.numbersCount == 0 ? 1 : result.numbersCount));
+        result.averageError = Misc.ToPercentage(totalDifference / (result.numbersCount == 0 ? 1 : result.numbersCount));
         return result;
     }
 
     public static void main(String[] args) throws Exception {
         var scanner = new Scanner(System.in);
 
-        while(true) {
+        while (true) {
             double minExp, maxExp, minBase, maxBase;
             long maxIterationsCount;
             Misc.Printf("ENTER PARAMETERS FOR PRECISION TEST\n");
-            
+
             Misc.LeftPrint("Minimum exponent: ", WIDTH);
             minExp = scanner.nextDouble();
 
             Misc.LeftPrint("Maximum exponent: ", WIDTH);
             maxExp = scanner.nextDouble();
-            if(minExp > maxExp) {
+            if (minExp > maxExp) {
                 var t = maxExp;
                 maxExp = minExp;
                 minExp = t;
@@ -82,7 +82,7 @@ public class PrecisionComparisonJava {
 
             Misc.LeftPrint("Maximum base: ", WIDTH);
             maxBase = scanner.nextDouble();
-            if(minBase > maxBase) {
+            if (minBase > maxBase) {
                 var t = maxBase;
                 maxBase = minBase;
                 minBase = t;
