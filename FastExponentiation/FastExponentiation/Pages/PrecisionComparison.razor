@@ -50,7 +50,7 @@ y = x ^ Exponent
         var min = MinInput.Value;
         var max = MaxInput.Value;
         var step = Math.Abs(max - min) / IterationsInput.Value;
-        var ignoreCount = (int)IterationsInput.Value / DataCount;
+        var ignoreCount = Math.Max(1, (int)IterationsInput.Value / DataCount);
 
         var baselineFunction = Misc.PowerFunctionModels[Misc.BaselinePowerFunctionIndex].Function;
         MeasuresResults = new List<MeasuresResult>();
