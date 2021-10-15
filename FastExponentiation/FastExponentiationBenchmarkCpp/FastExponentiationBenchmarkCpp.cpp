@@ -112,16 +112,16 @@ int main() {
 
 		TMeasureResult* mrs = new TMeasureResult[]{
 			RunBenchmark("Built-in", pow, n, bases, exps),
-			RunBenchmark("FP Dividing", FastMath::FastPowerDividing, n, bases, exps),
-			RunBenchmark("Raw FP Dividing", FastMath::RawFastPowerDividing, n, bases, exps),
-			RunBenchmark("FP Fractional", FastMath::FastPowerFractional, n, bases, exps),
+			RunBenchmark("FP dividing", FastMath::FastPowerDividing, n, bases, exps),
+			RunBenchmark("FP fractional", FastMath::FastPowerFractional, n, bases, exps),
+//			RunBenchmark("Raw FP Dividing", FastMath::RawFastPowerDividing, n, bases, exps),
 			RunBenchmark("Binary", FastMath::BinaryPower, n, bases, exps),
-			RunBenchmark("Old Approx", FastMath::OldApproximatePower, n, bases, exps),
+			RunBenchmark("Old approx", FastMath::OldApproximatePower, n, bases, exps),
 			RunBenchmark("Another approx", FastMath::AnotherApproximatePower, n, bases, exps)
 		};
 
 		std::cout << "Performance results:\n";
-		DisplayMeasureResult(mrs, 7);
+		DisplayMeasureResult(mrs, 6);
 		delete[] mrs;
 		delete[] bases;
 		delete[] exps;

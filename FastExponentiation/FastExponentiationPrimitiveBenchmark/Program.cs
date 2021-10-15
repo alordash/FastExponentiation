@@ -117,10 +117,10 @@ namespace FastExponentiationPrimitiveBenchmark {
 
 		static BenchmarkSetUp[] benchmarkSetUps = {
 			new BenchmarkSetUp{ functionName = "Built-in", benchmarkFunction =  Math.Pow },
-			new BenchmarkSetUp{ functionName = "Fast power", benchmarkFunction =  FastMath.FastPowerDividing },
-			new BenchmarkSetUp{ functionName = "Raw fast power", benchmarkFunction = FastMath.RawFastPowerDividing },
+			new BenchmarkSetUp{ functionName = "FP dividing", benchmarkFunction =  FastMath.FastPowerDividing },
+			new BenchmarkSetUp{ functionName = "FP fractional", benchmarkFunction = FastMath.FastPowerFractional },
 			new BenchmarkSetUp{ functionName = "Binary", benchmarkIntFunction =  FastMath.BinaryPower },
-			new BenchmarkSetUp{ functionName = "Approximate", benchmarkFunction =  FastMath.OldApproximatePower },
+			new BenchmarkSetUp{ functionName = "Old approx", benchmarkFunction =  FastMath.OldApproximatePower },
 			new BenchmarkSetUp{ functionName = "Another approx", benchmarkFunction =  FastMath.AnotherApproxPower }
 		};
 
