@@ -103,7 +103,8 @@ void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineInde
 		std::cout << _SETW << std::scientific << std::setprecision(8) << mr.calculationResult;
 		double precisionError = FastMath::ToPercentage(mr.calculationResult / baselineCalculationResult);
 		std::cout << _FORMAT_ERROR_S(precisionError) << _SETWX(WIDTH - 1) << std::right << _SETP(precisionError) << "%" << _DEFAULT;
-		std::cout << _SETW << mr.iterationsCount << "\n";
+		std::cout << _SETW << mr.iterationsCount;
+		std::cout << "\n";
 	}
 }
 

@@ -93,9 +93,9 @@ namespace FastExponentiationPrimitiveBenchmark {
 			Misc.Display("Mean time", WIDTH);
 			Misc.Display("Total time", WIDTH);
 			Misc.Display("Ratio", WIDTH);
-			Misc.Display("Iterations", WIDTH);
 			Misc.Display("Sum", WIDTH);
 			Misc.Display("Sum difference", WIDTH);
+			Misc.Display("Iterations", WIDTH);
 			Console.WriteLine("");
 			foreach(var mr in mrs) {
 				Misc.Display(mr.functionName, WIDTH);
@@ -111,7 +111,6 @@ namespace FastExponentiationPrimitiveBenchmark {
 				}
 				Misc.Display(ratio.ToString("0.00"), WIDTH);
 				Console.ForegroundColor = ConsoleColor.White;
-				Misc.Display(mr.iterationsCount.ToString(), WIDTH);
 				Misc.Display(mr.calculationResult.ToString("0.00000000E+0"), WIDTH);
 				var precisionError = Misc.ToPercentage(mr.calculationResult / baselineCalculationResult);
 				if(precisionError > 25d) {
@@ -123,6 +122,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 				}
 				Misc.Display(String.Format("{0:0.00}%", precisionError), WIDTH);
 				Console.ForegroundColor = ConsoleColor.White;
+				Misc.Display(mr.iterationsCount.ToString(), WIDTH);
 				Console.WriteLine("");
 			}
 		}
