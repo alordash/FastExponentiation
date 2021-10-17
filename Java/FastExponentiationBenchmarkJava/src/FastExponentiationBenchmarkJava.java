@@ -79,19 +79,19 @@ public class FastExponentiationBenchmarkJava {
         }
         var end = System.nanoTime();
         var duration = end - start;
-        return new MeasureResult("Fast power", duration, duration / (double) iterationsCount, iterationsCount,
+        return new MeasureResult("FP dividing", duration, duration / (double) iterationsCount, iterationsCount,
                 calculationResult);
     }
 
-    public static MeasureResult TestOldApproximatePower(int iterationsCount, double[] bases, double[] exps) {
+    public static MeasureResult TestFastPowerFractional(int iterationsCount, double[] bases, double[] exps) {
         var calculationResult = 0.0;
         var start = System.nanoTime();
         for (int i = 0; i < iterationsCount; i++) {
-            calculationResult += FastMath.OldApproximatePower(bases[i], exps[i]);
+            calculationResult += FastMath.FastPowerFractional(bases[i], exps[i]);
         }
         var end = System.nanoTime();
         var duration = end - start;
-        return new MeasureResult("Approximate", duration, duration / (double) iterationsCount, iterationsCount,
+        return new MeasureResult("FP fractional", duration, duration / (double) iterationsCount, iterationsCount,
                 calculationResult);
     }
 
@@ -111,15 +111,15 @@ public class FastExponentiationBenchmarkJava {
                 calculationResult);
     }
 
-    public static MeasureResult TestFastPowerFractional(int iterationsCount, double[] bases, double[] exps) {
+    public static MeasureResult TestOldApproximatePower(int iterationsCount, double[] bases, double[] exps) {
         var calculationResult = 0.0;
         var start = System.nanoTime();
         for (int i = 0; i < iterationsCount; i++) {
-            calculationResult += FastMath.FastPowerFractional(bases[i], exps[i]);
+            calculationResult += FastMath.OldApproximatePower(bases[i], exps[i]);
         }
         var end = System.nanoTime();
         var duration = end - start;
-        return new MeasureResult("FP fractional", duration, duration / (double) iterationsCount, iterationsCount,
+        return new MeasureResult("Old approx", duration, duration / (double) iterationsCount, iterationsCount,
                 calculationResult);
     }
 
@@ -166,7 +166,7 @@ public class FastExponentiationBenchmarkJava {
             MeasureResult[] measureResults = { TestBuiltIn(n, bases, exps),
                     TestFastPowerDividing(n, bases, exps), TestFastPowerFractional(n, bases, exps),
                     TestBinary(n, bases, exps), TestOldApproximatePower(n, bases, exps),
-                    TestAnotherApproximate(n, bases, exps), };
+                    TestAnotherApproximate(n, bases, exps)};
             Misc.Printf("Performance results:\n");
             DisplayMeasureResults(measureResults, WIDTH, 0);
         }
