@@ -128,7 +128,6 @@ int main() {
 	std::array<BenchmarkSetUp, 6> benchmarkSetUps{ {
 		{ "Built-in", pow, nullptr },
 		{ "Fast power", FastMath::FastPower, nullptr },
-		////{ "Fast power1", FastMath::FastPower1, nullptr },
 		{ "Raw fast power", FastMath::RawFastPower, nullptr },
 		{ "Binary", nullptr, FastMath::BinaryPower },
 		{ "Approximate",  FastMath::FastApproximatePower, nullptr },
