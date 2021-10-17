@@ -106,8 +106,8 @@ int main() {
 	srand((unsigned int)time(NULL));
 	const int n = 500'000;
 	const int tries = 20;
-	double baseMul = 100002.0;
-	double expMul = 12.1;
+	double baseMul = 0;
+	double expMul = 0;
 
 	std::array<BenchmarkSetUp, 6> benchmarkSetUps{ {
 		{ 0, "Built-in", pow, nullptr },
