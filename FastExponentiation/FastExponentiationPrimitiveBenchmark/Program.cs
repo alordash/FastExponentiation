@@ -147,9 +147,9 @@ namespace FastExponentiationPrimitiveBenchmark {
 				Console.WriteLine("Generating data values");
 
 				for(int i = 0; i < n; i++) {
-					bases[i] = Math.Abs(baseMul);
-					exps[i] = Math.Abs(expMul);
-					expsInt[i] = (Int64)exps[i];
+					bases[i] = baseMul * Math.Abs((double)i / (double)n);
+					exps[i] = expMul * Math.Abs((double)i / (double)n);
+					expsInt[i] = (Int64)Math.Round(exps[i]);
 				}
 				Console.WriteLine("Done generating values, running benchmarks");
 				Console.WriteLine("C#");
