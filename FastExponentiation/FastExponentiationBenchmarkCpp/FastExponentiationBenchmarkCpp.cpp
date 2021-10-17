@@ -5,10 +5,11 @@
 #include "FastMath.h"
 
 #define WIDTH 20
+#define _SETWX(x) std::setw(x)
 #define _SETW std::setw(WIDTH)
 
 #define PRECISION 2
-#define _SETP(x) std::fixed << std::setprecision(2) << x
+#define _SETP(x) std::fixed << std::setprecision(PRECISION) << x
 
 #define TOO_BIG_SUM 100'000'000'000.0
 #define TOO_BIG_MESSAGE "Too big"
@@ -63,11 +64,11 @@ TMeasureResult RunBenchmark(std::string functionName, BenchmarkIntFunction f, lo
 
 void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineIndex = 0) {
 	double baselineMeanTime = mrs[baselineIndex].meanTime;
-	std::cout << _SETW << "Function" << _SETW << "Mean time" << _SETW << "Total time" << _SETW << "Ratio" << _SETW << "Iterations" << _SETW << "Sum\n";
+	std::cout << _SETW << "Function" << _SETW << "Mean time" << _SETW << "Total time" << _SETW << "Ratio" << _SETW << "Iterations" << _SETW << "Sum" << "\n";
 	for(size_t i = 0; i < count; i++) {
 		TMeasureResult& mr = mrs[i];
 		double ratio = mr.meanTime / baselineMeanTime;
-		std::cout << _SETW << mr.functionName << std::setw(WIDTH - 2) << _SETP(mr.meanTime) << " ns" << _SETW << mr.totalTime;
+		std::cout << _SETW << mr.functionName << _SETWX(WIDTH - 3) << _SETP(mr.meanTime) << " ns" << _SETWX(WIDTH - 3) << mr.totalTime << " ns";
 		if(ratio < 0.9) {
 			std::cout << "\033[32m";
 		} else if(ratio > 1.1) {
