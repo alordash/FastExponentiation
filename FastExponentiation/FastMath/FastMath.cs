@@ -28,7 +28,6 @@ public static class FastMath {
 	public static double OldApproximatePower(double b, double e) {
 		TDoubleLongUnion u = new TDoubleLongUnion() { d = b };
 		u.i = (long)(FastMath.doubleApproximator + e * (u.i - FastMath.doubleApproximator));
-		b = u.d;
 		return u.d;
 	}
 
