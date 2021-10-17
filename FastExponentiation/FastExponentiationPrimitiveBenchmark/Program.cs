@@ -88,12 +88,15 @@ namespace FastExponentiationPrimitiveBenchmark {
 
 		public static void DisplayMeasureResults(List<TMeasureResult> mrs, int baselineIndex = 0) {
 			var baselineMeanTime = mrs[baselineIndex].meanTime;
+			var baselineCalculationResult = mrs[baselineIndex].calculationResult;
 			Misc.Display("Function", WIDTH);
 			Misc.Display("Mean time", WIDTH);
 			Misc.Display("Total time", WIDTH);
 			Misc.Display("Ratio", WIDTH);
 			Misc.Display("Iterations", WIDTH);
-			Misc.Display("Sum\n", WIDTH);
+			Misc.Display("Sum", WIDTH);
+			Misc.Display("Sum difference", WIDTH);
+			Console.WriteLine("");
 			foreach(var mr in mrs) {
 				Misc.Display(mr.functionName, WIDTH);
 				Misc.Display(mr.meanTime.ToString("0.00") + " ns", WIDTH);
@@ -109,8 +112,18 @@ namespace FastExponentiationPrimitiveBenchmark {
 				Misc.Display(ratio.ToString("0.00"), WIDTH);
 				Console.ForegroundColor = ConsoleColor.White;
 				Misc.Display(mr.iterationsCount.ToString(), WIDTH);
-				Misc.Display(mr.calculationResult.ToString("0.00000000E+0") + "\n", WIDTH);
-
+				Misc.Display(mr.calculationResult.ToString("0.00000000E+0"), WIDTH);
+				var precisionError = Misc.ToPercentage(mr.calculationResult / baselineCalculationResult);
+				if(precisionError > 25d) {
+					Console.ForegroundColor = ConsoleColor.DarkRed;
+				} else if(precisionError > 10) {
+					Console.ForegroundColor = ConsoleColor.DarkYellow;
+				} else {
+					Console.ForegroundColor = ConsoleColor.DarkGreen;
+				}
+				Misc.Display(String.Format("{0:0.00}%", precisionError), WIDTH);
+				Console.ForegroundColor = ConsoleColor.White;
+				Console.WriteLine("");
 			}
 		}
 
