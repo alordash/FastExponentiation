@@ -16,10 +16,10 @@ public:
 
 	static double RawFastPowerDividing(double b, double e);
 
-	static double ToPercentage(double ratio);
-
-	// Not my realization
-	// Found it here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
+	// Found this realization here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
 	static double AnotherApproximatePower(double a, double b);
+
+	// Miscellaneous function
+	static double ToPercentage(double ratio);
 };
 

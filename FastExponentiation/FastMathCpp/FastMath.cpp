@@ -72,13 +72,6 @@ double FastMath::FastPowerFractional(double b, double e) {
 	return result;
 }
 
-double FastMath::ToPercentage(double ratio) {
-	if(ratio == 0.0) {
-		return 0.0;
-	}
-	return fabs(ratio - 1.0) * 100.0;
-}
-
 // Found this realization here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
 double FastMath::AnotherApproximatePower(double a, double b) {
 	union {
@@ -88,4 +81,12 @@ double FastMath::AnotherApproximatePower(double a, double b) {
 	u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
 	u.x[0] = 0;
 	return u.d;
+}
+
+// Miscellaneous function
+double FastMath::ToPercentage(double ratio) {
+	if(ratio == 0.0) {
+		return 0.0;
+	}
+	return fabs(ratio - 1.0) * 100.0;
 }

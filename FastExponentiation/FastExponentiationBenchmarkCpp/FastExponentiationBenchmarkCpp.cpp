@@ -16,6 +16,12 @@ using namespace std;
 #define PRECISION 2
 #define _SETP(x) std::fixed << std::setprecision(PRECISION) << x
 
+#define _DEFAULT "\033[0m"
+
+#define _NUM_IS_UNREAL(x) std::isnan(x) || !std::isfinite(x)
+#define _FORMAT_ERROR_S(x) (_NUM_IS_UNREAL(x) ? "\033[31;7m" : (x > 25 ? "\033[31m" : (x > 10 ? "\033[33m" : "\033[32m")))
+#define _FORMAT_ERROR(x) _FORMAT_ERROR_S(x) << x << _DEFAULT
+
 typedef double (*BenchmarkFunction)(double, double);
 typedef double (*BenchmarkIntFunction)(double, long long);
 
@@ -80,7 +86,8 @@ TMeasureResult RunBenchmark(BenchmarkSetUp benchmarkSetUp, long long iterationsC
 
 void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineIndex = 0) {
 	double baselineMeanTime = mrs[baselineIndex].meanTime;
-	std::cout << _SETW << "Function" << _SETW << "Mean time" << _SETW << "Total time" << _SETW << "Ratio" << _SETW << "Iterations" << _SETW << "Sum" << "\n";
+	double baselineCalculationResult = mrs[baselineIndex].calculationResult;
+	std::cout << _SETW << "Function" << _SETW << "Mean time" << _SETW << "Total time" << _SETW << "Ratio"<< _SETW << "Sum" << _SETW << "Sum difference" << _SETW << "Iterations" << "\n";
 	for(size_t i = 0; i < count; i++) {
 		TMeasureResult& mr = mrs[i];
 		double ratio = mr.meanTime / baselineMeanTime;
@@ -93,8 +100,10 @@ void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineInde
 			std::cout << "\033[33m";
 		}
 		std::cout << _SETW << _SETP(ratio) << "\033[0m";
-		std::cout << _SETW << mr.iterationsCount;
-		std::cout << _SETW << std::scientific << std::setprecision(8) << mr.calculationResult << "\n";
+		std::cout << _SETW << std::scientific << std::setprecision(8) << mr.calculationResult;
+		double precisionError = FastMath::ToPercentage(mr.calculationResult / baselineCalculationResult);
+		std::cout << _FORMAT_ERROR_S(precisionError) << _SETWX(WIDTH - 1) << std::right << _SETP(precisionError) << "%" << _DEFAULT;
+		std::cout << _SETW << mr.iterationsCount << "\n";
 	}
 }
 
