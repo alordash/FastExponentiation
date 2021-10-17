@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 
+// ————————————————
+// —	UNUSED    —
+// ————————————————
+
 namespace FastExponentiationBenchmark {
 	[SimpleJob(id: "Fast power vs built-in power", invocationCount: 10_000_000)]
 	public class PowerFunctionsSpeedComparison : BenchmarkTemplate {
@@ -20,15 +24,22 @@ namespace FastExponentiationBenchmark {
 		}
 
 		[Benchmark]
-		public double FastPower() {
-			var v = FastMath.FastPower(bases[index], exps[index]);
+		public double FastPowerDividing() {
+			var v = FastMath.FastPowerDividing(bases[index], exps[index]);
 			NextIndex();
 			return v;
 		}
 
 		[Benchmark]
-		public double RawFastPower() {
-			var v = FastMath.RawFastPower(bases[index], exps[index]);
+		public double RawFastPowerDividing() {
+			var v = FastMath.RawFastPowerDividing(bases[index], exps[index]);
+			NextIndex();
+			return v;
+		}
+
+		[Benchmark]
+		public double FastPowerFractional() {
+			var v = FastMath.FastPowerFractional(bases[index], exps[index]);
 			NextIndex();
 			return v;
 		}

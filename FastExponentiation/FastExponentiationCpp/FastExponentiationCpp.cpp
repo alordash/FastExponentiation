@@ -57,7 +57,7 @@ int main() {
 		std::cout << _L << _SETW << _FILL(' ') << "Enter exponent:";
 		std::cin >> exponent;
 		double realValue = pow(base, exponent);
-		double approximateValue = FastMath::FastPower(base, exponent);
+		double approximateValue = FastMath::FastPowerDividing(base, exponent);
 		std::cout << _L << _SETW << _FILL(' ') << "Real result: " << realValue << "\n";
 		std::cout << _L << _SETW << _FILL(' ') << "Approximate: " << approximateValue << "\n";
 		double percentageDifference = FastMath::ToPercentage(realValue / approximateValue);

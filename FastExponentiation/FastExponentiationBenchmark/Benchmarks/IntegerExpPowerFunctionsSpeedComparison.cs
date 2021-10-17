@@ -5,11 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 
+// ————————————————
+// —	UNUSED    —
+// ————————————————
+
 namespace FastExponentiationBenchmark {
 	[SimpleJob(id: "Binary power vs built-in power", invocationCount: 10_000_000)]
 	public class IntegerExpPowerFunctionsSpeedComparison : BenchmarkTemplate {
-		protected new double minExp = 0d; // 67108864d;		// boundaries where built-in power
-		protected new double maxExp = 42d; // 134217728;		// outperforms binary power
+		protected new double minExp = 0d; // 67108864d;		// These are boundaries where built-in
+		protected new double maxExp = 42d; // 134217728;	// power outperforms binary power
 
 		private new Int64[] exps;
 

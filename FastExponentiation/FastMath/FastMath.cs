@@ -25,13 +25,13 @@ public static class FastMath {
 	// long doubleApproximator = (long)((1L << 52) * ((1L << 10) - 1.0730088d));
 	//										  manually set value - ^^^^^^^^^
 	public static long doubleApproximator = 4606853616395542500L;
-	public static double FastApproximatePower(double b, double e) {
+	public static double OldApproximatePower(double b, double e) {
 		TDoubleLongUnion u = new TDoubleLongUnion() { d = b };
 		u.i = (long)(FastMath.doubleApproximator + e * (u.i - FastMath.doubleApproximator));
 		return u.d;
 	}
 
-	public static double FastPower(double b, double e) {
+	public static double FastPowerDividing(double b, double e) {
 		// To avoid undefined behaviour near key points,
 		// we can hardcode results for them, but this
 		// will make function slower
@@ -40,7 +40,7 @@ public static class FastMath {
 		}
 		var eAbs = Math.Abs(e);
 		var el = Math.Ceiling(eAbs);
-		var basePart = FastApproximatePower(b, eAbs / el);
+		var basePart = OldApproximatePower(b, eAbs / el);
 
 		// Because FastApproximatePower gives inaccurate results
 		// with negative exponent, we can increase precision
@@ -52,16 +52,36 @@ public static class FastMath {
 		return BinaryPower(basePart, (long)el);
 	}
 
-	public static double RawFastPower(double b, double e) {
+	// This function is basically FastPowerDividing, except
+	// it doesn't have any extra conditions. Although these
+	// conditions make function slower only by 10% than FastPowerDividing 
+	public static double RawFastPowerDividing(double b, double e) {
 		var eAbs = Math.Abs(e);
 		var el = Math.Ceiling(eAbs);
-		var basePart = FastApproximatePower(b, eAbs / el);
+		var basePart = OldApproximatePower(b, eAbs / el);
 		return BinaryPower(basePart, (long)el);
 	}
 
-	// Not my realization
-	// Found it here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
-	public static double AnotherApproximation(double a, double b) {
+	public static double FastPowerFractional(double b, double e) {
+		// To avoid undefined behaviour near key points,
+		// we can hardcode results for them, but this
+		// will make function slower
+		if(b == 1d || e == 0d) {
+			return 1d;
+		}
+
+		double absExp = Math.Abs(e);
+		long eIntPart = (long)absExp;
+		double eFractPart = absExp - eIntPart;
+		double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
+		if(e < 0d) {
+			return 1d / result;
+		}
+		return result;
+	}
+
+	// Found this realization here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
+	public static double AnotherApproxPower(double a, double b) {
 		int tmp = (int)(BitConverter.DoubleToInt64Bits(a) >> 32);
 		int tmp2 = (int)(b * (tmp - 1072632447) + 1072632447);
 		return BitConverter.Int64BitsToDouble(((long)tmp2) << 32);

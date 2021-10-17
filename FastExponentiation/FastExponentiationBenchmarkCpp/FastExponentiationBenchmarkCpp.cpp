@@ -13,10 +13,11 @@
 using namespace std;
 
 #define WIDTH 20
+#define _SETWX(x) std::setw(x)
 #define _SETW std::setw(WIDTH)
 
 #define PRECISION 2
-#define _SETP(x) std::fixed << std::setprecision(2) << x
+#define _SETP(x) std::fixed << std::setprecision(PRECISION) << x
 
 typedef double (*BenchmarkFunction)(double, double);
 typedef double (*BenchmarkIntFunction)(double, long long);
@@ -56,7 +57,7 @@ TMeasureResult RunBenchmark(std::string functionName, BenchmarkIntFunction f, lo
 	double* base = bases;
 	long long* intExps = new long long[iterationsCount];
 	for (long long i = 0; i < iterationsCount; i++) {
-		intExps[i] = (long long)exps[i];
+		intExps[i] = (long long)round(exps[i]);
 	}
 	long long* exp = intExps;
 	double* baseEnd = base + iterationsCount;
@@ -81,11 +82,11 @@ TMeasureResult RunBenchmark(BenchmarkSetUp benchmarkSetUp, long long iterationsC
 
 void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineIndex = 0) {
 	double baselineMeanTime = mrs[baselineIndex].meanTime;
-	std::cout << _SETW << "Function" << _SETW << "Mean time" << _SETW << "Total time" << _SETW << "Ratio" << _SETW << "Iterations" << _SETW << "Sum\n";
+	std::cout << _SETW << "Function" << _SETW << "Mean time" << _SETW << "Total time" << _SETW << "Ratio" << _SETW << "Iterations" << _SETW << "Sum" << "\n";
 	for (size_t i = 0; i < count; i++) {
 		TMeasureResult& mr = mrs[i];
 		double ratio = mr.meanTime / baselineMeanTime;
-		std::cout << _SETW << mr.functionName << std::setw(WIDTH - 2) << _SETP(mr.meanTime) << " ns" << _SETW << mr.totalTime;
+		std::cout << _SETW << mr.functionName << _SETWX(WIDTH - 3) << _SETP(mr.meanTime) << " ns" << _SETWX(WIDTH - 3) << mr.totalTime << " ns";
 		if (ratio < 0.9) {
 			std::cout << "\033[32m";
 		} else if (ratio > 1.1) {

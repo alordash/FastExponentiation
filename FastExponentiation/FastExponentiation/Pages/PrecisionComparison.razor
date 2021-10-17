@@ -40,17 +40,16 @@ y = x ^ Exponent
     public NumberInput MaxInput;
     public NumberInput IterationsInput;
 
-
     public const int DataCount = 200;
 
-    public List< MeasuresResult> MeasuresResults = new List<MeasuresResult>();
+    public List<MeasuresResult> MeasuresResults = new List<MeasuresResult>();
 
     void ComparePrecision() {
         var exp = ExpInput.Value;
         var min = MinInput.Value;
         var max = MaxInput.Value;
         var step = Math.Abs(max - min) / IterationsInput.Value;
-        var ignoreCount = (int)IterationsInput.Value / DataCount;
+        var ignoreCount = Math.Max(1, (int)IterationsInput.Value / DataCount);
 
         var baselineFunction = Misc.PowerFunctionModels[Misc.BaselinePowerFunctionIndex].Function;
         MeasuresResults = new List<MeasuresResult>();

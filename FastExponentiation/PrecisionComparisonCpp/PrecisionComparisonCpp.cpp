@@ -39,7 +39,7 @@ TComparisonResult ComparePrecision(double minExp, double maxExp, double minBase,
 				continue;
 			}
 			double realValue = pow(b, e);
-			double approximateValue = FastMath::FastPower(b, e);
+			double approximateValue = FastMath::FastPowerDividing(b, e);
 			if(_NUM_IS_UNREAL(realValue) || _NUM_IS_UNREAL(approximateValue)) {
 				continue;
 			}

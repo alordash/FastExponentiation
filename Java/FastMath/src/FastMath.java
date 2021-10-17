@@ -13,7 +13,7 @@ public abstract class FastMath {
 
     public static long doubleApproximator = 4606853616395542500L;
 
-    public static double FastApproximatePower(double b, double e) {
+    public static double OldApproximatePower(double b, double e) {
         // Formula of magic constant
         // long k = (long)((1L << 52) * ((1L << 10) - 1.0730088));
 		//						 manually set value - ^^^^^^^^^
@@ -24,7 +24,7 @@ public abstract class FastMath {
         return b;
     }
 
-    public static double FastPower(double b, double e) {
+    public static double FastPowerDividing(double b, double e) {
         // To avoid undefined behaviour near key points,
         // we can hardcode results for them, but this
         // will make function slower
@@ -33,7 +33,7 @@ public abstract class FastMath {
         }
         var eAbs = Math.abs(e);
         var el = Math.ceil(eAbs);
-        var basePart = FastApproximatePower(b, eAbs / el);
+        var basePart = OldApproximatePower(b, eAbs / el);
 
         // Because FastApproximatePower gives inaccurate results
         // with negative exponent, we can increase precision
@@ -45,19 +45,29 @@ public abstract class FastMath {
         return BinaryPower(basePart, (long) el);
     }
 
-    public static double RawFastPower(double b, double e) {
-        var eAbs = Math.abs(e);
-        var el = Math.ceil(eAbs);
-        var basePart = FastApproximatePower(b, eAbs / el);
-        return BinaryPower(basePart, (long) el);
+    public static double FastPowerFractional(double b, double e) {
+        // To avoid undefined behaviour near key points,
+        // we can hardcode results for them, but this
+        // will make function slower
+        if (b == 1d || e == 0d) {
+            return 1d;
+        }
+
+        double absExp = Math.abs(e);
+        long eIntPart = (long)absExp;
+        double eFractPart = absExp - eIntPart;
+        double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
+        if(e < 0d) {
+            return 1d / result;
+        }
+        return result;
     }
 
-    // Technical method not used in calculation
-    public static double ToPercentage(double ratio) {
-        if (ratio == 0d) {
-            return 0d;
-        }
-        return Math.abs(ratio - 1d) * 100d;
+    public static double RawFastPowerDividing(double b, double e) {
+        var eAbs = Math.abs(e);
+        var el = Math.ceil(eAbs);
+        var basePart = OldApproximatePower(b, eAbs / el);
+        return BinaryPower(basePart, (long) el);
     }
 
     public static double AnotherApproximation(final double a, final double b) {
@@ -65,5 +75,4 @@ public abstract class FastMath {
         final int y = (int) (b * (x - 1072632447) + 1072632447);
         return Double.longBitsToDouble(((long) y) << 32);
     }
-    
 }

@@ -16,14 +16,14 @@ class FastExponentiationJava {
             exponent = scan.nextDouble();
 
             var realValue = Math.pow(base, exponent);
-            var approximateValue = FastMath.FastPower(base, exponent);
+            var approximateValue = FastMath.FastPowerDividing(base, exponent);
 
             Misc.LeftPrint("Real result:", PRINT_WIDTH);
             Misc.Printf("%f\n", realValue);
             Misc.LeftPrint("Approximate:", PRINT_WIDTH);
             Misc.Printf("%f\n", approximateValue);
 
-            var percentageDifference = FastMath.ToPercentage(realValue / approximateValue);
+            var percentageDifference = Misc.ToPercentage(realValue / approximateValue);
             Misc.ShowDifference(percentageDifference, PRINT_WIDTH, DIFFERENCE_BAR_WIDTH);
         }
     }
