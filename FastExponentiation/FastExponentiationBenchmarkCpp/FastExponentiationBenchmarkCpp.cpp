@@ -110,19 +110,7 @@ int main() {
 	int n = 1'000'000;
 	double baseMul = 100002.0;
 	double expMul = 12.1;
-	std::cout << "Enter base multiplicator: ";
-	std::cin >> baseMul;
-	std::cout << "Enter exponent multiplicator: ";
-	std::cin >> expMul;
 
-	std::cout << "Generating data values\n";
-	double* bases = new double[n];
-	double* exps = new double[n];
-	for (int i = 0; i < n; i++) {
-		bases[i] = abs(baseMul * ((0.0 + i) / n) /*SignedRand()*/);
-		exps[i] = abs(expMul * ((0.0 + i) / n)/*SignedRand()*/);
-	}
-	std::cout << "Done generating values, running benchmarks\n";
 
 
 	std::array<BenchmarkSetUp, 6> benchmarkSetUps{ {
@@ -136,6 +124,19 @@ int main() {
 
 
 	while (true) {
+		std::cout << "Enter base multiplicator: ";
+		std::cin >> baseMul;
+		std::cout << "Enter exponent multiplicator: ";
+		std::cin >> expMul;
+
+		std::cout << "Generating data values\n";
+		double* bases = new double[n];
+		double* exps = new double[n];
+		for (int i = 0; i < n; i++) {
+			bases[i] = abs(baseMul * ((0.0 + i) / n) /*SignedRand()*/);
+			exps[i] = abs(expMul * ((0.0 + i) / n)/*SignedRand()*/);
+		}
+		std::cout << "Done generating values, running benchmarks\n";
 		std::cout << "C++\n";
 
 		std::map<std::string, TMeasureResult> dictMeasureResults;
@@ -169,10 +170,9 @@ int main() {
 
 		std::cout << "Performance results:\n";
 		DisplayMeasureResult(measureResults.data(), measureResults.size());
+		std::cout << "\n";
 
-		std::cout << "Press Enter to Continue\n";
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		delete[] bases;
+		delete[] exps;
 	}
-	delete[] bases;
-	delete[] exps;
 }

@@ -133,24 +133,23 @@ namespace FastExponentiationPrimitiveBenchmark {
 			}
 			Benchmarking.WarmUp(warmUpFunctions);
 
-			var rand = new Random();
-			int n = 1_000_000;
-			double[] bases = new double[n];
-			double[] exps = new double[n];
-			Int64[] expsInt = new Int64[n];
-			double baseMul = Misc.GetDouble("Enter base multiplicator: ");
-			double expMul = Misc.GetDouble("Enter exponent multiplicator: ");
-
-			Console.WriteLine("Generating data values");
-
-			for(int i = 0; i < n; i++) {
-				bases[i] = Math.Abs(baseMul * ((0.0 + i) / n) /*Misc.SignedRand(rand)*/);
-				exps[i] = Math.Abs(expMul * ((0.0 + i) / n)/*Misc.SignedRand(rand)*/);
-				expsInt[i] = (Int64)exps[i];
-			}
-			Console.WriteLine("Done generating values, running benchmarks");
 
 			while(true) {
+				int n = 1_000_000;
+				double[] bases = new double[n];
+				double[] exps = new double[n];
+				Int64[] expsInt = new Int64[n];
+				double baseMul = Misc.GetDouble("Enter base multiplicator: ");
+				double expMul = Misc.GetDouble("Enter exponent multiplicator: ");
+
+				Console.WriteLine("Generating data values");
+
+				for(int i = 0; i < n; i++) {
+					bases[i] = Math.Abs(baseMul * ((0.0 + i) / n));
+					exps[i] = Math.Abs(expMul * ((0.0 + i) / n));
+					expsInt[i] = (Int64)exps[i];
+				}
+				Console.WriteLine("Done generating values, running benchmarks");
 				Console.WriteLine("C#");
 
 
@@ -183,8 +182,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 					.OrderBy(x => x.functionName)
 					.ToList());
 
-				Console.WriteLine("Press any key to repeat");
-				Console.ReadLine();
+				Console.WriteLine("");
 
 			}
 		}
