@@ -18,9 +18,6 @@ using namespace std;
 #define PRECISION 2
 #define _SETP(x) std::fixed << std::setprecision(2) << x
 
-#define TOO_BIG_SUM 100'000'000'000.0
-#define TOO_BIG_MESSAGE "Too big"
-
 typedef double (*BenchmarkFunction)(double, double);
 typedef double (*BenchmarkIntFunction)(double, long long);
 
@@ -98,11 +95,7 @@ void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineInde
 		}
 		std::cout << _SETW << _SETP(ratio) << "\033[0m";
 		std::cout << _SETW << mr.iterationsCount;
-		if (mr.calculationResult > TOO_BIG_SUM) {
-			std::cout << _SETW << TOO_BIG_MESSAGE << "\n";
-		} else {
-			std::cout << _SETW << _SETP(mr.calculationResult) << "\n";
-		}
+		std::cout << _SETW << std::scientific << std::setprecision(8) << mr.calculationResult << "\n";
 	}
 }
 
