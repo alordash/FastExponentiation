@@ -18,6 +18,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 		}
 
 		public class BenchmarkSetUp : Benchmarking.IWarmUpable {
+			public int id;
 			public String functionName;
 			public Misc.PowerFunction benchmarkFunction;
 			public Misc.PowerIntFunction benchmarkIntFunction;
@@ -114,15 +115,18 @@ namespace FastExponentiationPrimitiveBenchmark {
 		}
 
 		static BenchmarkSetUp[] benchmarkSetUps = {
-			new BenchmarkSetUp{ functionName = "Built-in", benchmarkFunction =  Math.Pow },
-			new BenchmarkSetUp{ functionName = "FP dividing", benchmarkFunction =  FastMath.FastPowerDividing },
-			new BenchmarkSetUp{ functionName = "FP fractional", benchmarkFunction = FastMath.FastPowerFractional },
-			new BenchmarkSetUp{ functionName = "Binary", benchmarkIntFunction =  FastMath.BinaryPower },
-			new BenchmarkSetUp{ functionName = "Old approx", benchmarkFunction =  FastMath.OldApproximatePower },
-			new BenchmarkSetUp{ functionName = "Another approx", benchmarkFunction =  FastMath.AnotherApproxPower }
+			new BenchmarkSetUp{ id = 0, functionName = "Built-in", benchmarkFunction =  Math.Pow },
+			new BenchmarkSetUp{ id = 1, functionName = "FP dividing", benchmarkFunction =  FastMath.FastPowerDividing },
+			new BenchmarkSetUp{ id = 2, functionName = "FP fractional", benchmarkFunction = FastMath.FastPowerFractional },
+			new BenchmarkSetUp{ id = 3, functionName = "Binary", benchmarkIntFunction =  FastMath.BinaryPower },
+			new BenchmarkSetUp{ id = 4, functionName = "Old approx", benchmarkFunction =  FastMath.OldApproximatePower },
+			new BenchmarkSetUp{ id = 5, functionName = "Another approx", benchmarkFunction =  FastMath.AnotherApproxPower }
 		};
 
 		static void Main(string[] args) {
+			const int n = 500_000;
+			const int tries = 20;
+
 			// Setting process configuration: single-core, high priority
 			Benchmarking.SetUpForBenchmarking();
 
@@ -133,9 +137,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 			}
 			Benchmarking.WarmUp(warmUpFunctions);
 
-
 			while(true) {
-				int n = 1_000_000;
 				double[] bases = new double[n];
 				double[] exps = new double[n];
 				Int64[] expsInt = new Int64[n];
@@ -152,11 +154,9 @@ namespace FastExponentiationPrimitiveBenchmark {
 				Console.WriteLine("Done generating values, running benchmarks");
 				Console.WriteLine("C#");
 
-
 				var measureResults = new Dictionary<BenchmarkSetUp, TMeasureResult>();
 
 				var rng = new Random();
-				const int tries = 50;
 				for(int i = 0; i < tries; i++) {
 					foreach(var benchmarkSetUp in benchmarkSetUps.OrderBy(a => rng.Next())) {
 						var newRes = RunBenchmark(benchmarkSetUp, n, bases, exps, expsInt);
@@ -171,19 +171,18 @@ namespace FastExponentiationPrimitiveBenchmark {
 				}
 
 				Console.WriteLine("Performance results:");
-				DisplayMeasureResults(measureResults.Values.
-					Select(x => new TMeasureResult() {
+				DisplayMeasureResults(measureResults
+					.OrderBy(x => x.Key.id)
+					.Select(x => x.Value)
+					.Select(x => new TMeasureResult {
 						functionName = x.functionName,
 						totalTime = x.totalTime,
 						meanTime = x.meanTime / tries,
 						iterationsCount = x.iterationsCount,
-						calculationResult = x.calculationResult,
+						calculationResult = x.calculationResult
 					})
-					.OrderBy(x => x.functionName)
-					.ToList());
-
-				Console.WriteLine("");
-
+					.ToList()
+				);
 			}
 		}
 	}
