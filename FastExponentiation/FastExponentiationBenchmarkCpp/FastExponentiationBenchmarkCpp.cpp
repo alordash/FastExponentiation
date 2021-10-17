@@ -116,13 +116,12 @@ int main() {
 
 	std::array<BenchmarkSetUp, 6> benchmarkSetUps{ {
 		{ "Built-in", pow, nullptr },
-		{ "Fast power", FastMath::FastPower, nullptr },
-		{ "Raw fast power", FastMath::RawFastPower, nullptr },
+		{ "FP dividing", FastMath::FastPowerDividing, nullptr },
+		{ "FP fractional", FastMath::FastPowerFractional, nullptr },
 		{ "Binary", nullptr, FastMath::BinaryPower },
-		{ "Approximate",  FastMath::FastApproximatePower, nullptr },
-		{ "Another approx",  FastMath::AnotherApproximation, nullptr }
+		{ "Old approx", FastMath::OldApproximatePower, nullptr },
+		{ "Another approx", FastMath::AnotherApproximatePower, nullptr }
 	} };
-
 
 	while (true) {
 		std::cout << "Enter base multiplicator: ";
