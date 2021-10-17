@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 
@@ -107,11 +108,8 @@ namespace FastExponentiationPrimitiveBenchmark {
 				Misc.Display(ratio.ToString("0.00"), WIDTH);
 				Console.ForegroundColor = ConsoleColor.White;
 				Misc.Display(mr.iterationsCount.ToString(), WIDTH);
-				if(mr.calculationResult > TOO_BIG_SUM) {
-					Misc.Display(TOO_BIG_MESSAGE + "\n", WIDTH);
-				} else {
-					Misc.Display(mr.calculationResult.ToString("0.00") + "\n", WIDTH);
-				}
+				Misc.Display(mr.calculationResult.ToString("0.00000000E+0") + "\n", WIDTH);
+
 			}
 		}
 
@@ -135,32 +133,57 @@ namespace FastExponentiationPrimitiveBenchmark {
 			}
 			Benchmarking.WarmUp(warmUpFunctions);
 
-			var rand = new Random();
-			int n = 1_000_000;
+
 			while(true) {
-				Console.WriteLine("C#");
+				int n = 1_000_000;
+				double[] bases = new double[n];
+				double[] exps = new double[n];
+				Int64[] expsInt = new Int64[n];
 				double baseMul = Misc.GetDouble("Enter base multiplicator: ");
 				double expMul = Misc.GetDouble("Enter exponent multiplicator: ");
 
 				Console.WriteLine("Generating data values");
-				double[] bases = new double[n];
-				double[] exps = new double[n];
-				Int64[] expsInt = new Int64[n];
+
 				for(int i = 0; i < n; i++) {
-					bases[i] = Math.Abs(baseMul * Misc.SignedRand(rand));
-					exps[i] = Math.Abs(expMul * Misc.SignedRand(rand));
-					expsInt[i] = (Int64)Math.Round(exps[i]);
+					bases[i] = Math.Abs(baseMul);
+					exps[i] = Math.Abs(expMul);
+					expsInt[i] = (Int64)exps[i];
 				}
-
-				List<TMeasureResult> measureResults = new List<TMeasureResult>();
 				Console.WriteLine("Done generating values, running benchmarks");
+				Console.WriteLine("C#");
 
-				foreach(var benchmarkSetUp in benchmarkSetUps) {
-					measureResults.Add(RunBenchmark(benchmarkSetUp, n, bases, exps, expsInt));
+
+				var measureResults = new Dictionary<BenchmarkSetUp, TMeasureResult>();
+
+				var rng = new Random();
+				const int tries = 50;
+				for(int i = 0; i < tries; i++) {
+					foreach(var benchmarkSetUp in benchmarkSetUps.OrderBy(a => rng.Next())) {
+						var newRes = RunBenchmark(benchmarkSetUp, n, bases, exps, expsInt);
+						if(measureResults.TryGetValue(benchmarkSetUp, out TMeasureResult oldRes)) {
+							newRes.totalTime += oldRes.totalTime;
+							newRes.meanTime += oldRes.meanTime;
+							newRes.iterationsCount += oldRes.iterationsCount;
+							newRes.calculationResult += oldRes.calculationResult;
+						}
+						measureResults[benchmarkSetUp] = newRes;
+					}
 				}
 
 				Console.WriteLine("Performance results:");
-				DisplayMeasureResults(measureResults);
+				DisplayMeasureResults(measureResults.Values.
+					Select(x => new TMeasureResult() {
+						functionName = x.functionName,
+						totalTime = x.totalTime,
+						meanTime = x.meanTime / tries,
+						iterationsCount = x.iterationsCount,
+						calculationResult = x.calculationResult,
+					})
+					.OrderBy(x => x.functionName)
+					.ToList());
+
+				Console.WriteLine("");
+
 			}
 		}
 	}
