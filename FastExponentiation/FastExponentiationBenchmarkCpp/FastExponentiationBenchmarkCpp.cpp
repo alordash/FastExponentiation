@@ -133,8 +133,8 @@ int main() {
 		double* bases = new double[n];
 		double* exps = new double[n];
 		for (int i = 0; i < n; i++) {
-			bases[i] = abs(baseMul * ((0.0 + i) / n) /*SignedRand()*/);
-			exps[i] = abs(expMul * ((0.0 + i) / n)/*SignedRand()*/);
+			bases[i] = abs(baseMul);
+			exps[i] = abs(expMul);
 		}
 		std::cout << "Done generating values, running benchmarks\n";
 		std::cout << "C++\n";
