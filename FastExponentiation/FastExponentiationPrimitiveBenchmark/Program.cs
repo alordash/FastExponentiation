@@ -149,7 +149,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 				for(int i = 0; i < n; i++) {
 					bases[i] = Math.Abs(baseMul * Misc.SignedRand(rand));
 					exps[i] = Math.Abs(expMul * Misc.SignedRand(rand));
-					expsInt[i] = (Int64)exps[i];
+					expsInt[i] = (Int64)Math.Round(exps[i]);
 				}
 
 				List<TMeasureResult> measureResults = new List<TMeasureResult>();

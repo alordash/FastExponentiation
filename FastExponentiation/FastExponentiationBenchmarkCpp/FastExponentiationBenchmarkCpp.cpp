@@ -46,7 +46,7 @@ TMeasureResult RunBenchmark(std::string functionName, BenchmarkIntFunction f, lo
 	double* base = bases;
 	long long* intExps = new long long[iterationsCount];
 	for(long long i = 0; i < iterationsCount; i++) {
-		intExps[i] = (long long)exps[i];
+		intExps[i] = (long long)round(exps[i]);
 	}
 	long long* exp = intExps;
 	double* baseEnd = base + iterationsCount;

@@ -99,7 +99,7 @@ public class FastExponentiationBenchmarkJava {
         var calculationResult = 0.0;
         long nums[] = new long[exps.length];
         for (int i = 0; i < exps.length; i++) {
-            nums[i] = (long) exps[i];
+            nums[i] = (long)Math.round(exps[i]);
         }
         var start = System.nanoTime();
         for (int i = 0; i < iterationsCount; i++) {
