@@ -27,10 +27,10 @@ public class FastExponentiationBenchmarkJava {
             this.calculationResult = calculationResult;
         }
 
-        public void Display(int width, double baselineMeanTime) {
+        public void Display(int width, double baselineMeanTime, double baselineCalculationResult) {
             Misc.RightPrint(functionName, width);
             Misc.RightPrint(String.format("%.2f", meanTime) + " ns", width);
-            Misc.RightPrint(String.valueOf(totalTime) + " ns", width);
+            Misc.RightPrint(String.valueOf((long)Math.round(totalTime)) + " ns", width);
             var ratio = meanTime / baselineMeanTime;
             if (ratio < 0.9d) {
                 Misc.Printf("\033[32m");
@@ -41,23 +41,36 @@ public class FastExponentiationBenchmarkJava {
             }
             Misc.RightPrint(String.format("%.2f", ratio), width);
             Misc.Printf("\033[0m");
-            Misc.RightPrint(String.valueOf(iterationsCount), width);
             Misc.RightPrint(String.format("%1.8e", calculationResult), width);
+            var precisionError = Misc.ToPercentage(calculationResult / baselineCalculationResult);
+            if(precisionError > 25d) {
+                Misc.Printf("\033[31m");
+            } else if(precisionError > 10d) {
+                Misc.Printf("\033[33m");
+            } else {
+                Misc.Printf("\033[32m");
+            }
+            Misc.RightPrint(String.format("%.2f%%", precisionError), width);
+            Misc.Printf("\033[0m");
+            Misc.RightPrint(String.valueOf(iterationsCount), width);
             Misc.Printf('\n');
         }
     }
 
     public static void DisplayMeasureResults(MeasureResult[] mrs, int width, int baselineIndex) {
         var baselineMeanTime = mrs[baselineIndex].meanTime;
+        var baselineCalculationResult = mrs[baselineIndex].calculationResult;
         Misc.RightPrint("Function", width);
         Misc.RightPrint("Mean time", width);
         Misc.RightPrint("Total time", width);
         Misc.RightPrint("Ratio", width);
+        Misc.RightPrint("Sum", width);
+        Misc.RightPrint("Sum difference", width);
         Misc.RightPrint("Iterations", width);
-        Misc.RightPrint("Sum\n", width);
+        Misc.Printf('\n');
 
         for (int i = 0; i < mrs.length; i++) {
-            mrs[i].Display(width, baselineMeanTime);
+            mrs[i].Display(width, baselineMeanTime, baselineCalculationResult);
         }
     }
 
