@@ -1,10 +1,15 @@
-import java.util.Random;
+import java.util.Collections;
 import java.util.Scanner;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Arrays;
+import java.util.List;
 
 public class FastExponentiationBenchmarkJava {
     public static final int WIDTH = 20;
-    public static final double TOO_BIG_SUM = 100_000_000_000.0d;
-    public static final String TOO_BIG_MESSAGE = "Too big";
+
+    static final int Iterations = 500_000;
+    static final int Repeats = 20;
 
     public static class MeasureResult {
         String functionName;
@@ -37,11 +42,8 @@ public class FastExponentiationBenchmarkJava {
             Misc.RightPrint(String.format("%.2f", ratio), width);
             Misc.Printf("\033[0m");
             Misc.RightPrint(String.valueOf(iterationsCount), width);
-            if (calculationResult > TOO_BIG_SUM) {
-                Misc.RightPrint(TOO_BIG_MESSAGE + "\n", width);
-            } else {
-                Misc.RightPrint(String.format("%.3f\n", calculationResult), width);
-            }
+            Misc.RightPrint(String.format("%1.8e", calculationResult), width);
+            Misc.Printf('\n');
         }
     }
 
@@ -99,7 +101,7 @@ public class FastExponentiationBenchmarkJava {
         var calculationResult = 0.0;
         long nums[] = new long[exps.length];
         for (int i = 0; i < exps.length; i++) {
-            nums[i] = (long)Math.round(exps[i]);
+            nums[i] = (long) Math.round(exps[i]);
         }
         var start = System.nanoTime();
         for (int i = 0; i < iterationsCount; i++) {
@@ -139,36 +141,72 @@ public class FastExponentiationBenchmarkJava {
                 calculationResult);
     }
 
+    public static MeasureResult RunBenchmark(int benchmarkId, int iterationsCount, double[] bases,
+            double[] exps) {
+        switch (benchmarkId) {
+            case 0:
+                return TestBuiltIn(iterationsCount, bases, exps);
+            case 1:
+                return TestFastPowerDividing(iterationsCount, bases, exps);
+            case 2:
+                return TestFastPowerFractional(iterationsCount, bases, exps);
+            case 3:
+                return TestBinary(iterationsCount, bases, exps);
+            case 4:
+                return TestOldApproximatePower(iterationsCount, bases, exps);
+            case 5:
+                return TestAnotherApproximate(iterationsCount, bases, exps);
+            default:
+                break;
+        }
+        return null;
+    }
+
+    public static List<Integer> BenchmarksOrder = Arrays.asList(new Integer[] {0, 1, 2, 3, 4, 5});
+
     public static void main(String[] args) throws Exception {
-        var rand = new Random();
-        rand.setSeed(System.currentTimeMillis());
-        int n = 1_000_000;
         var scanner = new Scanner(System.in);
+
         while (true) {
             Misc.Printf("Java\n");
-            double baseMul = 100002.9;
-            double expMul = 12.1;
 
             Misc.Printf("Enter base multiplicator: ");
-            baseMul = scanner.nextDouble();
+            double baseMul = scanner.nextDouble();
             Misc.Printf("Enter exponent multiplicator: ");
-            expMul = scanner.nextDouble();
+            double expMul = scanner.nextDouble();
 
             Misc.Printf("Generating data values\n");
-            double[] bases = new double[n];
-            double[] exps = new double[n];
-            for (int i = 0; i < n; i++) {
-                bases[i] = Math.abs(baseMul * Misc.SignedRand(rand));
-                exps[i] = Math.abs(expMul * Misc.SignedRand(rand));
+            double[] bases = new double[Iterations];
+            double[] exps = new double[Iterations];
+            for (int i = 0; i < Iterations; i++) {
+                bases[i] = baseMul * Math.abs((double)i / (double)Iterations);
+                exps[i] = expMul * Math.abs((double)i / (double)Iterations);
             }
             Misc.Printf("Done generating values, running benchmarks\n");
 
-            MeasureResult[] measureResults = { TestBuiltIn(n, bases, exps),
-                    TestFastPowerDividing(n, bases, exps), TestFastPowerFractional(n, bases, exps),
-                    TestBinary(n, bases, exps), TestOldApproximatePower(n, bases, exps),
-                    TestAnotherApproximate(n, bases, exps)};
+            Collections.shuffle(BenchmarksOrder);
+            Map<Integer, MeasureResult> measureResults = new HashMap<Integer, MeasureResult>();
+
+            for(int i = 0; i < Repeats; i++) {
+                for (var benchmarkId : BenchmarksOrder) {
+                    var newRes = RunBenchmark(benchmarkId, Iterations, bases, exps);
+                    var oldRes = measureResults.get(benchmarkId);
+                    if(oldRes != null) {
+                        newRes.totalTime += oldRes.totalTime;
+                        newRes.meanTime += oldRes.meanTime;
+                        newRes.iterationsCount += oldRes.iterationsCount;
+                        newRes.calculationResult += oldRes.calculationResult;
+                    }
+                    measureResults.put(benchmarkId, newRes);
+                }
+            }
+
             Misc.Printf("Performance results:\n");
-            DisplayMeasureResults(measureResults, WIDTH, 0);
+            var mrs = measureResults.values().toArray(new MeasureResult[measureResults.size()]);
+            for(int i = 0; i < mrs.length; i++) {
+                mrs[i].meanTime /= Repeats;
+            }
+            DisplayMeasureResults(mrs, WIDTH, 0);
         }
     }
 }
