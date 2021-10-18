@@ -182,7 +182,6 @@ public class FastExponentiationBenchmarkJava {
 
         while (true) {
             Misc.Printf("Java\n");
-
             Misc.Printf("Enter base multiplicator: ");
             double baseMul = scanner.nextDouble();
             Misc.Printf("Enter exponent multiplicator: ");

@@ -130,6 +130,7 @@ int main() {
 	} };
 
 	while(true) {
+		std::cout << "C++\n";
 		std::cout << "Enter base multiplicator: ";
 		std::cin >> baseMul;
 		std::cout << "Enter exponent multiplicator: ";
@@ -143,7 +144,6 @@ int main() {
 			exps[i] = expMul * abs((double)i / (double)Iterations);
 		}
 		std::cout << "Done generating values, running benchmarks\n";
-		std::cout << "C++\n";
 
 		std::map<int, TMeasureResult> dictMeasureResults;
 

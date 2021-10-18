@@ -124,7 +124,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 					Console.ForegroundColor = ConsoleColor.DarkYellow;
 				}
 				Misc.Display(ratio.ToString("0.00"), WIDTH);
-				Console.ForegroundColor = ConsoleColor.White;
+				Console.ForegroundColor = ConsoleColor.Gray;
 				Misc.Display(mr.calculationResult.ToString("0.00000000E+0"), WIDTH);
 				var precisionError = Misc.ToPercentage(mr.calculationResult / baselineCalculationResult);
 				if(precisionError > 25d) {
@@ -135,13 +135,14 @@ namespace FastExponentiationPrimitiveBenchmark {
 					Console.ForegroundColor = ConsoleColor.DarkGreen;
 				}
 				Misc.Display(String.Format("{0:0.00}%", precisionError), WIDTH);
-				Console.ForegroundColor = ConsoleColor.White;
+				Console.ForegroundColor = ConsoleColor.Gray;
 				Misc.Display(mr.iterationsCount.ToString(), WIDTH);
 				Console.WriteLine("");
 			}
 		}
 
 		static void Main(string[] args) {
+			Console.ForegroundColor = ConsoleColor.Gray;
 			// Setting process configuration: single-core, high priority
 			Benchmarking.SetUpForBenchmarking();
 
@@ -153,6 +154,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 			Benchmarking.WarmUp(warmUpFunctions);
 
 			while(true) {
+				Console.WriteLine("C#");
 				double[] bases = new double[Iterations];
 				double[] exps = new double[Iterations];
 				double baseMul = Misc.GetDouble("Enter base multiplicator: ");
@@ -165,7 +167,6 @@ namespace FastExponentiationPrimitiveBenchmark {
 					exps[i] = expMul * Math.Abs((double)i / (double)Iterations);
 				}
 				Console.WriteLine("Done generating values, running benchmarks");
-				Console.WriteLine("C#");
 
 				var measureResults = new Dictionary<BenchmarkSetUp, TMeasureResult>();
 
