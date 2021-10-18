@@ -94,7 +94,7 @@ void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineInde
 	for(size_t i = 0; i < count; i++) {
 		TMeasureResult& mr = mrs[i];
 		double ratio = mr.meanTime / baselineMeanTime;
-		std::cout << _SETW << mr.functionName << _SETWX(WIDTH - 3) << _SETP(mr.meanTime) << " ns" << _SETWX(WIDTH - 3) << mr.totalTime << " ns";
+		std::cout << _SETW << mr.functionName << _SETWX(WIDTH - 3) << _SETP(mr.meanTime) << " ns" << _SETWX(WIDTH - 3) << (long long)round(mr.totalTime) << " ns";
 		if(ratio < 0.9) {
 			std::cout << "\033[32m";
 		} else if(ratio > 1.1) {
@@ -175,7 +175,6 @@ int main() {
 
 		std::cout << "Performance results:\n";
 		DisplayMeasureResult(measureResults.data(), measureResults.size());
-		std::cout << "\n";
 
 		delete[] bases;
 		delete[] exps;
