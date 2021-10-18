@@ -71,12 +71,16 @@ namespace FastExponentiationPrimitiveBenchmark {
 			};
 		}
 
-		public static TMeasureResult RunBenchmark(String functionName, Misc.PowerIntFunction benchmarkFunction, Int64 iterationsCount, double[] bases, Int64[] exps) {
+		public static TMeasureResult RunBenchmark(String functionName, Misc.PowerIntFunction benchmarkFunction, Int64 iterationsCount, double[] bases, double[] exps) {
 			var calculationResult = 0.0;
+			Int64[] intExps = new Int64[iterationsCount];
+			for(int i = 0; i < exps.Length; i++) {
+				intExps[i] = (Int64)Math.Round(exps[i]);
+			}
 			var stopWatch = new Stopwatch();
 			stopWatch.Start();
 			for(int i = 0; i < bases.Length; i++) {
-				calculationResult += benchmarkFunction(bases[i], exps[i]);
+				calculationResult += benchmarkFunction(bases[i], intExps[i]);
 			}
 			stopWatch.Stop();
 			var elapsed = stopWatch.ElapsedMilliseconds * 1_000_000d;
@@ -90,10 +94,10 @@ namespace FastExponentiationPrimitiveBenchmark {
 			};
 		}
 
-		public static TMeasureResult RunBenchmark(BenchmarkSetUp benchmarkSetUp, Int64 iterationsCount, double[] bases, double[] exps, Int64[] expsInt) {
+		public static TMeasureResult RunBenchmark(BenchmarkSetUp benchmarkSetUp, Int64 iterationsCount, double[] bases, double[] exps) {
 			return benchmarkSetUp.benchmarkFunction != null ?
 				RunBenchmark(benchmarkSetUp.functionName, benchmarkSetUp.benchmarkFunction, iterationsCount, bases, exps)
-				: RunBenchmark(benchmarkSetUp.functionName, benchmarkSetUp.benchmarkIntFunction, iterationsCount, bases, expsInt);
+				: RunBenchmark(benchmarkSetUp.functionName, benchmarkSetUp.benchmarkIntFunction, iterationsCount, bases, exps);
 		}
 
 		public static void DisplayMeasureResults(List<TMeasureResult> mrs, int baselineIndex = 0) {
@@ -151,7 +155,6 @@ namespace FastExponentiationPrimitiveBenchmark {
 			while(true) {
 				double[] bases = new double[Iterations];
 				double[] exps = new double[Iterations];
-				Int64[] expsInt = new Int64[Iterations];
 				double baseMul = Misc.GetDouble("Enter base multiplicator: ");
 				double expMul = Misc.GetDouble("Enter exponent multiplicator: ");
 
@@ -160,7 +163,6 @@ namespace FastExponentiationPrimitiveBenchmark {
 				for(int i = 0; i < Iterations; i++) {
 					bases[i] = baseMul * Math.Abs((double)i / (double)Iterations);
 					exps[i] = expMul * Math.Abs((double)i / (double)Iterations);
-					expsInt[i] = (Int64)Math.Round(exps[i]);
 				}
 				Console.WriteLine("Done generating values, running benchmarks");
 				Console.WriteLine("C#");
@@ -170,7 +172,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 				var rng = new Random();
 				for(int i = 0; i < Repeats; i++) {
 					foreach(var benchmarkSetUp in benchmarkSetUps.OrderBy(a => rng.Next())) {
-						var newRes = RunBenchmark(benchmarkSetUp, Iterations, bases, exps, expsInt);
+						var newRes = RunBenchmark(benchmarkSetUp, Iterations, bases, exps);
 						if(measureResults.TryGetValue(benchmarkSetUp, out TMeasureResult oldRes)) {
 							newRes.totalTime += oldRes.totalTime;
 							newRes.meanTime += oldRes.meanTime;
