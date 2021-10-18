@@ -154,7 +154,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 			Benchmarking.WarmUp(warmUpFunctions);
 
 			while(true) {
-				Console.WriteLine("C#");
+				Console.WriteLine("C#"); 
 				double[] bases = new double[Iterations];
 				double[] exps = new double[Iterations];
 				double baseMul = Misc.GetDouble("Enter base multiplicator: ");
