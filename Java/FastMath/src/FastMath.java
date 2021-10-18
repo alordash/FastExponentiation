@@ -20,8 +20,7 @@ public abstract class FastMath {
 
         long i = Double.doubleToLongBits(b);
         i = (long) (FastMath.doubleApproximator + e * (i - FastMath.doubleApproximator));
-        b = Double.longBitsToDouble(i);
-        return b;
+        return Double.longBitsToDouble(i);
     }
 
     public static double FastPowerDividing(double b, double e) {
@@ -70,9 +69,10 @@ public abstract class FastMath {
         return BinaryPower(basePart, (long) el);
     }
 
+    // Found this realization here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
     public static double AnotherApproximation(final double a, final double b) {
-        final int x = (int) (Double.doubleToLongBits(a) >> 32);
-        final int y = (int) (b * (x - 1072632447) + 1072632447);
-        return Double.longBitsToDouble(((long) y) << 32);
+		int tmp = (int)(Double.doubleToLongBits(a) >> 32);
+		int tmp2 = (int)(b * (tmp - 1072632447) + 1072632447);
+		return Double.longBitsToDouble(((long)tmp2) << 32);
     }
 }
