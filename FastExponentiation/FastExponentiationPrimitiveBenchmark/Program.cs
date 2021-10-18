@@ -129,7 +129,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 				var precisionError = Misc.ToPercentage(mr.calculationResult / baselineCalculationResult);
 				if(precisionError > 25d) {
 					Console.ForegroundColor = ConsoleColor.DarkRed;
-				} else if(precisionError > 10) {
+				} else if(precisionError > 10d) {
 					Console.ForegroundColor = ConsoleColor.DarkYellow;
 				} else {
 					Console.ForegroundColor = ConsoleColor.DarkGreen;
