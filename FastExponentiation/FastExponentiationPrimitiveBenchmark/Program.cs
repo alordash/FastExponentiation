@@ -6,8 +6,18 @@ using System.Collections.Generic;
 namespace FastExponentiationPrimitiveBenchmark {
 	class Program {
 		const int WIDTH = 20;
-		const double TOO_BIG_SUM = 100_000_000_000d;
-		const string TOO_BIG_MESSAGE = "Too big";
+
+		const int Iterations = 500_000;
+		const int Repeats = 20;
+
+		static BenchmarkSetUp[] benchmarkSetUps = {
+			new BenchmarkSetUp{ id = 0, functionName = "Built-in", benchmarkFunction =  Math.Pow },
+			new BenchmarkSetUp{ id = 1, functionName = "FP dividing", benchmarkFunction =  FastMath.FastPowerDividing },
+			new BenchmarkSetUp{ id = 2, functionName = "FP fractional", benchmarkFunction = FastMath.FastPowerFractional },
+			new BenchmarkSetUp{ id = 3, functionName = "Binary", benchmarkIntFunction =  FastMath.BinaryPower },
+			new BenchmarkSetUp{ id = 4, functionName = "Old approx", benchmarkFunction =  FastMath.OldApproximatePower },
+			new BenchmarkSetUp{ id = 5, functionName = "Another approx", benchmarkFunction =  FastMath.AnotherApproxPower }
+		};
 
 		public struct TMeasureResult {
 			public String functionName;
@@ -127,19 +137,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 			}
 		}
 
-		static BenchmarkSetUp[] benchmarkSetUps = {
-			new BenchmarkSetUp{ id = 0, functionName = "Built-in", benchmarkFunction =  Math.Pow },
-			new BenchmarkSetUp{ id = 1, functionName = "FP dividing", benchmarkFunction =  FastMath.FastPowerDividing },
-			new BenchmarkSetUp{ id = 2, functionName = "FP fractional", benchmarkFunction = FastMath.FastPowerFractional },
-			new BenchmarkSetUp{ id = 3, functionName = "Binary", benchmarkIntFunction =  FastMath.BinaryPower },
-			new BenchmarkSetUp{ id = 4, functionName = "Old approx", benchmarkFunction =  FastMath.OldApproximatePower },
-			new BenchmarkSetUp{ id = 5, functionName = "Another approx", benchmarkFunction =  FastMath.AnotherApproxPower }
-		};
-
 		static void Main(string[] args) {
-			const int n = 500_000;
-			const int tries = 20;
-
 			// Setting process configuration: single-core, high priority
 			Benchmarking.SetUpForBenchmarking();
 
@@ -151,17 +149,17 @@ namespace FastExponentiationPrimitiveBenchmark {
 			Benchmarking.WarmUp(warmUpFunctions);
 
 			while(true) {
-				double[] bases = new double[n];
-				double[] exps = new double[n];
-				Int64[] expsInt = new Int64[n];
+				double[] bases = new double[Iterations];
+				double[] exps = new double[Iterations];
+				Int64[] expsInt = new Int64[Iterations];
 				double baseMul = Misc.GetDouble("Enter base multiplicator: ");
 				double expMul = Misc.GetDouble("Enter exponent multiplicator: ");
 
 				Console.WriteLine("Generating data values");
 
-				for(int i = 0; i < n; i++) {
-					bases[i] = baseMul * Math.Abs((double)i / (double)n);
-					exps[i] = expMul * Math.Abs((double)i / (double)n);
+				for(int i = 0; i < Iterations; i++) {
+					bases[i] = baseMul * Math.Abs((double)i / (double)Iterations);
+					exps[i] = expMul * Math.Abs((double)i / (double)Iterations);
 					expsInt[i] = (Int64)Math.Round(exps[i]);
 				}
 				Console.WriteLine("Done generating values, running benchmarks");
@@ -170,9 +168,9 @@ namespace FastExponentiationPrimitiveBenchmark {
 				var measureResults = new Dictionary<BenchmarkSetUp, TMeasureResult>();
 
 				var rng = new Random();
-				for(int i = 0; i < tries; i++) {
+				for(int i = 0; i < Repeats; i++) {
 					foreach(var benchmarkSetUp in benchmarkSetUps.OrderBy(a => rng.Next())) {
-						var newRes = RunBenchmark(benchmarkSetUp, n, bases, exps, expsInt);
+						var newRes = RunBenchmark(benchmarkSetUp, Iterations, bases, exps, expsInt);
 						if(measureResults.TryGetValue(benchmarkSetUp, out TMeasureResult oldRes)) {
 							newRes.totalTime += oldRes.totalTime;
 							newRes.meanTime += oldRes.meanTime;
@@ -190,7 +188,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 					.Select(x => new TMeasureResult {
 						functionName = x.functionName,
 						totalTime = x.totalTime,
-						meanTime = x.meanTime / tries,
+						meanTime = x.meanTime / Repeats,
 						iterationsCount = x.iterationsCount,
 						calculationResult = x.calculationResult
 					})

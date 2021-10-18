@@ -9,6 +9,9 @@
 
 using namespace std;
 
+const int Iterations = 500'000;
+const int Repeats = 20;
+
 #define WIDTH 20
 #define _SETWX(x) std::setw(x)
 #define _SETW std::setw(WIDTH)
@@ -114,8 +117,6 @@ double SignedRand() {
 
 int main() {
 	srand((unsigned int)time(NULL));
-	const int n = 500'000;
-	const int tries = 20;
 	double baseMul = 0;
 	double expMul = 0;
 
@@ -135,23 +136,23 @@ int main() {
 		std::cin >> expMul;
 
 		std::cout << "Generating data values\n";
-		double* bases = new double[n];
-		double* exps = new double[n];
-		for(int i = 0; i < n; i++) {
-			bases[i] = baseMul * abs((double)i / (double)n);
-			exps[i] = expMul * abs((double)i / (double)n);
+		double* bases = new double[Iterations];
+		double* exps = new double[Iterations];
+		for(int i = 0; i < Iterations; i++) {
+			bases[i] = baseMul * abs((double)i / (double)Iterations);
+			exps[i] = expMul * abs((double)i / (double)Iterations);
 		}
 		std::cout << "Done generating values, running benchmarks\n";
 		std::cout << "C++\n";
 
 		std::map<int, TMeasureResult> dictMeasureResults;
 
-		for(int i = 0; i < tries; i++) {
+		for(int i = 0; i < Repeats; i++) {
 			auto seed = std::chrono::system_clock::now().time_since_epoch().count();
 			shuffle(benchmarkSetUps.begin(), benchmarkSetUps.end(), std::default_random_engine(seed));
 
 			for(auto benchmarkSetUp : benchmarkSetUps) {
-				auto newRes = RunBenchmark(benchmarkSetUp, n, bases, exps);
+				auto newRes = RunBenchmark(benchmarkSetUp, Iterations, bases, exps);
 
 				auto it = dictMeasureResults.find(benchmarkSetUp.id);
 				if(it != dictMeasureResults.end()) {
@@ -168,7 +169,7 @@ int main() {
 		std::vector<TMeasureResult> measureResults;
 		measureResults.reserve(dictMeasureResults.size());
 		for(auto elem : dictMeasureResults) {
-			elem.second.meanTime = elem.second.meanTime / tries;
+			elem.second.meanTime = elem.second.meanTime / Repeats;
 			measureResults.push_back(elem.second);
 		}
 
