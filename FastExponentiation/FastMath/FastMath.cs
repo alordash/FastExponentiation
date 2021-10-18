@@ -14,21 +14,14 @@ public static class FastMath {
 		return v;
 	}
 
-	// Using union-kind struct to avoid unsafe code
-	[StructLayout(LayoutKind.Explicit)]
-	public struct TDoubleLongUnion {
-		[FieldOffset(0)] public double d;
-		[FieldOffset(0)] public long i;
-	}
-
 	// Formula of magic constant
 	// long doubleApproximator = (long)((1L << 52) * ((1L << 10) - 1.0730088d));
 	//										  manually set value - ^^^^^^^^^
 	public static long doubleApproximator = 4606853616395542500L;
 	public static double OldApproximatePower(double b, double e) {
-		TDoubleLongUnion u = new TDoubleLongUnion() { d = b };
-		u.i = (long)(FastMath.doubleApproximator + e * (u.i - FastMath.doubleApproximator));
-		return u.d;
+		long i = BitConverter.DoubleToInt64Bits(b);
+		i = (long)(FastMath.doubleApproximator + e * (i - FastMath.doubleApproximator));
+		return BitConverter.Int64BitsToDouble(i);
 	}
 
 	public static double FastPowerDividing(double b, double e) {
