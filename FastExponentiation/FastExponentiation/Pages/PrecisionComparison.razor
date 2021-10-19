@@ -26,6 +26,14 @@ y = x ^ Exponent
     @foreach(var measureResult in MeasuresResults) {
         <RadzenLineSeries Smooth="false" Data="@measureResult.DataItems" CategoryProperty="Base" ValueProperty="Value" Title="@measureResult.PowerFunctionModel.Name" />
     }
+    <RadzenCategoryAxis>
+        <RadzenGridLines Visible="true" />
+        <RadzenAxisTitle Text="x" />
+    </RadzenCategoryAxis>
+    <RadzenValueAxis>
+        <RadzenGridLines Visible="true" />
+        <RadzenAxisTitle Text="y" />
+    </RadzenValueAxis>
 </RadzenChart>
 <div class="container">
     @foreach(var measureResult in MeasuresResults) {
