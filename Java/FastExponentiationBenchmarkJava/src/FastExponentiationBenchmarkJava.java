@@ -140,13 +140,9 @@ public class FastExponentiationBenchmarkJava {
 
     public static MeasureResult TestAnotherApproximate(int iterationsCount, double[] bases, double[] exps) {
         var calculationResult = 0.0;
-        long[] nums = new long[exps.length];
-        for (int i = 0; i < exps.length; i++) {
-            nums[i] = (long) exps[i];
-        }
         var start = System.nanoTime();
         for (int i = 0; i < iterationsCount; i++) {
-            calculationResult += FastMath.AnotherApproximation(bases[i], nums[i]);
+            calculationResult += FastMath.AnotherApproximation(bases[i], exps[i]);
         }
         var end = System.nanoTime();
         var duration = end - start;
