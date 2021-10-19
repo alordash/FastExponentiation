@@ -1,0 +1,65 @@
+C#
+Enter base multiplicator: 99999
+Enter exponent multiplicator: -10.5
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            28.20 ns        282000000 ns                1.00       1.27117319E+5               0.00%            10000000
+         FP dividing             8.10 ns         81000000 ns                0.29       1.28682725E+5               1.23%            10000000
+       FP fractional             8.00 ns         80000000 ns                0.28       1.28682622E+5               1.23%            10000000
+              Binary             2.00 ns         20000000 ns                0.07       1.00000000E+7            7766.75%            10000000
+          Old approx             2.00 ns         20000000 ns                0.07       1.25632140E+5               1.17%            10000000
+      Another approx             2.00 ns         20000000 ns                0.07       1.27051344E+5               0.05%            10000000
+C#
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 2
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            28.30 ns        283000000 ns                1.00      4.00915265E+15               0.00%            10000000
+         FP dividing             6.20 ns         62000000 ns                0.22      3.88543628E+15               3.09%            10000000
+       FP fractional             6.10 ns         61000000 ns                0.22      3.94148702E+15               1.69%            10000000
+              Binary             2.00 ns         20000000 ns                0.07      1.92706542E+16             380.67%            10000000
+          Old approx             2.00 ns         20000000 ns                0.07      3.89492130E+15               2.85%            10000000
+      Another approx             2.30 ns         23000000 ns                0.08      3.85811111E+15               3.77%            10000000
+C#
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 10.5
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            28.40 ns        284000000 ns                1.00      2.40777658E+57               0.00%            10000000
+         FP dividing             8.20 ns         82000000 ns                0.29      2.15573874E+57              10.47%            10000000
+       FP fractional             7.60 ns         76000000 ns                0.27      2.36776739E+57               1.66%            10000000
+              Binary             4.10 ns         41000000 ns                0.14      6.06693635E+55              97.48%            10000000
+          Old approx             2.30 ns         23000000 ns                0.08      2.18968718E+57               9.06%            10000000
+      Another approx             2.00 ns         20000000 ns                0.07      1.98568921E+57              17.53%            10000000
+C#
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 25.75
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            28.50 ns        285000000 ns                1.00     1.74469952E+133               0.00%            10000000
+         FP dividing             8.00 ns         80000000 ns                0.28     1.59437545E+133               8.62%            10000000
+       FP fractional             8.10 ns         81000000 ns                0.28     1.71569789E+133               1.66%            10000000
+              Binary             4.10 ns         41000000 ns                0.14     8.57414417E+134            4814.40%            10000000
+          Old approx             2.10 ns         21000000 ns                0.07     1.41753379E+133              18.75%            10000000
+      Another approx             2.10 ns         21000000 ns                0.07     1.09740186E+133              37.10%            10000000
+C#
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 55.5
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            28.20 ns        282000000 ns                1.00     4.54837153E+281               0.00%            10000000
+         FP dividing             9.10 ns         91000000 ns                0.32     4.40573678E+281               3.14%            10000000
+       FP fractional             8.90 ns         89000000 ns                0.32     4.47321340E+281               1.65%            10000000
+              Binary             6.00 ns         60000000 ns                0.21     1.13995426E+280              97.49%            10000000
+          Old approx             2.20 ns         22000000 ns                0.08     2.95553898E+281              35.02%            10000000
+      Another approx             2.00 ns         20000000 ns                0.07     1.67935716E+281              63.08%            10000000

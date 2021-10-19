@@ -1,0 +1,65 @@
+C++
+Enter base multiplicator: 99999
+Enter exponent multiplicator: -10.5
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            27.66 ns        276624300 ns                1.00      1.27117319e+05               0.00%            10000000
+         FP dividing             6.74 ns         67366400 ns                0.24      1.28682725e+05               1.23%            10000000
+       FP fractional             4.36 ns         43598200 ns                0.16      1.28682622e+05               1.23%            10000000
+              Binary             2.19 ns         21932300 ns                0.08      1.00000000e+07            7766.75%            10000000
+          Old approx             2.24 ns         22384400 ns                0.08      1.25632140e+05               1.17%            10000000
+      Another approx             5.51 ns         55117000 ns                0.20      1.27051344e+05               0.05%            10000000
+C++
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 2
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            27.94 ns        279370300 ns                1.00      4.00915265e+15               0.00%            10000000
+         FP dividing             5.32 ns         53150200 ns                0.19      3.88543628e+15               3.09%            10000000
+       FP fractional             3.31 ns         33128800 ns                0.12      3.94148702e+15               1.69%            10000000
+              Binary             2.00 ns         19982700 ns                0.07      1.92706542e+16             380.67%            10000000
+          Old approx             2.37 ns         23720300 ns                0.08      3.89492130e+15               2.85%            10000000
+      Another approx             5.70 ns         57028900 ns                0.20      3.85811111e+15               3.77%            10000000
+C++
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 10.5
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            27.37 ns        273669800 ns                1.00      2.40777658e+57               0.00%            10000000
+         FP dividing             6.29 ns         62924800 ns                0.23      2.15573874e+57              10.47%            10000000
+       FP fractional             4.00 ns         39955500 ns                0.15      2.36776739e+57               1.66%            10000000
+              Binary             2.69 ns         26877100 ns                0.10      6.06693635e+55              97.48%            10000000
+          Old approx             2.45 ns         24500500 ns                0.09      2.18968718e+57               9.06%            10000000
+      Another approx             5.50 ns         55002100 ns                0.20      1.98568921e+57              17.53%            10000000
+C++
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 25.75
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            27.35 ns        273476300 ns                1.00     1.74469952e+133               0.00%            10000000
+         FP dividing             6.87 ns         68659100 ns                0.25     1.59437545e+133               8.62%            10000000
+       FP fractional             4.58 ns         45751900 ns                0.17     1.71569789e+133               1.66%            10000000
+              Binary             3.31 ns         33124300 ns                0.12     8.57414417e+134            4814.40%            10000000
+          Old approx             2.23 ns         22318900 ns                0.08     1.41753379e+133              18.75%            10000000
+      Another approx             5.54 ns         55377400 ns                0.20     1.09740186e+133              37.10%            10000000
+C++
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 55.5
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            27.45 ns        274498500 ns                1.00     4.54837153e+281               0.00%            10000000
+         FP dividing             7.58 ns         75804800 ns                0.28     4.40573678e+281               3.14%            10000000
+       FP fractional             5.34 ns         53353800 ns                0.19     4.47321340e+281               1.65%            10000000
+              Binary             3.82 ns         38188800 ns                0.14     1.13995426e+280              97.49%            10000000
+          Old approx             2.22 ns         22231300 ns                0.08     2.95553898e+281              35.02%            10000000
+      Another approx             5.45 ns         54464600 ns                0.20     1.67935716e+281              63.08%            10000000

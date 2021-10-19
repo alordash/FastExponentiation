@@ -1,0 +1,65 @@
+Java
+Enter base multiplicator: 99999
+Enter exponent multiplicator: -10.5
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            14.54 ns        145357202 ns                1.00      1.27117319e+05               0.00%            10000000
+         FP dividing             6.85 ns         68509705 ns                0.47      1.28682725e+05               1.23%            10000000
+       FP fractional             5.83 ns         58318600 ns                0.40      1.28682622e+05               1.23%            10000000
+              Binary             1.01 ns         10129397 ns                0.07      1.00000000e+07            7766.75%            10000000
+          Old approx             1.94 ns         19350202 ns                0.13      1.25632140e+05               1.17%            10000000
+      Another approx             2.01 ns         20055603 ns                0.14      1.27051344e+05               0.05%            10000000
+Java
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 2
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            14.35 ns        143490000 ns                1.00      4.00915265e+15               0.00%            10000000
+         FP dividing             6.03 ns         60251601 ns                0.42      3.88543628e+15               3.09%            10000000
+       FP fractional             4.30 ns         43025098 ns                0.30      3.94148702e+15               1.69%            10000000
+              Binary             1.78 ns         17783801 ns                0.12      1.92706542e+16             380.67%            10000000
+          Old approx             1.92 ns         19174698 ns                0.13      3.89492130e+15               2.85%            10000000
+      Another approx             1.98 ns         19822899 ns                0.14      3.85811111e+15               3.77%            10000000
+Java
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 10.5
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            14.45 ns        144540097 ns                1.00      2.40777658e+57               0.00%            10000000
+         FP dividing             6.64 ns         66432500 ns                0.46      2.15573874e+57              10.47%            10000000
+       FP fractional             5.41 ns         54062306 ns                0.37      2.36776739e+57               1.66%            10000000
+              Binary             2.77 ns         27677000 ns                0.19      6.06693635e+55              97.48%            10000000
+          Old approx             1.89 ns         18893602 ns                0.13      2.18968718e+57               9.06%            10000000
+      Another approx             1.95 ns         19514596 ns                0.14      1.98568921e+57              17.53%            10000000
+Java
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 25.75
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            17.59 ns        175908793 ns                1.00     1.74469952e+133               0.00%            10000000
+         FP dividing             7.57 ns         75679699 ns                0.43     1.59437545e+133               8.62%            10000000
+       FP fractional             6.24 ns         62417500 ns                0.35     1.71569789e+133               1.66%            10000000
+              Binary             3.52 ns         35226003 ns                0.20     8.57414417e+134            4814.40%            10000000
+          Old approx             1.88 ns         18801796 ns                0.11     1.41753379e+133              18.75%            10000000
+      Another approx             1.96 ns         19638399 ns                0.11     1.09740186e+133              37.10%            10000000
+Java
+Enter base multiplicator: 99999
+Enter exponent multiplicator: 55.5
+Generating data values
+Done generating values, running benchmarks
+Performance results:
+            Function           Mean time          Total time               Ratio                 Sum      Sum difference          Iterations
+            Built-in            19.64 ns        196446102 ns                1.00     4.54837153e+281               0.00%            10000000
+         FP dividing             8.72 ns         87233198 ns                0.44     4.40573678e+281               3.14%            10000000
+       FP fractional             6.97 ns         69681402 ns                0.35     4.47321340e+281               1.65%            10000000
+              Binary             4.27 ns         42709199 ns                0.22     1.13995426e+280              97.49%            10000000
+          Old approx             1.87 ns         18655603 ns                0.09     2.95553898e+281              35.02%            10000000
+      Another approx             1.95 ns         19461295 ns                0.10     1.67935716e+281              63.08%            10000000
