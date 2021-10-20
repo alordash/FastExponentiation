@@ -12,7 +12,6 @@ public abstract class FastMath {
     }
 
     public static long doubleApproximator = 4606853616395542500L;
-
     public static double OldApproximatePower(double b, double e) {
         // Formula of magic constant
         // long doubleApproximator = (long)((1L << 52) * ((1L << 10) - 1.0730088));

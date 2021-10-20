@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 public static class FastMath {
 	public static double BinaryPower(double b, Int64 e) {
