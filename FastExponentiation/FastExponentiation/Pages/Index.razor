@@ -1,29 +1,7 @@
 ﻿@page "/"
 
-<NumberInput @ref="@BaseInput" PlaceHolder="Type base here..." />
-<NumberInput @ref="@ExponentInput" PlaceHolder="Type exponent here..." IntegerNumber="false" />
-<br />
-<button @onclick="Calculate">Calculate</button>
-<br />
-Approximate result: <b>@ApproximateResult</b>
-<br />
-Real result: <b>@RealResult</b>
-<br />
-Difference: <div style="display:inline; background: @Misc.GetErrorColor(PercentageDifference)"><b>@PercentageDifference.ToString("0.00")%</b></div>
+<PrecisionComparison />
 
-@code {
-    public NumberInput BaseInput;
-    public NumberInput ExponentInput;
+<hr />
 
-    public double ApproximateResult = 0;
-    public double RealResult = 0;
-    public double PercentageDifference = 0;
-
-    public void Calculate() {
-        ApproximateResult = FastMath.FastPowerDividing(BaseInput.Value, ExponentInput.Value);
-        RealResult = Math.Pow(BaseInput.Value, ExponentInput.Value);
-        PercentageDifference = Misc.ToPercentage(RealResult / ApproximateResult);
-    }
-}
-
-<a href="precision"><h3>Precision comparison</h3></a>
+<WidePrecisionComparison />
