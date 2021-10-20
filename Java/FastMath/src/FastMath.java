@@ -11,12 +11,11 @@ public abstract class FastMath {
         return v;
     }
 
+    // Formula of magic constant
+    // long doubleApproximator = (long)((1L << 52) * ((1L << 10) - 1.0730088));
+	//						 manually set value - ^^^^^^^^^
     public static long doubleApproximator = 4606853616395542500L;
     public static double OldApproximatePower(double b, double e) {
-        // Formula of magic constant
-        // long doubleApproximator = (long)((1L << 52) * ((1L << 10) - 1.0730088));
-		//						 manually set value - ^^^^^^^^^
-
         long i = Double.doubleToLongBits(b);
         i = (long) (FastMath.doubleApproximator + e * (i - FastMath.doubleApproximator));
         return Double.longBitsToDouble(i);
@@ -34,7 +33,7 @@ public abstract class FastMath {
         var basePart = OldApproximatePower(b, eAbs / el);
         var result = BinaryPower(basePart, (long) el);
 
-        // Because FastApproximatePower gives inaccurate results
+        // Because OldApproximatePower gives inaccurate results
         // with negative exponent, we can increase precision
         // by calculating exponent of a number in positive power
         // and then dividing 1 by result of calculation
@@ -42,6 +41,13 @@ public abstract class FastMath {
             return 1d / result;
         }
         return result;
+    }
+
+    public static double RawFastPowerDividing(double b, double e) {
+        var eAbs = Math.abs(e);
+        var el = Math.ceil(eAbs);
+        var basePart = OldApproximatePower(b, eAbs / el);
+        return BinaryPower(basePart, (long) el);
     }
 
     public static double FastPowerFractional(double b, double e) {
@@ -60,13 +66,6 @@ public abstract class FastMath {
             return 1d / result;
         }
         return result;
-    }
-
-    public static double RawFastPowerDividing(double b, double e) {
-        var eAbs = Math.abs(e);
-        var el = Math.ceil(eAbs);
-        var basePart = OldApproximatePower(b, eAbs / el);
-        return BinaryPower(basePart, (long) el);
     }
 
     // Found this realization here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
