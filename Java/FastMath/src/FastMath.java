@@ -33,15 +33,16 @@ public abstract class FastMath {
         var eAbs = Math.abs(e);
         var el = Math.ceil(eAbs);
         var basePart = OldApproximatePower(b, eAbs / el);
+        var result = BinaryPower(basePart, (long) el);
 
         // Because FastApproximatePower gives inaccurate results
         // with negative exponent, we can increase precision
         // by calculating exponent of a number in positive power
         // and then dividing 1 by result of calculation
         if (e < 0d) {
-            return 1d / BinaryPower(basePart, (long) el);
+            return 1d / result;
         }
-        return BinaryPower(basePart, (long) el);
+        return result;
     }
 
     public static double FastPowerFractional(double b, double e) {
