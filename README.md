@@ -51,7 +51,7 @@ double OldApproximatePower(double b, double e) {
 </details>
 
 <details>
-<summary><a href="https://github.com/alordash/FastExponentiation/blob/071ebb67d214b165c5f5cb4798fdfaf63b7fc4bb/Java/FastMath/src/FastMath.java#L15">In Java</a></summary>
+<summary><a href="https://github.com/alordash/FastExponentiation/blob/9ac388b30ee9af40523769d8622de0ecfe3d9d7c/Java/FastMath/src/FastMath.java#L18">In Java</a></summary>
 
 ```java
 double OldApproximatePower(double b, double e) {
