@@ -43,9 +43,9 @@ double OldApproximatePower(double b, double e) {
 
 ```C#
 double OldApproximatePower(double b, double e) {
-	long i = BitConverter.DoubleToInt64Bits(b);
-	i = (long)(FastMath.doubleApproximator + e * (i - FastMath.doubleApproximator));
-	return BitConverter.Int64BitsToDouble(i);
+    long i = BitConverter.DoubleToInt64Bits(b);
+    i = (long)(FastMath.doubleApproximator + e * (i - FastMath.doubleApproximator));
+    return BitConverter.Int64BitsToDouble(i);
 }
 ```
 </details>
@@ -67,15 +67,15 @@ double OldApproximatePower(double b, double e) {
 ### [In C++](https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMathCpp/FastMath.cpp#L3)
 ```c++
 double BinaryPower(double b, unsigned long long e) {
-	double v = 1.0;
-	while(e != 0) {
-		if((e & 1) != 0) {
-			v *= b;
-		}
-		b *= b;
-		e >>= 1;
-	}
-	return v;
+    double v = 1.0;
+    while(e != 0) {
+        if((e & 1) != 0) {
+            v *= b;
+        }
+        b *= b;
+        e >>= 1;
+    }
+    return v;
 }
 ```
 <details>
@@ -83,15 +83,15 @@ double BinaryPower(double b, unsigned long long e) {
 
 ```c#
 double BinaryPower(double b, UInt64 e) {
-	double v = 1d;
-	while(e != 0) {
-		if((e & 1) != 0) {
-			v *= b;
-		}
-		b *= b;
-		e >>= 1;
-	}
-	return v;
+    double v = 1d;
+    while(e != 0) {
+        if((e & 1) != 0) {
+            v *= b;
+        }
+        b *= b;
+        e >>= 1;
+    }
+    return v;
 }
 ```
 </details>
@@ -118,26 +118,26 @@ double BinaryPower(double b, long e) {
 ### [In C++](https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMathCpp/FastMath.cpp#L28)
 ```c++
 double FastPowerDividing(double b, double e) {
-	// To avoid undefined behaviour near key points,
-	// we can hardcode results for them, but this
-	// will make function slower.
-	if(b == 1.0 || e == 0.0) {
-		return 1.0;
-	}
+    // To avoid undefined behaviour near key points,
+    // we can hardcode results for them, but this
+    // will make function slower.
+    if(b == 1.0 || e == 0.0) {
+        return 1.0;
+    }
 
-	double eAbs = fabs(e);
-	double el = ceil(eAbs);
-	double basePart = OldApproximatePower(b, eAbs / el);
+    double eAbs = fabs(e);
+    double el = ceil(eAbs);
+    double basePart = OldApproximatePower(b, eAbs / el);
 
-	double result = BinaryPower(basePart, (long long)el);
-	// Because OldApproximatePower gives inaccurate results
-	// with negative exponent, we can increase precision
-	// by calculating exponent of a number in positive power
-	// and then dividing 1 by result of calculation
-	if(e < 0.0) {
-		return 1.0 / result;
-	}
-	return result;
+    double result = BinaryPower(basePart, (long long)el);
+    // Because OldApproximatePower gives inaccurate results
+    // with negative exponent, we can increase precision
+    // by calculating exponent of a number in positive power
+    // and then dividing 1 by result of calculation
+    if(e < 0.0) {
+        return 1.0 / result;
+    }
+    return result;
 }
 ```
 <details>
@@ -145,19 +145,19 @@ double FastPowerDividing(double b, double e) {
 
 ```c#
 double FastPowerDividing(double b, double e) {
-	if(b == 1d || e == 0d) {
-		return 1d;
-	}
+    if(b == 1d || e == 0d) {
+        return 1d;
+    }
 
-	var eAbs = Math.Abs(e);
-	var el = Math.Ceiling(eAbs);
-	var basePart = OldApproximatePower(b, eAbs / el);
-	var result = BinaryPower(basePart, (long)el);
+    var eAbs = Math.Abs(e);
+    var el = Math.Ceiling(eAbs);
+    var basePart = OldApproximatePower(b, eAbs / el);
+    var result = BinaryPower(basePart, (long)el);
     
-	if(e < 0d) {
-		return 1d / result;
-	}
-	return result;
+    if(e < 0d) {
+        return 1d / result;
+    }
+    return result;
 }
 ```
 </details>
@@ -188,19 +188,19 @@ double FastPowerDividing(double b, double e) {
 ### [In C++](https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMathCpp/FastMath.cpp#L58)
 ```c++
 double FastPowerFractional(double b, double e) {
-	if(b == 1.0 || e == 0.0) {
-		return 1.0;
-	}
+    if(b == 1.0 || e == 0.0) {
+        return 1.0;
+    }
 
-	double absExp = fabs(e);
-	long long eIntPart = (long long)absExp;
-	double eFractPart = absExp - eIntPart;
-	double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
+    double absExp = fabs(e);
+    long long eIntPart = (long long)absExp;
+    double eFractPart = absExp - eIntPart;
+    double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
     
-	if(e < 0.0) {
-		return 1.0 / result;
-	}
-	return result;
+    if(e < 0.0) {
+        return 1.0 / result;
+    }
+    return result;
 }
 ```
 <details>
@@ -208,19 +208,19 @@ double FastPowerFractional(double b, double e) {
 
 ```c#
 double FastPowerFractional(double b, double e) {
-	if(b == 1d || e == 0d) {
-		return 1d;
-	}
+    if(b == 1d || e == 0d) {
+        return 1d;
+    }
 
-	double absExp = Math.Abs(e);
-	long eIntPart = (long)absExp;
-	double eFractPart = absExp - eIntPart;
-	double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
+    double absExp = Math.Abs(e);
+    long eIntPart = (long)absExp;
+    double eFractPart = absExp - eIntPart;
+    double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
 
-	if(e < 0d) {
-		return 1d / result;
-	}
-	return result;
+    if(e < 0d) {
+        return 1d / result;
+    }
+    return result;
 }
 ```
 </details>
@@ -252,13 +252,13 @@ double FastPowerFractional(double b, double e) {
 ### [In C++](https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMathCpp/FastMath.cpp#L77)
 ```c++
 double AnotherApproximatePower(double a, double b) {
-	union {
-		double d;
-		int x[2];
-	} u = { a };
-	u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
-	u.x[0] = 0;
-	return u.d;
+    union {
+        double d;
+        int x[2];
+    } u = { a };
+    u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
+    u.x[0] = 0;
+    return u.d;
 }
 ```
 <details>
@@ -266,9 +266,9 @@ double AnotherApproximatePower(double a, double b) {
 
 ```c#
 double AnotherApproxPower(double a, double b) {
-	int tmp = (int)(BitConverter.DoubleToInt64Bits(a) >> 32);
-	int tmp2 = (int)(b * (tmp - 1072632447) + 1072632447);
-	return BitConverter.Int64BitsToDouble(((long)tmp2) << 32);
+    int tmp = (int)(BitConverter.DoubleToInt64Bits(a) >> 32);
+    int tmp2 = (int)(b * (tmp - 1072632447) + 1072632447);
+    return BitConverter.Int64BitsToDouble(((long)tmp2) << 32);
 }
 ```
 </details>
@@ -278,9 +278,9 @@ double AnotherApproxPower(double a, double b) {
 
 ```java
 double AnotherApproxPower(double a, double b) {
-	int tmp = (int)(Double.doubleToLongBits(a) >> 32);
-	int tmp2 = (int)(b * (tmp - 1072632447) + 1072632447);
-	return Double.longBitsToDouble(((long)tmp2) << 32);
+    int tmp = (int)(Double.doubleToLongBits(a) >> 32);
+    int tmp2 = (int)(b * (tmp - 1072632447) + 1072632447);
+    return Double.longBitsToDouble(((long)tmp2) << 32);
 }
 ```
 </details>
