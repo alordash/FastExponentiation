@@ -3,7 +3,7 @@
 ## Description
 
 This repository contains realizations of various algorithms for fast exponentiation with small error in C++, C# or Java.  
-More info: —————— Link to article ——————
+More info: ["Ускоряем pow"](https://habr.com/ru/post/584662/)
 
 ## List of algorithms
 
