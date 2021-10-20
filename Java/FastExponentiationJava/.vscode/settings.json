@@ -4,8 +4,8 @@
     ],
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "d:\\Documents\\PROJECTS\\Blazor\\FastExponentiation\\Java\\FastMath\\FastMath.jar",
-        "d:\\Documents\\PROJECTS\\Blazor\\FastExponentiation\\Java\\Misc\\Misc.jar"
+        "..\\Misc\\Misc.jar",
+        "..\\FastMath\\FastMath.jar"
     ],
     "java.dependency.packagePresentation": "hierarchical"
 }

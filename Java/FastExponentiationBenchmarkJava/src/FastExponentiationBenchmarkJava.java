@@ -142,7 +142,7 @@ public class FastExponentiationBenchmarkJava {
         var calculationResult = 0.0;
         var start = System.nanoTime();
         for (int i = 0; i < iterationsCount; i++) {
-            calculationResult += FastMath.AnotherApproximation(bases[i], exps[i]);
+            calculationResult += FastMath.AnotherApproxPower(bases[i], exps[i]);
         }
         var end = System.nanoTime();
         var duration = end - start;
