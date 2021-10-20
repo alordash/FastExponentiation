@@ -1,27 +1,33 @@
 ﻿<h3>Wide precision comparison test <i>for a range of exponents</i></h3>
 
 Parameters for wide precision test:
-<br />
-Minimum exponent:
-<br />
-<NumberInput @ref="@MinExp" DefaultValue="-1" PlaceHolder="Type exponent here" />
-<br />
-Maximum exponent:
-<br />
-<NumberInput @ref="@MaxExp" DefaultValue="1" PlaceHolder="Type exponent here" />
-<br />
-Minimum base:
-<br />
-<NumberInput @ref="@MinBase" DefaultValue="1" PlaceHolder="Type minimum base here" />
-<br />
-Maximum base:
-<br />
-<NumberInput @ref="@MaxBase" DefaultValue="100" PlaceHolder="Type maximum base here" />
-<br />
-Exponent and base iterations:
-<br />
-<NumberInput @ref="@Iterations" DefaultValue="100" PlaceHolder="Type iterations count here" />
-<br />
+<div class="container" style="padding-left: 0px">
+    <div class="myInput">
+        Minimum exponent:
+        <br />
+        <NumberInput @ref="@MinExp" DefaultValue="-1" PlaceHolder="Type exponent here" />
+    </div>
+    <div class="myInput">
+        Maximum exponent:
+        <br />
+        <NumberInput @ref="@MaxExp" DefaultValue="1" PlaceHolder="Type exponent here" />
+    </div>
+    <div class="myInput">
+        Minimum base:
+        <br />
+        <NumberInput @ref="@MinBase" DefaultValue="1" PlaceHolder="Type minimum base here" />
+    </div>
+    <div class="myInput">
+        Maximum base:
+        <br />
+        <NumberInput @ref="@MaxBase" DefaultValue="100" PlaceHolder="Type maximum base here" />
+    </div>
+    <div class="myInput">
+        Exponent and base iterations:
+        <br />
+        <NumberInput @ref="@Iterations" DefaultValue="100" PlaceHolder="Type iterations count here" />
+    </div>
+</div>
 <button @onclick="ComparePrecision">Compare precision</button>
 <br />
 

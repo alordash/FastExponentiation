@@ -2,25 +2,31 @@
 
 Parameters for precision test:
 <br />
-Exponent:
-<br />
-<NumberInput @ref="@ExpInput" DefaultValue="-0.5" PlaceHolder="Type exponent here" />
-<br />
-Minimum base:
-<br />
-<NumberInput @ref="@MinInput" DefaultValue="1" PlaceHolder="Type minimum base here" />
-<br />
-Maximum base:
-<br />
-<NumberInput @ref="@MaxInput" DefaultValue="100" PlaceHolder="Type maximum base here" />
-<br />
-Number of iterations:
-<br />
-<NumberInput @ref="@IterationsInput" DefaultValue="10000" PlaceHolder="Type iterations count here" />
-<br />
+<div class="container" style="padding-left: 0px">
+    <div class="myInput">
+        Exponent:
+        <br />
+        <NumberInput @ref="@ExpInput" DefaultValue="-0.5" PlaceHolder="Type exponent here" />
+    </div>
+    <div class="myInput">
+        Minimum base:
+        <br />
+        <NumberInput @ref="@MinInput" DefaultValue="1" PlaceHolder="Type minimum base here" />
+    </div>
+    <div class="myInput">
+        Maximum base:
+        <br />
+        <NumberInput @ref="@MaxInput" DefaultValue="100" PlaceHolder="Type maximum base here" />
+    </div>
+    <div class="myInput">
+        Number of iterations:
+        <br />
+        <NumberInput @ref="@IterationsInput" DefaultValue="10000" PlaceHolder="Type iterations count here" />
+    </div>
+</div>
 <button @onclick="ComparePrecision">Compare precision</button>
 <br />
-y = x ^ Exponent
+            y = x ^ Exponent
 
 <RadzenChart>
     @foreach(var measureResult in MeasuresResults) {
