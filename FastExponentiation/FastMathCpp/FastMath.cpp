@@ -38,7 +38,7 @@ double FastMath::FastPowerDividing(double b, double e) {
 	double basePart = OldApproximatePower(b, eAbs / el);
 
 	double result = BinaryPower(basePart, (long long)el);
-	// Because FastApproximatePower gives inaccurate results
+	// Because OldApproximatePower gives inaccurate results
 	// with negative exponent, we can increase precision
 	// by calculating exponent of a number in positive power
 	// and then dividing 1 by result of calculation
