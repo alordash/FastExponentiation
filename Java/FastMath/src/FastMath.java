@@ -70,7 +70,7 @@ public abstract class FastMath {
     }
 
     // Found this realization here: https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
-    public static double AnotherApproximation(final double a, final double b) {
+    public static double AnotherApproximation(double a, double b) {
 		int tmp = (int)(Double.doubleToLongBits(a) >> 32);
 		int tmp2 = (int)(b * (tmp - 1072632447) + 1072632447);
 		return Double.longBitsToDouble(((long)tmp2) << 32);
