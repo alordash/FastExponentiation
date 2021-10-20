@@ -15,7 +15,7 @@ More info: —————— Link to article ——————
 
 ## Repository structure
 
-There are 9 projects in **visual studio solution**, which are meant for testing custom algorithms, including [web page]() for precision tests.
+There are 9 projects in **visual studio solution** used to test custom algorithms, including [web page]() for precision tests.
 
 <img src="Previews/Chart.png" />
 
