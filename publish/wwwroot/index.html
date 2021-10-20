@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Fast exponentiation</title>
+    <base href="/FastExponentiation/publish/wwwroot/" />
+    <script>
+        var path = window.location.pathname.split('/');
+        var base = document.getElementsByTagName('base')[0];
+        if (window.location.host.includes('localhost')) {
+            base.setAttribute('href', '/');
+        } else {
+            base.setAttribute('href', '/FastExponentiation/publish/wwwroot/');
+        }
+    </script>
+    <base href="/" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="_content/Radzen.Blazor/css/default-base.css" rel="stylesheet" />
+    <link href="FastExponentiation.styles.css" rel="stylesheet" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <style>
+        html, body {
+            font-family: 'Montserrat', Helvetica, Arial, sans-serif;
+        }
+
+        #blazor-error-ui {
+            background: lightyellow;
+            bottom: 0;
+            box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+            display: none;
+            left: 0;
+            padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+            #blazor-error-ui .dismiss {
+                cursor: pointer;
+                position: absolute;
+                right: 0.75rem;
+                top: 0.5rem;
+            }
+
+        .container {
+            display: flex;
+            padding: 5px;
+        }
+
+        .myInput {
+            width: auto;
+            background: rgb(246, 248, 250);
+            padding: 2px;
+            padding-right: 3px;
+            border: 1.5px solid lightsteelblue;
+            margin-right: 5px;
+        }
+
+        .info {
+            width: 450px;
+            background: rgb(246, 248, 250);
+            padding: 2px;
+            padding-right: 3px;
+            border: 1.5px solid lightsteelblue;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .sourceLink {
+            text-decoration: none;
+            background-color: rgb(246, 248, 250);
+            border-radius: 15px;
+            border: 1.5px solid lightsteelblue;
+        }
+
+            .sourceLink:hover {
+                background-color: antiquewhite;
+            }
+
+            .sourceLink:active {
+                box-shadow: inset 0 0 6px black;
+            }
+    </style>
+</head>
+
+<body>
+    <div id="app">Loading...</div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
+</body>
+
+</html>
