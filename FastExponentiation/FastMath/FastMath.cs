@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 public static class FastMath {
 	public static double BinaryPower(double b, Int64 e) {
-		double v = 1;
+		double v = 1d;
 		while(e > 0) {
 			if((e & 1) != 0) {
 				v *= b;

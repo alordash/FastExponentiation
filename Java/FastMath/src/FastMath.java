@@ -1,6 +1,6 @@
 public abstract class FastMath {
     public static double BinaryPower(double b, long e) {
-        double v = 1;
+        double v = 1d;
         while (e > 0) {
             if ((e & 1) != 0) {
                 v *= b;
