@@ -3,6 +3,7 @@
 ## Description
 
 This repository contains realizations of various algorithms for fast exponentiation with small error in C++, C# or Java.  
+More info: —————— Link to article ——————
 
 ## List of algorithms
 
