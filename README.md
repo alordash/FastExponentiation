@@ -15,7 +15,7 @@ More info: ["Ускоряем pow"](https://habr.com/ru/post/584662/)
 
 ## Repository structure
 
-There are 9 projects in **visual studio solution** used to test custom algorithms, including [web page]() for precision tests.
+There are 9 projects in **visual studio solution** used to test custom algorithms, including [web page](https://alordash.github.io/FastExponentiation/publish/wwwroot/) for precision tests.
 
 <img src="Previews/Chart.png" />
 
