@@ -19,7 +19,10 @@ There are 9 projects in **visual studio solution** and 5 java projects used to t
 
 <img src="Previews/Chart.png" />
 
-You can check results of performance measures in [this excel table](Performance%20results/Results.xlsx).
+You can check results of performance measures in [this excel table](Performance%20results/Results.xlsx).  
+Tests run on: i5-10300H, 19.8 DDR4 GB of usable RAM, 64bit, single threaded
+C++: MSVC + /O2 + /Oi + /Ot
+C#: "Optimize code" option
 
 <img src="Previews/С++_Speed.png" />
 
