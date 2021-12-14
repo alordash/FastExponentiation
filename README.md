@@ -30,7 +30,7 @@ C#: "Optimize code" option
 
 ## ["Old" approximation](https://habr.com/ru/company/infopulse/blog/336110/)
 
-### In [C++](https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMathCpp/FastMath.cpp#L16)
+### In [C++](https://github.com/alordash/FastExponentiation/blob/main/FastExponentiation/FastMathCpp/FastMath.cpp#L16)
 ```c++
 double OldApproximatePower(double b, double e) {
     union {
@@ -42,7 +42,7 @@ double OldApproximatePower(double b, double e) {
 }
 ```
 <details>
-<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMath/FastMath.cs#L21">C#</a></summary>
+<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/main/FastExponentiation/FastMath/FastMath.cs#L20">C#</a></summary>
 
 ```C#
 double OldApproximatePower(double b, double e) {
@@ -54,7 +54,7 @@ double OldApproximatePower(double b, double e) {
 </details>
 
 <details>
-<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/9ac388b30ee9af40523769d8622de0ecfe3d9d7c/Java/FastMath/src/FastMath.java#L18">Java</a></summary>
+<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/main/Java/FastMath/src/FastMath.java#L18">Java</a></summary>
 
 ```java
 double OldApproximatePower(double b, double e) {
@@ -67,7 +67,7 @@ double OldApproximatePower(double b, double e) {
 
 ## [Binary power](https://en.wikipedia.org/wiki/Exponentiation_by_squaring)
 
-### In [C++](https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMathCpp/FastMath.cpp#L3)
+### In [C++](https://github.com/alordash/FastExponentiation/blob/main/FastExponentiation/FastMathCpp/FastMath.cpp#L3)
 ```c++
 double BinaryPower(double b, unsigned long long e) {
     double v = 1.0;
@@ -82,7 +82,7 @@ double BinaryPower(double b, unsigned long long e) {
 }
 ```
 <details>
-<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMath/FastMath.cs#L5">C#</a></summary>
+<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/main/FastExponentiation/FastMath/FastMath.cs#L4">C#</a></summary>
 
 ```c#
 double BinaryPower(double b, UInt64 e) {
@@ -100,7 +100,7 @@ double BinaryPower(double b, UInt64 e) {
 </details>
 
 <details>
-<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/071ebb67d214b165c5f5cb4798fdfaf63b7fc4bb/Java/FastMath/src/FastMath.java#L2">Java</a></summary>
+<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/main/Java/FastMath/src/FastMath.java#L2">Java</a></summary>
 
 ```java
 double BinaryPower(double b, long e) {
@@ -118,7 +118,7 @@ double BinaryPower(double b, long e) {
 </details>
 
 ## Dividing fast power
-### In [C++](https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMathCpp/FastMath.cpp#L28)
+### In [C++](https://github.com/alordash/FastExponentiation/blob/main/FastExponentiation/FastMathCpp/FastMath.cpp#L28)
 ```c++
 double FastPowerDividing(double b, double e) {
     // To avoid undefined behaviour near key points,
@@ -144,7 +144,7 @@ double FastPowerDividing(double b, double e) {
 }
 ```
 <details>
-<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMath/FastMath.cs#L27">C#</a></summary>
+<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/main/FastExponentiation/FastMath/FastMath.cs#L26">C#</a></summary>
 
 ```c#
 double FastPowerDividing(double b, double e) {
@@ -166,7 +166,7 @@ double FastPowerDividing(double b, double e) {
 </details>
 
 <details>
-<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/071ebb67d214b165c5f5cb4798fdfaf63b7fc4bb/Java/FastMath/src/FastMath.java#L25">Java</a></summary>
+<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/main/Java/FastMath/src/FastMath.java#L24">Java</a></summary>
 
 ```java
 double FastPowerDividing(double b, double e) {
@@ -188,7 +188,7 @@ double FastPowerDividing(double b, double e) {
 </details>
 
 ## Fractional fast power
-### In [C++](https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMathCpp/FastMath.cpp#L58)
+### In [C++](https://github.com/alordash/FastExponentiation/blob/main/FastExponentiation/FastMathCpp/FastMath.cpp#L58)
 ```c++
 double FastPowerFractional(double b, double e) {
     if(b == 1.0 || e == 0.0) {
@@ -207,7 +207,7 @@ double FastPowerFractional(double b, double e) {
 }
 ```
 <details>
-<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMath/FastMath.cs#L59">C#</a></summary>
+<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/main/FastExponentiation/FastMath/FastMath.cs#L58">C#</a></summary>
 
 ```c#
 double FastPowerFractional(double b, double e) {
@@ -229,7 +229,7 @@ double FastPowerFractional(double b, double e) {
 </details>
 
 <details>
-<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/5cb25a4ceb1963ee84fd80fc8000cafbedd7e47e/Java/FastMath/src/FastMath.java#L53">Java</a></summary>
+<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/main/Java/FastMath/src/FastMath.java#L53">Java</a></summary>
 
 ```java
 double FastPowerFractional(double b, double e) {
@@ -252,7 +252,7 @@ double FastPowerFractional(double b, double e) {
 
 ## [Another approximation](https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/)
 
-### In [C++](https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMathCpp/FastMath.cpp#L77)
+### In [C++](https://github.com/alordash/FastExponentiation/blob/main/FastExponentiation/FastMathCpp/FastMath.cpp#L77)
 ```c++
 double AnotherApproximatePower(double a, double b) {
     union {
@@ -265,7 +265,7 @@ double AnotherApproximatePower(double a, double b) {
 }
 ```
 <details>
-<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/6d758e7bba7c2bc6433bdf1bb1b52655f89790ea/FastExponentiation/FastMath/FastMath.cs#L78">C#</a></summary>
+<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/main/FastExponentiation/FastMath/FastMath.cs#L77">C#</a></summary>
     
 ```c#
 double AnotherApproxPower(double a, double b) {
@@ -277,7 +277,7 @@ double AnotherApproxPower(double a, double b) {
 </details>
 
 <details>
-<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/5cb25a4ceb1963ee84fd80fc8000cafbedd7e47e/Java/FastMath/src/FastMath.java#L72">Java</a></summary>
+<summary>In <a href="https://github.com/alordash/FastExponentiation/blob/main/Java/FastMath/src/FastMath.java#L72">Java</a></summary>
 
 ```java
 double AnotherApproxPower(double a, double b) {
