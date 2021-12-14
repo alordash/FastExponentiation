@@ -46,7 +46,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 				var e = a2.ToDouble(null);
 
 				if(benchmarkFunction is null) {
-					return benchmarkIntFunction(b, (Int64)e);
+					return benchmarkIntFunction(b, (UInt64)e);
 				}
 				return benchmarkFunction(b, e);
 			}
@@ -73,9 +73,9 @@ namespace FastExponentiationPrimitiveBenchmark {
 
 		public static TMeasureResult RunBenchmark(String functionName, Misc.PowerIntFunction benchmarkFunction, Int64 iterationsCount, double[] bases, double[] exps) {
 			var calculationResult = 0.0;
-			Int64[] intExps = new Int64[iterationsCount];
+			UInt64[] intExps = new UInt64[iterationsCount];
 			for(int i = 0; i < exps.Length; i++) {
-				intExps[i] = (Int64)Math.Round(exps[i]);
+				intExps[i] = (UInt64)Math.Round(exps[i]);
 			}
 			var stopWatch = new Stopwatch();
 			stopWatch.Start();
@@ -154,7 +154,7 @@ namespace FastExponentiationPrimitiveBenchmark {
 			Benchmarking.WarmUp(warmUpFunctions);
 
 			while(true) {
-				Console.WriteLine("C#"); 
+				Console.WriteLine("C#");
 				double[] bases = new double[Iterations];
 				double[] exps = new double[Iterations];
 				double baseMul = Misc.GetDouble("Enter base multiplicator: ");

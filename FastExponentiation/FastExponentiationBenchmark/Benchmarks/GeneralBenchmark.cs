@@ -8,7 +8,7 @@ using BenchmarkDotNet.Attributes;
 namespace FastExponentiationBenchmark {
 	[SimpleJob(id: "General benchmark", invocationCount: 100_000_000)]
 	public class GeneralBenchmark : BenchmarkTemplate {
-		private Int64[] intExps;
+		private UInt64[] intExps;
 
 		public GeneralBenchmark() {
 			FillValues();
@@ -17,7 +17,7 @@ namespace FastExponentiationBenchmark {
 		protected new void FillValues() {
 			bases = new double[N];
 			exps = new double[N];
-			intExps = new Int64[N];
+			intExps = new UInt64[N];
 			var mulBase = maxBase - minBase;
 			var mulExp = maxExp - minExp;
 			for(int i = 0; i < N; i++) {
@@ -26,7 +26,7 @@ namespace FastExponentiationBenchmark {
 				var e = fraction * mulExp + minExp;
 				bases[i] = b;
 				exps[i] = e;
-				intExps[i] = (Int64)e;
+				intExps[i] = (UInt64)e;
 			}
 		}
 

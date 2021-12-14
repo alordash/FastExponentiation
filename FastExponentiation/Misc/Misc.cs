@@ -42,7 +42,7 @@ public static class Benchmarking {
 
 public static class Misc {
 	public delegate double PowerFunction(double b, double e);
-	public delegate double PowerIntFunction(double b, Int64 e);
+	public delegate double PowerIntFunction(double b, UInt64 e);
 	public class PowerFunctionModel : IEquatable<PowerFunctionModel> {
 		public PowerFunction Function;
 		public string Name;

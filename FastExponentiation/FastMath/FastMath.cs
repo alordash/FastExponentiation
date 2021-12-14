@@ -1,7 +1,7 @@
 ﻿using System;
 
 public static class FastMath {
-	public static double BinaryPower(double b, Int64 e) {
+	public static double BinaryPower(double b, UInt64 e) {
 		double v = 1d;
 		while(e > 0) {
 			if((e & 1) != 0) {
@@ -33,7 +33,7 @@ public static class FastMath {
 		var eAbs = Math.Abs(e);
 		var el = Math.Ceiling(eAbs);
 		var basePart = OldApproximatePower(b, eAbs / el);
-		var result = BinaryPower(basePart, (long)el);
+		var result = BinaryPower(basePart, (ulong)el);
 
 		// Because OldApproximatePower gives inaccurate results
 		// with negative exponent, we can increase precision
@@ -52,7 +52,7 @@ public static class FastMath {
 		var eAbs = Math.Abs(e);
 		var el = Math.Ceiling(eAbs);
 		var basePart = OldApproximatePower(b, eAbs / el);
-		return BinaryPower(basePart, (long)el);
+		return BinaryPower(basePart, (ulong)el);
 	}
 
 	public static double FastPowerFractional(double b, double e) {
@@ -64,7 +64,7 @@ public static class FastMath {
 		}
 
 		double absExp = Math.Abs(e);
-		long eIntPart = (long)absExp;
+		ulong eIntPart = (ulong)absExp;
 		double eFractPart = absExp - eIntPart;
 		double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
 		if(e < 0d) {

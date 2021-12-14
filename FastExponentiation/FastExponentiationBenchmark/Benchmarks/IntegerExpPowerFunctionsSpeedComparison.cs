@@ -15,7 +15,7 @@ namespace FastExponentiationBenchmark {
 		protected new double minExp = 0d; // 67108864d;		// These are boundaries where built-in
 		protected new double maxExp = 42d; // 134217728;	// power outperforms binary power
 
-		private new Int64[] exps;
+		private new UInt64[] exps;
 
 		public IntegerExpPowerFunctionsSpeedComparison() {
 			FillValues();
@@ -23,7 +23,7 @@ namespace FastExponentiationBenchmark {
 
 		protected new void FillValues() {
 			bases = new double[N];
-			exps = new Int64[N];
+			exps = new UInt64[N];
 			var mulBase = maxBase - minBase;
 			var mulExp = maxExp - minExp;
 			for(int i = 0; i < N; i++) {
@@ -31,7 +31,7 @@ namespace FastExponentiationBenchmark {
 				var b = fraction * mulBase + minBase;
 				var e = fraction * mulExp + minExp;
 				bases[i] = b;
-				exps[i] = (Int64)e;
+				exps[i] = (UInt64)e;
 			}
 		}
 
