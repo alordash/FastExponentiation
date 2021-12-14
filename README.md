@@ -132,7 +132,7 @@ double FastPowerDividing(double b, double e) {
     double el = ceil(eAbs);
     double basePart = OldApproximatePower(b, eAbs / el);
 
-    double result = BinaryPower(basePart, (long long)el);
+    double result = BinaryPower(basePart, (unsigned long long)el);
     // Because OldApproximatePower gives inaccurate results
     // with negative exponent, we can increase precision
     // by calculating exponent of a number in positive power
@@ -155,7 +155,7 @@ double FastPowerDividing(double b, double e) {
     var eAbs = Math.Abs(e);
     var el = Math.Ceiling(eAbs);
     var basePart = OldApproximatePower(b, eAbs / el);
-    var result = BinaryPower(basePart, (long)el);
+    var result = BinaryPower(basePart, (UInt64)el);
     
     if(e < 0d) {
         return 1d / result;
@@ -196,7 +196,7 @@ double FastPowerFractional(double b, double e) {
     }
 
     double absExp = fabs(e);
-    long long eIntPart = (long long)absExp;
+    unsigned long long eIntPart = (unsigned long long)absExp;
     double eFractPart = absExp - eIntPart;
     double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
     
@@ -216,7 +216,7 @@ double FastPowerFractional(double b, double e) {
     }
 
     double absExp = Math.Abs(e);
-    long eIntPart = (long)absExp;
+    UInt64 eIntPart = (UInt64)absExp;
     double eFractPart = absExp - eIntPart;
     double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
 
