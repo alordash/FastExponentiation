@@ -1,6 +1,6 @@
 #include "FastMath.h"
 
-double FastMath::BinaryPower(double b, long long e) {
+double FastMath::BinaryPower(double b, unsigned long long e) {
 	double v = 1.0;
 	while(e > 0) {
 		if((e & 1) != 0) {
@@ -37,7 +37,7 @@ double FastMath::FastPowerDividing(double b, double e) {
 	double el = ceil(eAbs);
 	double basePart = OldApproximatePower(b, eAbs / el);
 
-	double result = BinaryPower(basePart, (long long)el);
+	double result = BinaryPower(basePart, (unsigned long long)el);
 	// Because OldApproximatePower gives inaccurate results
 	// with negative exponent, we can increase precision
 	// by calculating exponent of a number in positive power
@@ -52,7 +52,7 @@ double FastMath::RawFastPowerDividing(double b, double e) {
 	double eAbs = fabs(e);
 	double el = ceil(eAbs);
 	double basePart = OldApproximatePower(b, eAbs / el);
-	return BinaryPower(basePart, (long long)el);
+	return BinaryPower(basePart, (unsigned long long)el);
 }
 
 double FastMath::FastPowerFractional(double b, double e) {
@@ -64,7 +64,7 @@ double FastMath::FastPowerFractional(double b, double e) {
 	}
 
 	double absExp = fabs(e);
-	long long eIntPart = (long long)absExp;
+	unsigned long long eIntPart = (unsigned long long)absExp;
 	double eFractPart = absExp - eIntPart;
 	double result = OldApproximatePower(b, eFractPart) * BinaryPower(b, eIntPart);
 	if(e < 0.0) {

@@ -26,7 +26,7 @@ const int Repeats = 20;
 #define _FORMAT_ERROR(x) _FORMAT_ERROR_S(x) << x << _DEFAULT
 
 typedef double (*BenchmarkFunction)(double, double);
-typedef double (*BenchmarkIntFunction)(double, long long);
+typedef double (*BenchmarkIntFunction)(double, unsigned long long);
 
 struct TMeasureResult {
 	std::string functionName;
@@ -62,11 +62,11 @@ TMeasureResult RunBenchmark(std::string functionName, BenchmarkFunction f, long 
 TMeasureResult RunBenchmark(std::string functionName, BenchmarkIntFunction f, long long iterationsCount, double* bases, double* exps) {
 	double calculationResult = 0.0;
 	double* base = bases;
-	long long* intExps = new long long[iterationsCount];
+	unsigned long long* intExps = new unsigned long long[iterationsCount];
 	for(long long i = 0; i < iterationsCount; i++) {
-		intExps[i] = (long long)round(exps[i]);
+		intExps[i] = (unsigned long long)round(exps[i]);
 	}
-	long long* exp = intExps;
+	unsigned long long* exp = intExps;
 	double* baseEnd = base + iterationsCount;
 	auto start = std::chrono::high_resolution_clock::now();
 	while(base < baseEnd) {
@@ -90,7 +90,7 @@ TMeasureResult RunBenchmark(BenchmarkSetUp benchmarkSetUp, long long iterationsC
 void DisplayMeasureResult(TMeasureResult* mrs, size_t count, size_t baselineIndex = 0) {
 	double baselineMeanTime = mrs[baselineIndex].meanTime;
 	double baselineCalculationResult = mrs[baselineIndex].calculationResult;
-	std::cout << _SETW << "Function" << _SETW << "Mean time" << _SETW << "Total time" << _SETW << "Ratio"<< _SETW << "Sum" << _SETW << "Sum difference" << _SETW << "Iterations" << "\n";
+	std::cout << _SETW << "Function" << _SETW << "Mean time" << _SETW << "Total time" << _SETW << "Ratio" << _SETW << "Sum" << _SETW << "Sum difference" << _SETW << "Iterations" << "\n";
 	for(size_t i = 0; i < count; i++) {
 		TMeasureResult& mr = mrs[i];
 		double ratio = mr.meanTime / baselineMeanTime;
