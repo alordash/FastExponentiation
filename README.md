@@ -123,7 +123,7 @@ double BinaryPower(double b, long e) {
 double FastPowerDividing(double b, double e) {
     // To avoid undefined behaviour near key points,
     // we can hardcode results for them, but this
-    // will make function slower.
+    // will make function slightly slower.
     if(b == 1.0 || e == 0.0) {
         return 1.0;
     }
